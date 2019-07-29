@@ -1,0 +1,78 @@
+import React from 'react';
+import styles from './FoodJournal.module.css';
+
+const DayHeader = ({
+  date,
+  totalCal,
+  totalProtein,
+  totalFat,
+  totalCarbs
+}) => (
+  <header className={styles.row}>
+    <span>{date}</span>
+    <span></span>
+    <span>{totalCal} ccal</span>
+    <span>{totalProtein} g protein</span>
+    <span>{totalFat} g fat</span>
+    <span>{totalCarbs} g net carbs</span>
+  </header>
+);
+
+const DayList = ({ itemList }) => {
+  const list = itemList.map((item, i) => (
+    <DayItem key={i} {...item} />
+  ));
+  return (
+    <ul className={styles.list}>
+      {list}
+    </ul >
+  );
+};
+
+const DayItem = ({
+  title,
+  weight,
+  calories,
+  protein,
+  fat,
+  carbs
+}) => (
+  <li className={styles.row}>
+    <span>{title}</span>
+    <span>{weight} g</span>
+    <span>{calories}</span>
+    <span>{protein}</span>
+    <span>{fat}</span>
+    <span>{carbs}</span>
+  </li>
+);
+
+const DayLog = ({
+  date,
+  totalCal,
+  totalProtein,
+  totalFat,
+  totalCarbs,
+  itemList
+}) => (
+  <article className={styles.dayLog}>
+    <DayHeader
+      date={date}
+      totalCal={totalCal}
+      totalProtein={totalProtein}
+      totalFat={totalFat}
+      totalCarbs={totalCarbs}
+    />
+    <DayList itemList={itemList} />
+  </article>
+);
+
+const FoodJournal = ({dates}) => (
+  <section className={styles.container}>
+    {dates.map((data, i) => (
+      <DayLog key={i} {...data} />
+    ))}
+  </section>
+);
+
+export default FoodJournal;

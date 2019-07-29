@@ -1,5 +1,5 @@
 import React from 'react';
-import FoodJournal from './FoodJournal';
+import FoodJournal from './components/FoodJournal';
 
 const App = () => {
   return (
