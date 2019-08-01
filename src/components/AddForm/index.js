@@ -1,79 +1,19 @@
-import React from 'react';
-import styles from './AddForm.module.css';
+import AddForm from './AddForm';
+import { connect } from 'react-redux';
+import { addRecord } from '../../store/actions';
 
-const AddForm = () => (
-  <form>
-    <h1>Add Food</h1>
-    <div className={styles.formContainer}>
-      <div className={styles.fieldContainer}>
-        <label htmlFor="title">
-          <span>Food: </span>
-        </label>
-        <div className={styles.inputContainer}>
-          <input type="text" id="title" name="title" placeholder="Enter food" />
-        </div>
-      </div>
+const exampleRecord = {
+  title: "Cinnamon Rolls",
+  weight: 230,
+  calories: 670,
+  protein: 12,
+  fat: 45,
+  carbs: 132,
+  datetime: (new Date("29 Jul 2019 22:22:22")).toISOString(),
+}
 
-      <div className={styles.fieldContainer}>
-        <label htmlFor="weight">
-          <span>Weight: </span>
-        </label>
-        <div className={styles.inputContainer}>
-          <input type="number" id="weight" name="weight" />
-        </div>
-      </div>
+const mapDispatchToProps = (dispatch) => ({
+  addRecord: (data) => dispatch(addRecord(data))
+});
 
-      <div className={styles.fieldContainer}>
-        <label htmlFor="calories">
-          <span>Ccal: </span>
-        </label>
-        <div className={styles.inputContainer}>
-          <input type="number" id="calories" name="calories" />
-        </div>
-      </div>
-
-      <div className={styles.fieldContainer}>
-        <label htmlFor="protein">
-          <span>Protein: </span>
-        </label>
-        <div className={styles.inputContainer}>
-          <input type="number" id="protein" name="protein" />
-        </div>
-      </div>
-
-      <div className={styles.fieldContainer}>
-        <label htmlFor="fat">
-          <span>Fat: </span>
-        </label>
-        <div className={styles.inputContainer}>
-          <input type="number" id="fat" name="fat" />
-        </div>
-      </div>
-
-      <div className={styles.fieldContainer}>
-        <label htmlFor="carbs">
-          <span>Net Carbs: </span>
-        </label>
-        <div className={styles.inputContainer}>
-          <input type="number" id="carbs" name="carbs" />
-        </div>
-      </div>
-
-      <div className={styles.fieldContainer}>
-        <label htmlFor="date">
-          <span>Date: </span>
-        </label>
-        <div className={styles.inputContainer}>
-          <input type="date" id="date" name="date" />
-        </div>
-      </div>
-
-      <div className={styles.fieldContainer}>
-        <input type="submit" id="submit" name="submit" value="Submit" />
-      </div>
-    </div>
-  </form>
-
-);
-
-export default AddForm;
+export default connect(null, mapDispatchToProps)(AddForm);
