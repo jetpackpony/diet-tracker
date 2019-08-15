@@ -1,19 +1,41 @@
+import React from 'react';
 import AddForm from './AddForm';
-import { connect } from 'react-redux';
-import { addRecord } from '../../store/actions';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-const exampleRecord = {
-  title: "Cinnamon Rolls",
-  weight: 230,
-  calories: 670,
-  protein: 12,
-  fat: 45,
-  carbs: 132,
-  datetime: (new Date("29 Jul 2019 22:22:22")).toISOString(),
-}
+const ADD_RECORD = gql`
+  mutation AddRecordWithFoodItem(
+    $title: String!
+    $calories: Float!
+    $protein: Float!
+    $fat: Float!
+    $carbs: Float!
+    $weight: Int!
+    $eatenAt: DateTime!
+    $createdAt: DateTime!
+  ) {
+    addRecordWithFoodItem(
+      title: $title
+      calories: $calories
+      protein: $protein
+      fat: $fat
+      carbs: $carbs
+      weight: $weight
+      eatenAt: $eatenAt
+      createdAt: $createdAt
+    ) {
+      id
+    }
+  }
+`;
 
-const mapDispatchToProps = (dispatch) => ({
-  addRecord: (data) => dispatch(addRecord(data))
-});
+const AddFormContainer = () => {
+  const [mutate, { data }] = useMutation(ADD_RECORD);
+  const addRecord = (rec) => {
+    mutate({ variables: { ...rec } });
+  };
 
-export default connect(null, mapDispatchToProps)(AddForm);
+  return <AddForm addRecord={addRecord} />;
+};
+
+export default AddFormContainer;
