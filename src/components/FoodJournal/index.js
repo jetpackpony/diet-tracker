@@ -1,6 +1,5 @@
 import React from 'react';
 import FoodJournal from './FoodJournal';
-import { connect } from 'react-redux';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
@@ -20,13 +19,13 @@ const calcTotals = (records) => (
   )
 );
 
-const compareRecords = (a, b) => a.createdAt < b.createdAt ? -1 : 1;
-const getDateTitle = (createdAt) => (new Date(createdAt)).toDateString();
+const compareRecords = (a, b) => a.eatenAt < b.eatenAt ? -1 : 1;
+const getDateTitle = (eatenAt) => (new Date(eatenAt)).toDateString();
 
 const groupRecords = (records) => {
   // Group records by date
   const datesObj = records.reduce((acc, val) => {
-    const key = getDateTitle(val.createdAt)
+    const key = getDateTitle(val.eatenAt)
     acc[key] = acc[key] || [];
     acc[key].push(val);
     return acc;
@@ -67,6 +66,7 @@ const GET_ALL_RECORDS = gql`
       }
       weight
       createdAt
+      eatenAt
     }
   }
 `;
