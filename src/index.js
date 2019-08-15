@@ -6,14 +6,22 @@ import { Provider } from 'react-redux';
 import initStore from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 
+import { ApolloProvider } from '@apollo/react-hooks';
+import ApolloClient, { gql } from 'apollo-boost';
+const client = new ApolloClient({
+  uri: "http://localhost:4000/",
+});
+
 const { store, persistor } = initStore();
 
 ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate persistor={persistor}>
-      <App />
-    </PersistGate>
-  </Provider>,
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>,
+  </ApolloProvider>,
   document.getElementById('root')
 );
 
