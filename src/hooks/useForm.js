@@ -27,8 +27,7 @@ const useFormHook = (callback) => {
     const values = getInputsValues(
       getFormControls(formElement.current)
     );
-    e.target.reset();
-    callback(values);
+    callback(values, e);
   };
 
   const initForm = (form) => {
