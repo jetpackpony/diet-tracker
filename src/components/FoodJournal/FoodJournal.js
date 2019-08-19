@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './FoodJournal.module.css';
+import DayItem from './DayItem';
 
 const DayHeader = ({
   date,
@@ -28,24 +29,6 @@ const DayList = ({ itemList }) => {
     </ul >
   );
 };
-
-const DayItem = ({
-  title,
-  weight,
-  calories,
-  protein,
-  fat,
-  carbs
-}) => (
-  <li className={styles.row}>
-    <span>{title}</span>
-    <span>{weight} g</span>
-    <span>{calories}</span>
-    <span>{protein}</span>
-    <span>{fat}</span>
-    <span>{carbs}</span>
-  </li>
-);
 
 const DayLog = ({
   date,
