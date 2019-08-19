@@ -12,7 +12,8 @@ const DayItem = ({
   protein,
   fat,
   carbs,
-  updateWeight
+  updateWeight,
+  deleteRecord
 }) => {
   const [editing, setEditing] = useState(false);
   const submitForm = (values, event) => {
@@ -24,6 +25,7 @@ const DayItem = ({
 
   return (
     <li className={styles.row}>
+      <span onClick={() => deleteRecord(id)}>X</span>
       <span>{title}</span>
       <span>
         {
@@ -58,18 +60,30 @@ const UPDATE_RECORD = gql`
     }
   }
 `;
+const DELETE_RECORD = gql`
+  mutation DeleteRecord($id: ID!) {
+    deleteRecord(id: $id)
+  }
+`;
 
 const DayItemContainer = ({...props}) => {
-  const [
-    updateRecord,
-    { loading: mutationLoading, error: mutationError }
-  ] = useMutation(UPDATE_RECORD);
+  const [ updateRecord ] = useMutation(UPDATE_RECORD);
+  const [ deleteRecord ] = useMutation(DELETE_RECORD);
   const updateWeight = ({ id, weight }) => {
     console.log("Updating record: ", {id, weight});
     updateRecord({ variables: { id, weight }});
   };
 
-  return <DayItem {...props} updateWeight={updateWeight} />;
+  const deleteRecordWrapper = (id) => {
+    console.log("Deleting record: ", id);
+    deleteRecord({ variables: { id }});
+  };
+
+  return <DayItem
+    {...props}
+    updateWeight={updateWeight}
+    deleteRecord={deleteRecordWrapper}
+  />;
 };
 
 export default DayItemContainer;
