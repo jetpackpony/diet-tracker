@@ -71,7 +71,7 @@ const GET_ALL_RECORDS = gql`
   }
 `;
 
-const FoodJournalContainer = () => {
+const FoodJournalContainer = ({...props}) => {
   const { loading, error, data } = useQuery(GET_ALL_RECORDS);
 
   if (error) {
@@ -80,7 +80,7 @@ const FoodJournalContainer = () => {
   }
   if (loading) return <div>Loading...</div>;
 
-  return <FoodJournal dates={groupRecords(data.getAllRecords)} />;
+  return <FoodJournal {...props} dates={groupRecords(data.getAllRecords)} />;
 };
 
 export default FoodJournalContainer;
