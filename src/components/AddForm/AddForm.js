@@ -4,10 +4,12 @@ import moment from 'moment';
 import useFormHook from '../../hooks/useForm';
 
 const AddForm = ({ addRecord }) => {
-  const submitForm = (formValues) => {
+  const submitForm = (formValues, e) => {
+    e.target.reset();
     const record = {
       ...formValues,
-      datetime: moment(formValues.datetime).toISOString()
+      eatenAt: moment(formValues.datetime).toISOString(),
+      createdAt: moment().toISOString(),
     };
     console.log("Record: ", record);
     addRecord(record);
