@@ -1,6 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
-const getFormControls = (form) => {
+export const getFormControls = (form) => {
   const res = [];
   for(let i = 0; i < form.elements.length; i++) {
     res.push(form.elements[i]);
@@ -19,7 +19,7 @@ const getInputsValues = (inputs) => {
   }, {});
 };
 
-const useFormHook = (callback) => {
+export const useUncontrolledFormHook = (callback) => {
   const formElement = useRef(null);
 
   const onSubmit = (e) => {
@@ -39,4 +39,49 @@ const useFormHook = (callback) => {
   };
 };
 
-export default useFormHook;
+export const useControlledFormHook = (onSubmitCallback) => {
+  const [values, setValues] = useState({});
+  const prevEventListener = useRef(null);
+  const formRef = useRef(null);
+
+  const handleInputChange = (e) => {
+    const { value, name, type } = e.target;
+    setValues((newValues) => ({
+      ...newValues,
+      [name]: type === "number" ? Number(value) : value
+    }))
+  };
+
+  const initForm = (form) => {
+    if (!form) return;
+    formRef.current = form;
+
+    getFormControls(form).forEach((input) => {
+      input.value = values[input.name] || input.defaultValue;
+      input.removeEventListener("input", prevEventListener.current);
+      input.addEventListener("input", handleInputChange);
+    });
+
+    prevEventListener.current = handleInputChange;
+  };
+
+  const resetForm = () => {
+    setValues((values) => {
+      return getFormControls(formRef.current).reduce((res, input) => {
+        res[input.name] = input.defaultValue;
+        return res;
+      }, {});
+    })
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    onSubmitCallback(values, resetForm, e);
+  };
+
+  return {
+    initForm,
+    onSubmit,
+    resetForm
+  };
+};

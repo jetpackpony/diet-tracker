@@ -1,25 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './AddForm.module.css';
 import moment from 'moment';
-import useFormHook from '../../hooks/useForm';
+import { useControlledFormHook } from '../../hooks/useForm';
 
 const AddForm = ({ addRecord }) => {
-  const submitForm = (formValues, e) => {
-    e.target.reset();
+  const submitForm = (formValues, resetForm) => {
     const record = {
       ...formValues,
       eatenAt: moment(formValues.datetime).toISOString(),
       createdAt: moment().toISOString(),
     };
+    resetForm();
     console.log("Record: ", record);
     addRecord(record);
   };
 
-  const { onSubmit, initForm } = useFormHook(submitForm);
-
-  useEffect(() => {
-    console.log("Updating...");
-  });
+  const { initForm, onSubmit } = useControlledFormHook(submitForm);
 
   return (
     <form onSubmit={onSubmit} ref={initForm}>
