@@ -8,7 +8,7 @@ const AddForm = ({ addRecord }) => {
     initForm,
     getValues,
     resetForm,
-    setValues,
+    updateValues,
     setDisabled
   } = useControlledFormHook();
   const [loadedFoodItem, setLoadedFoodItem] = useState(null);
@@ -23,7 +23,7 @@ const AddForm = ({ addRecord }) => {
   };
   const loadFoodItem = () => {
     setLoadedFoodItem(foodItem);
-    setValues(foodItem);
+    updateValues(foodItem);
     setDisabled(Object.keys(foodItem));
   };
   const removeLoadedFoodItem = () =>{

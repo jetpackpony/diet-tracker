@@ -39,8 +39,12 @@ export const useUncontrolledFormHook = (callback) => {
   };
 };
 
+const filterValueInputs = ({ name, tagName }) => name && tagName === "INPUT";
+
+const cleanUpValue = (type, value) => type === "number" ? Number(value) : value;
+
 export const useControlledFormHook = (onSubmitCallback) => {
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState(null);
   const prevEventListener = useRef(null);
   const formRef = useRef(null);
 
@@ -48,7 +52,7 @@ export const useControlledFormHook = (onSubmitCallback) => {
     const { value, name, type } = e.target;
     setValues((newValues) => ({
       ...newValues,
-      [name]: type === "number" ? Number(value) : value
+      [name]: cleanUpValue(type, value)
     }))
   };
 
@@ -56,35 +60,30 @@ export const useControlledFormHook = (onSubmitCallback) => {
     if (!form) return;
     formRef.current = form;
 
-    let vals = {};
-    getFormControls(form).forEach((input) => {
-      if (input.name && input.tagName === "INPUT" && values[input.name] === undefined) {
-        vals[input.name] = input.defaultValue;
-      }
-      input.value = values[input.name] === undefined ? vals[input.name] : values[input.name];
-      input.removeEventListener("input", prevEventListener.current);
-      input.addEventListener("input", handleInputChange);
-    });
-    if (Object.keys(vals).length > 0) {
-      setValues((values) => ({
-        ...vals,
-        ...values,
-      }));
+    if (values === null) {
+      resetForm();
+    } else {
+      getFormControls(formRef.current)
+        .filter(filterValueInputs)
+        .forEach((input) => {
+          input.value = values[input.name];
+          input.removeEventListener("input", prevEventListener.current);
+          input.addEventListener("input", handleInputChange);
+        });
+      prevEventListener.current = handleInputChange;
     }
-
-    prevEventListener.current = handleInputChange;
   };
 
   const resetForm = () => {
-    setValues((values) => {
-      return getFormControls(formRef.current).reduce((res, input) => {
-        input.disabled = false;
-        if (input.name && input.tagName === "INPUT") {
-          res[input.name] = input.defaultValue;
-        }
-        return res;
-      }, {});
-    })
+    setValues(
+      getFormControls(formRef.current)
+        .filter(filterValueInputs)
+        .reduce((res, input) => {
+          input.disabled = false;
+          res[input.name] = cleanUpValue(input.type, input.defaultValue);
+          return res;
+        }, {})
+    )
   };
 
   const setDisabled = (inputs) => {
@@ -104,11 +103,18 @@ export const useControlledFormHook = (onSubmitCallback) => {
     return values;
   }
 
+  const updateValues = (newValues) => (
+    setValues((oldValues) => ({
+      ...oldValues,
+      ...newValues
+    }))
+  );
+
   return {
     initForm,
     onSubmit,
     resetForm,
-    setValues,
+    updateValues,
     setDisabled,
     getValues
   };
