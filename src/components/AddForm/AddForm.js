@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import styles from './AddForm.module.css';
 import moment from 'moment';
 import { useControlledFormHook } from '../../hooks/useForm';
+import SuggestionsList from './SuggestionsList';
 
-const AddForm = ({ addRecord }) => {
+const AddForm = ({
+  addRecord,
+  isSearching,
+  foundFoodItems,
+  searchFoodItem
+}) => {
   const {
     initForm,
     getValues,
@@ -12,16 +18,9 @@ const AddForm = ({ addRecord }) => {
     setDisabled
   } = useControlledFormHook();
   const [loadedFoodItem, setLoadedFoodItem] = useState(null);
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
 
-  const foodItem = {
-    "foodItemID": "5d5d1ccca0752f001ecf6a9e",
-    "title": "Testme food",
-    "calories": 2,
-    "protein": 2,
-    "fat": 4,
-    "carbs": 4
-  };
-  const loadFoodItem = () => {
+  const loadFoodItem = (foodItem) => {
     setLoadedFoodItem(foodItem);
     updateValues(foodItem);
     setDisabled(Object.keys(foodItem));
@@ -39,7 +38,6 @@ const AddForm = ({ addRecord }) => {
       eatenAt: moment(formValues.datetime).toISOString(),
       createdAt: moment().toISOString(),
     };
-    resetForm();
     removeLoadedFoodItem();
     console.log("Record: ", record);
     addRecord(record);
@@ -47,7 +45,6 @@ const AddForm = ({ addRecord }) => {
 
   return (
     <form onSubmit={submitForm} ref={initForm}>
-      <button onClick={(e) => {e.preventDefault(); loadFoodItem()}}>Load food item</button>
       <h1>Add Food</h1>
       {
         loadedFoodItem
@@ -67,8 +64,18 @@ const AddForm = ({ addRecord }) => {
               id="title"
               name="title"
               defaultValue=""
+              onFocus={() => setIsTitleFocused(true)}
+              onBlur={() => setIsTitleFocused(false)}
             />
           </div>
+          {
+            <SuggestionsList
+              isInputFocused={isTitleFocused}
+              isSearching={isSearching}
+              foundFoodItems={foundFoodItems}
+              onFoodItemSelected={loadFoodItem}
+            />
+          }
         </div>
 
         <div className={styles.fieldContainer}>
