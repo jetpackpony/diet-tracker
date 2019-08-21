@@ -4,22 +4,58 @@ import moment from 'moment';
 import { useControlledFormHook } from '../../hooks/useForm';
 
 const AddForm = ({ addRecord }) => {
-  const submitForm = (formValues, resetForm) => {
+  const {
+    initForm,
+    getValues,
+    resetForm,
+    setValues,
+    setDisabled
+  } = useControlledFormHook();
+  const [loadedFoodItem, setLoadedFoodItem] = useState(null);
+
+  const foodItem = {
+    "foodItemID": "5d5d1ccca0752f001ecf6a9e",
+    "title": "Testme food",
+    "calories": 2,
+    "protein": 2,
+    "fat": 4,
+    "carbs": 4
+  };
+  const loadFoodItem = () => {
+    setLoadedFoodItem(foodItem);
+    setValues(foodItem);
+    setDisabled(Object.keys(foodItem));
+  };
+  const removeLoadedFoodItem = () =>{
+    setLoadedFoodItem(null);
+    resetForm();
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    const formValues = getValues();
     const record = {
       ...formValues,
       eatenAt: moment(formValues.datetime).toISOString(),
       createdAt: moment().toISOString(),
     };
     resetForm();
+    removeLoadedFoodItem();
     console.log("Record: ", record);
     addRecord(record);
   };
 
-  const { initForm, onSubmit } = useControlledFormHook(submitForm);
-
   return (
-    <form onSubmit={onSubmit} ref={initForm}>
+    <form onSubmit={submitForm} ref={initForm}>
+      <button onClick={(e) => {e.preventDefault(); loadFoodItem()}}>Load food item</button>
       <h1>Add Food</h1>
+      {
+        loadedFoodItem
+          ? (
+            <span onClick={removeLoadedFoodItem}>X</span>
+          )
+          : null
+      }
       <div className={styles.formContainer}>
         <div className={styles.fieldContainer}>
           <label htmlFor="title">
@@ -108,7 +144,5 @@ const AddForm = ({ addRecord }) => {
     </form>
 
   );
-}
-
-
+};
 export default AddForm;
