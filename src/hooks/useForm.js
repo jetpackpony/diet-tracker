@@ -56,11 +56,21 @@ export const useControlledFormHook = (onSubmitCallback) => {
     if (!form) return;
     formRef.current = form;
 
+    let vals = {};
     getFormControls(form).forEach((input) => {
-      input.value = values[input.name] || input.defaultValue;
+      if (input.name && input.tagName === "INPUT" && values[input.name] === undefined) {
+        vals[input.name] = input.defaultValue;
+      }
+      input.value = values[input.name] === undefined ? vals[input.name] : values[input.name];
       input.removeEventListener("input", prevEventListener.current);
       input.addEventListener("input", handleInputChange);
     });
+    if (Object.keys(vals).length > 0) {
+      setValues((values) => ({
+        ...vals,
+        ...values,
+      }));
+    }
 
     prevEventListener.current = handleInputChange;
   };
@@ -68,20 +78,38 @@ export const useControlledFormHook = (onSubmitCallback) => {
   const resetForm = () => {
     setValues((values) => {
       return getFormControls(formRef.current).reduce((res, input) => {
-        res[input.name] = input.defaultValue;
+        input.disabled = false;
+        if (input.name && input.tagName === "INPUT") {
+          res[input.name] = input.defaultValue;
+        }
         return res;
       }, {});
     })
   };
+
+  const setDisabled = (inputs) => {
+    getFormControls(formRef.current)
+      .filter((input) => inputs.includes(input.name))
+      .forEach((input) => {
+        input.disabled = true;
+      });
+  }
 
   const onSubmit = (e) => {
     e.preventDefault();
     onSubmitCallback(values, resetForm, e);
   };
 
+  const getValues = () => {
+    return values;
+  }
+
   return {
     initForm,
     onSubmit,
-    resetForm
+    resetForm,
+    setValues,
+    setDisabled,
+    getValues
   };
 };
