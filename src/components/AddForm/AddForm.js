@@ -25,11 +25,13 @@ const AddForm = ({
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [titleValue, setTitleValue] = useState("");
   const [titleDisabled, setTitleDisabled] = useState(false);
+  const [searchTimeout, setSearchTimeout] = useState(null);
 
   const handleTitleChange = (e) => {
     const val = e.target.value;
     if (!loadedFoodItem && val && val.length >= MIN_LENGTH_TO_SEARCH) {
-      searchFoodItem(val);
+      if (searchTimeout) clearTimeout(searchTimeout);
+      setSearchTimeout(setTimeout(() => searchFoodItem(val), 300));
     }
     setTitleValue(val);
   };
