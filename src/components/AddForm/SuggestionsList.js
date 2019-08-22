@@ -2,13 +2,13 @@ import React from 'react';
 import styles from './AddForm.module.css';
 
 const SearchResults = ({
-  isInputFocused,
+  showSuggestions,
   isSearching,
   foundFoodItems,
   onFoodItemSelected
 }) => {
 
-  if (!isInputFocused) return null;
+  if (!showSuggestions) return null;
 
   return (
     <div className={styles.searchList}>

@@ -4,6 +4,8 @@ import moment from 'moment';
 import { useControlledFormHook } from '../../hooks/useForm';
 import SuggestionsList from './SuggestionsList';
 
+const MIN_LENGTH_TO_SEARCH = 2;
+
 const AddForm = ({
   addRecordWithFoodItem,
   addRecord,
@@ -17,16 +19,32 @@ const AddForm = ({
     resetForm,
     updateValues,
     setDisabled
-  } = useControlledFormHook();
+  } = useControlledFormHook(() => null, ["title"]);
 
   const [loadedFoodItem, setLoadedFoodItem] = useState(null);
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
+  const [titleValue, setTitleValue] = useState("");
+  const [titleDisabled, setTitleDisabled] = useState(false);
+
+  const handleTitleChange = (e) => {
+    const val = e.target.value;
+    if (!loadedFoodItem && val && val.length >= MIN_LENGTH_TO_SEARCH) {
+      searchFoodItem(val);
+    }
+    setTitleValue(val);
+  };
+
   const loadFoodItem = (foodItem) => {
     setLoadedFoodItem(foodItem);
     updateValues(foodItem);
+    setTitleValue(foodItem.title);
+    setTitleDisabled(true);
     setDisabled(Object.keys(foodItem));
   };
   const removeLoadedFoodItem = () =>{
     setLoadedFoodItem(null);
+    setTitleValue("");
+    setTitleDisabled(false);
     resetForm();
   };
 
@@ -35,6 +53,7 @@ const AddForm = ({
     const formValues = getValues();
     const record = {
       ...formValues,
+      title: titleValue,
       eatenAt: moment(formValues.datetime).toISOString(),
       createdAt: moment().toISOString(),
     };
@@ -48,15 +67,6 @@ const AddForm = ({
     }
     removeLoadedFoodItem();
   };
-
-  const [isTitleFocused, setIsTitleFocused] = useState(false);
-
-  const titleValue = getValues() && getValues().title;
-  useEffect(() => {
-    if (!loadedFoodItem && titleValue && titleValue.length > 1) {
-      searchFoodItem(titleValue);
-    }
-  }, [titleValue]);
 
   return (
     <form onSubmit={submitForm} ref={initForm}>
@@ -78,14 +88,16 @@ const AddForm = ({
               type="text"
               id="title"
               name="title"
-              defaultValue=""
-              onFocus={() => setIsTitleFocused(true)}
-              onBlur={() => setIsTitleFocused(false)}
+              disabled={titleDisabled}
+              value={titleValue}
+              onChange={handleTitleChange}
+              onFocus={() => { console.log("focused"); setIsTitleFocused(true); }}
+              onBlur={() => { console.log("UN focused"); setIsTitleFocused(false); }}
             />
           </div>
           {
             <SuggestionsList
-              isInputFocused={isTitleFocused}
+              showSuggestions={isTitleFocused && !titleDisabled && titleValue.length >= MIN_LENGTH_TO_SEARCH}
               isSearching={isSearching}
               foundFoodItems={foundFoodItems}
               onFoodItemSelected={loadFoodItem}
