@@ -1,29 +1,85 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './AddForm.module.css';
 import moment from 'moment';
-import useFormHook from '../../hooks/useForm';
+import { useControlledFormHook } from '../../hooks/useForm';
+import SuggestionsList from './SuggestionsList';
 
-const AddForm = ({ addRecord }) => {
-  const submitForm = (formValues, e) => {
-    e.target.reset();
+const MIN_LENGTH_TO_SEARCH = 2;
+
+const AddForm = ({
+  addRecordWithFoodItem,
+  addRecord,
+  isSearching,
+  foundFoodItems,
+  searchFoodItem
+}) => {
+  const {
+    initForm,
+    getValues,
+    resetForm,
+    updateValues,
+    setDisabled
+  } = useControlledFormHook(() => null, ["title"]);
+
+  const [loadedFoodItem, setLoadedFoodItem] = useState(null);
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
+  const [titleValue, setTitleValue] = useState("");
+  const [titleDisabled, setTitleDisabled] = useState(false);
+  const [searchTimeout, setSearchTimeout] = useState(null);
+
+  const handleTitleChange = (e) => {
+    const val = e.target.value;
+    if (!loadedFoodItem && val && val.length >= MIN_LENGTH_TO_SEARCH) {
+      if (searchTimeout) clearTimeout(searchTimeout);
+      setSearchTimeout(setTimeout(() => searchFoodItem(val), 300));
+    }
+    setTitleValue(val);
+  };
+
+  const loadFoodItem = (foodItem) => {
+    setLoadedFoodItem(foodItem);
+    updateValues(foodItem);
+    setTitleValue(foodItem.title);
+    setTitleDisabled(true);
+    setDisabled(Object.keys(foodItem));
+  };
+  const removeLoadedFoodItem = () =>{
+    setLoadedFoodItem(null);
+    setTitleValue("");
+    setTitleDisabled(false);
+    resetForm();
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    const formValues = getValues();
     const record = {
       ...formValues,
+      title: titleValue,
       eatenAt: moment(formValues.datetime).toISOString(),
       createdAt: moment().toISOString(),
     };
-    console.log("Record: ", record);
-    addRecord(record);
+    if (loadedFoodItem !== null) {
+      record.foodItemID = loadedFoodItem.foodItemID;
+      console.log("Record NO food item: ", record);
+      addRecord(record);
+    } else {
+      console.log("Record with food item: ", record);
+      addRecordWithFoodItem(record);
+    }
+    removeLoadedFoodItem();
   };
 
-  const { onSubmit, initForm } = useFormHook(submitForm);
-
-  useEffect(() => {
-    console.log("Updating...");
-  });
-
   return (
-    <form onSubmit={onSubmit} ref={initForm}>
+    <form onSubmit={submitForm} ref={initForm}>
       <h1>Add Food</h1>
+      {
+        loadedFoodItem
+          ? (
+            <span onClick={removeLoadedFoodItem}>X</span>
+          )
+          : null
+      }
       <div className={styles.formContainer}>
         <div className={styles.fieldContainer}>
           <label htmlFor="title">
@@ -34,9 +90,21 @@ const AddForm = ({ addRecord }) => {
               type="text"
               id="title"
               name="title"
-              defaultValue=""
+              disabled={titleDisabled}
+              value={titleValue}
+              onChange={handleTitleChange}
+              onFocus={() => { console.log("focused"); setIsTitleFocused(true); }}
+              onBlur={() => { console.log("UN focused"); setIsTitleFocused(false); }}
             />
           </div>
+          {
+            <SuggestionsList
+              showSuggestions={isTitleFocused && !titleDisabled && titleValue.length >= MIN_LENGTH_TO_SEARCH}
+              isSearching={isSearching}
+              foundFoodItems={foundFoodItems}
+              onFoodItemSelected={loadFoodItem}
+            />
+          }
         </div>
 
         <div className={styles.fieldContainer}>
@@ -112,7 +180,5 @@ const AddForm = ({ addRecord }) => {
     </form>
 
   );
-}
-
-
+};
 export default AddForm;

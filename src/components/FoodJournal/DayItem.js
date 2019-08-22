@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './FoodJournal.module.css';
-import useFormHook from '../../hooks/useForm';
+import { useUncontrolledFormHook } from '../../hooks/useForm';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 
@@ -21,7 +21,7 @@ const DayItem = ({
     event.target.reset();
     updateWeight({ id, weight: values.weight });
   }
-  const { onSubmit, initForm } = useFormHook(submitForm);
+  const { onSubmit, initForm } = useUncontrolledFormHook(submitForm);
 
   return (
     <li className={styles.row}>
