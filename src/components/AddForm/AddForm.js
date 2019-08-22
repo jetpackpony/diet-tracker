@@ -5,6 +5,7 @@ import { useControlledFormHook } from '../../hooks/useForm';
 import SuggestionsList from './SuggestionsList';
 
 const AddForm = ({
+  addRecordWithFoodItem,
   addRecord,
   isSearching,
   foundFoodItems,
@@ -37,9 +38,15 @@ const AddForm = ({
       eatenAt: moment(formValues.datetime).toISOString(),
       createdAt: moment().toISOString(),
     };
+    if (loadedFoodItem !== null) {
+      record.foodItemID = loadedFoodItem.foodItemID;
+      console.log("Record NO food item: ", record);
+      addRecord(record);
+    } else {
+      console.log("Record with food item: ", record);
+      addRecordWithFoodItem(record);
+    }
     removeLoadedFoodItem();
-    console.log("Record: ", record);
-    addRecord(record);
   };
 
   const [isTitleFocused, setIsTitleFocused] = useState(false);

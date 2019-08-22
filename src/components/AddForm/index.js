@@ -3,7 +3,7 @@ import AddForm from './AddForm';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-const ADD_RECORD = gql`
+const ADD_RECORD_WITH_FOOD_ITEM = gql`
   mutation AddRecordWithFoodItem(
     $title: String!
     $calories: Float!
@@ -29,6 +29,24 @@ const ADD_RECORD = gql`
   }
 `;
 
+const ADD_RECORD = gql`
+  mutation AddRecord(
+    $foodItemID: ID!
+    $weight: Int!
+    $eatenAt: DateTime!
+    $createdAt: DateTime!
+  ) {
+    addRecord(
+      foodItemID: $foodItemID
+      weight: $weight
+      eatenAt: $eatenAt
+      createdAt: $createdAt
+    ) {
+      id
+    }
+  }
+`;
+
 const SEARCH_FOOD_ITEMS = gql`
   query SearchFoodItems($filter: String!) {
     filterFoodItems(filter: $filter, limit: 5) {
@@ -43,7 +61,16 @@ const SEARCH_FOOD_ITEMS = gql`
 `;
 
 const AddFormContainer = () => {
-  const [mutate] = useMutation(ADD_RECORD);
+  const [addRecordWithFoodItemMutation] = useMutation(ADD_RECORD_WITH_FOOD_ITEM);
+  const addRecordWithFoodItem = (rec) => {
+    addRecordWithFoodItemMutation({ variables: { ...rec } });
+  };
+
+  const [addRecordMutation] = useMutation(ADD_RECORD);
+  const addRecord = (rec) => {
+    addRecordMutation({ variables: { ...rec } });
+  };
+
   const [
     search,
     {
@@ -51,11 +78,6 @@ const AddFormContainer = () => {
       data: searchData
     }
   ] = useLazyQuery(SEARCH_FOOD_ITEMS);
-
-  const addRecord = (rec) => {
-    mutate({ variables: { ...rec } });
-  };
-
   const searchFoodItem = (filter) => {
     console.log("Searching for: ", filter);
     search({ variables: { filter } });
@@ -63,6 +85,7 @@ const AddFormContainer = () => {
 
   return (
     <AddForm
+      addRecordWithFoodItem={addRecordWithFoodItem}
       addRecord={addRecord}
       isSearching={isSearching}
       foundFoodItems={searchData && searchData.filterFoodItems}
