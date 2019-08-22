@@ -18,7 +18,7 @@ const SearchResults = ({
             <span>Searching...</span>
           )
           : (
-            (foundFoodItems.length > 0)
+            (foundFoodItems && foundFoodItems.length > 0)
               ? (
                 <ul>
                   {

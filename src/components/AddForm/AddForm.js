@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './AddForm.module.css';
 import moment from 'moment';
 import { useControlledFormHook } from '../../hooks/useForm';
@@ -17,9 +17,8 @@ const AddForm = ({
     updateValues,
     setDisabled
   } = useControlledFormHook();
-  const [loadedFoodItem, setLoadedFoodItem] = useState(null);
-  const [isTitleFocused, setIsTitleFocused] = useState(false);
 
+  const [loadedFoodItem, setLoadedFoodItem] = useState(null);
   const loadFoodItem = (foodItem) => {
     setLoadedFoodItem(foodItem);
     updateValues(foodItem);
@@ -42,6 +41,15 @@ const AddForm = ({
     console.log("Record: ", record);
     addRecord(record);
   };
+
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
+
+  const titleValue = getValues() && getValues().title;
+  useEffect(() => {
+    if (!loadedFoodItem && titleValue && titleValue.length > 1) {
+      searchFoodItem(titleValue);
+    }
+  }, [titleValue]);
 
   return (
     <form onSubmit={submitForm} ref={initForm}>

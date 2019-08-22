@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AddForm from './AddForm';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 const ADD_RECORD = gql`
@@ -29,40 +29,43 @@ const ADD_RECORD = gql`
   }
 `;
 
-const AddFormContainer = () => {
-  const [mutate, { data }] = useMutation(ADD_RECORD);
-  const [foundFoodItems, setFoundFoodItems] = useState([
-    {
-      "foodItemID": "1111",
-      "title": "Food 1",
-      "calories": 11,
-      "protein": 11,
-      "fat": 11,
-      "carbs": 11
-    }, {
-      "foodItemID": "2222",
-      "title": "Food 2",
-      "calories": 22,
-      "protein": 22,
-      "fat": 22,
-      "carbs": 22
+const SEARCH_FOOD_ITEMS = gql`
+  query SearchFoodItems($filter: String!) {
+    filterFoodItems(filter: $filter, limit: 5) {
+      foodItemID: id
+      title
+      calories
+      protein
+      fat
+      carbs
     }
-  ]);
-  const [isSearching, setIsSearching] = useState(false);
+  }
+`;
+
+const AddFormContainer = () => {
+  const [mutate] = useMutation(ADD_RECORD);
+  const [
+    search,
+    {
+      loading: isSearching,
+      data: searchData
+    }
+  ] = useLazyQuery(SEARCH_FOOD_ITEMS);
 
   const addRecord = (rec) => {
     mutate({ variables: { ...rec } });
   };
 
-  const searchFoodItem = (searchStr) => {
-    console.log("Searching for: ", searchStr);
+  const searchFoodItem = (filter) => {
+    console.log("Searching for: ", filter);
+    search({ variables: { filter } });
   };
 
   return (
     <AddForm
       addRecord={addRecord}
       isSearching={isSearching}
-      foundFoodItems={foundFoodItems}
+      foundFoodItems={searchData && searchData.filterFoodItems}
       searchFoodItem={searchFoodItem}
     />
   );
