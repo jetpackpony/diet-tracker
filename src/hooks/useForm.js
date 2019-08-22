@@ -43,10 +43,11 @@ const filterValueInputs = ({ name, tagName }) => name && tagName === "INPUT";
 
 const cleanUpValue = (type, value) => type === "number" ? Number(value) : value;
 
-export const useControlledFormHook = (onSubmitCallback) => {
+export const useControlledFormHook = (onSubmitCallback, omit = []) => {
   const [values, setValues] = useState(null);
   const prevEventListener = useRef(null);
   const formRef = useRef(null);
+  const omitRef = useRef(omit);
 
   const handleInputChange = (e) => {
     const { value, name, type } = e.target;
@@ -65,6 +66,7 @@ export const useControlledFormHook = (onSubmitCallback) => {
     } else {
       getFormControls(formRef.current)
         .filter(filterValueInputs)
+        .filter(({name}) => !omitRef.current.includes(name))
         .forEach((input) => {
           input.value = values[input.name];
           input.removeEventListener("input", prevEventListener.current);
@@ -78,6 +80,7 @@ export const useControlledFormHook = (onSubmitCallback) => {
     setValues(
       getFormControls(formRef.current)
         .filter(filterValueInputs)
+        .filter(({name}) => !omitRef.current.includes(name))
         .reduce((res, input) => {
           input.disabled = false;
           res[input.name] = cleanUpValue(input.type, input.defaultValue);
@@ -89,6 +92,7 @@ export const useControlledFormHook = (onSubmitCallback) => {
   const setDisabled = (inputs) => {
     getFormControls(formRef.current)
       .filter((input) => inputs.includes(input.name))
+      .filter(({ name }) => !omit.includes(name))
       .forEach((input) => {
         input.disabled = true;
       });
