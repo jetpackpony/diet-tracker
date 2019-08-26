@@ -48,13 +48,16 @@ export const useControlledFormHook = (onSubmitCallback, omit = []) => {
   const prevEventListener = useRef(null);
   const formRef = useRef(null);
   const omitRef = useRef(omit);
+  const changeListenersRef = useRef({});
 
   const handleInputChange = (e) => {
     const { value, name, type } = e.target;
     setValues((newValues) => ({
       ...newValues,
       [name]: cleanUpValue(type, value)
-    }))
+    }));
+    Object.keys(changeListenersRef.current)
+      .forEach((key) => changeListenersRef.current[key]());
   };
 
   const initForm = (form) => {
@@ -114,12 +117,20 @@ export const useControlledFormHook = (onSubmitCallback, omit = []) => {
     }))
   );
 
+  const addOnChangeListener = (listener) => {
+    changeListenersRef.current = {
+      ...changeListenersRef.current,
+      ...listener
+    };
+  };
+
   return {
     initForm,
     onSubmit,
     resetForm,
     updateValues,
     setDisabled,
-    getValues
+    getValues,
+    addOnChangeListener
   };
 };

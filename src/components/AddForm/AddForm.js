@@ -6,6 +6,12 @@ import SuggestionsList from './SuggestionsList';
 
 const MIN_LENGTH_TO_SEARCH = 2;
 
+const getDateStringForDate = (date = null) => (
+  (date !== null
+    ? moment(date)
+    : moment()
+  ).format("YYYY-MM-DD[T]HH:mm")
+);
 const AddForm = ({
   addRecordWithFoodItem,
   addRecord,
@@ -18,14 +24,28 @@ const AddForm = ({
     getValues,
     resetForm,
     updateValues,
-    setDisabled
-  } = useControlledFormHook(() => null, ["title"]);
+    setDisabled,
+    addOnChangeListener
+  } = useControlledFormHook(() => null, ["title", "eatenAt"]);
 
   const [loadedFoodItem, setLoadedFoodItem] = useState(null);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [titleValue, setTitleValue] = useState("");
   const [titleDisabled, setTitleDisabled] = useState(false);
   const [searchTimeout, setSearchTimeout] = useState(null);
+
+  const [eatenAtValue, setEatenAtValue] = useState(getDateStringForDate());
+  const [dateExplicitlyChanged, setDateExplicitlyChanged] = useState(false);
+  const onEatenAtChange = (e) => {
+    setEatenAtValue(e.target.value);
+    setDateExplicitlyChanged(true);
+  };
+  const updateDateField = () => {
+    if (!dateExplicitlyChanged) {
+      setEatenAtValue(getDateStringForDate());
+    }
+  };
+  addOnChangeListener({ updateDateField });
 
   const handleTitleChange = (e) => {
     const val = e.target.value;
@@ -34,6 +54,7 @@ const AddForm = ({
       setSearchTimeout(setTimeout(() => searchFoodItem(val), 300));
     }
     setTitleValue(val);
+    updateDateField();
   };
 
   const loadFoodItem = (foodItem) => {
@@ -56,7 +77,7 @@ const AddForm = ({
     const record = {
       ...formValues,
       title: titleValue,
-      eatenAt: moment(formValues.datetime).toISOString(),
+      eatenAt: moment(eatenAtValue).toISOString(),
       createdAt: moment().toISOString(),
     };
     if (loadedFoodItem !== null) {
@@ -167,8 +188,9 @@ const AddForm = ({
             <span>Date: </span>
           </label>
           <div className={styles.inputContainer}>
-            <input type="datetime-local" id="datetime" name="datetime"
-              defaultValue={moment().format("YYYY-MM-DD[T]HH:mm")}
+            <input type="datetime-local" id="eatenAt" name="eatenAt"
+              value={eatenAtValue}
+              onChange={onEatenAtChange}
             />
           </div>
         </div>
