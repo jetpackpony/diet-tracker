@@ -62,7 +62,7 @@ const groupRecords = (records) => {
 
 const GET_ALL_RECORDS = gql`
   query GetPagedRecords($cursor: String) {
-    recordsFeed(cursor:$cursor, limit:3) {
+    recordsFeed(cursor:$cursor, limit:50) {
       cursor,
       records {
         id,
