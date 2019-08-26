@@ -50,12 +50,15 @@ const DayLog = ({
   </article>
 );
 
-const FoodJournal = ({dates}) => (
-  <section className={styles.container}>
-    {dates.map((data, i) => (
-      <DayLog key={i} {...data} />
-    ))}
-  </section>
+const FoodJournal = ({dates, fetchMoreRecords}) => (
+  <>
+    <section className={styles.container}>
+      {dates.map((data, i) => (
+        <DayLog key={i} {...data} />
+      ))}
+    </section>
+    <button onClick={fetchMoreRecords}>Load More</button>
+  </>
 );
 
 export default FoodJournal;
