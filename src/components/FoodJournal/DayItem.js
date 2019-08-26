@@ -57,6 +57,7 @@ const UPDATE_RECORD = gql`
       weight: $weight
     ) {
       id
+      weight
     }
   }
 `;

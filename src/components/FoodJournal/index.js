@@ -19,7 +19,15 @@ const calcTotals = (records) => (
   )
 );
 
-const compareRecords = (a, b) => a.eatenAt < b.eatenAt ? -1 : 1;
+/**
+ * If `a` was eaten later than `b`, `a` comes first in the list
+ * If `a` was created later than `b`, `a` comes first in the list
+ */
+const compareRecords = (a, b) => (
+  a.eatenAt === b.eatenAt
+    ? a.createdAt > b.createdAt ? -1 : 1
+    : a.eatenAt > b.eatenAt ? -1 : 1
+);
 const getDateTitle = (eatenAt) => (new Date(eatenAt)).toDateString();
 
 const groupRecords = (records) => {
@@ -53,26 +61,29 @@ const groupRecords = (records) => {
 };
 
 const GET_ALL_RECORDS = gql`
-  query GetAllRecords {
-    getAllRecords {
-      id,
-      foodItem {
-        id
-        title
-        calories
-        protein
-        fat
-        carbs
+  query GetPagedRecords($cursor: String) {
+    recordsFeed(cursor:$cursor, limit:3) {
+      cursor,
+      records {
+        id,
+        foodItem {
+          id
+          title
+          calories
+          protein
+          fat
+          carbs
+        }
+        weight
+        eatenAt
+        createdAt
       }
-      weight
-      createdAt
-      eatenAt
     }
   }
 `;
 
 const FoodJournalContainer = ({...props}) => {
-  const { loading, error, data } = useQuery(GET_ALL_RECORDS);
+  const { loading, error, data, fetchMore } = useQuery(GET_ALL_RECORDS);
 
   if (error) {
     console.log("Error: ", error);
@@ -80,7 +91,33 @@ const FoodJournalContainer = ({...props}) => {
   }
   if (loading) return <div>Loading...</div>;
 
-  return <FoodJournal {...props} dates={groupRecords(data.getAllRecords)} />;
+  const { cursor, records } = data.recordsFeed;
+  const fetchMoreRecords = () => {
+    fetchMore({
+      query: GET_ALL_RECORDS,
+      variables: { cursor },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        return {
+          recordsFeed: {
+            ...prev.recordsFeed,
+            cursor: fetchMoreResult.recordsFeed.cursor,
+            records: [
+              ...prev.recordsFeed.records,
+              ...fetchMoreResult.recordsFeed.records
+            ]
+          }
+        };
+      }
+    });
+  };
+  return (
+    <FoodJournal
+      {...props}
+      dates={groupRecords(records)}
+      fetchMoreRecords={fetchMoreRecords}
+    />
+  );
 };
 
 export default FoodJournalContainer;
