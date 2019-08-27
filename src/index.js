@@ -5,8 +5,27 @@ import * as serviceWorker from './serviceWorker';
 
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
+import { getStorageItem } from './storage';
 const client = new ApolloClient({
   uri: "http://localhost:4000/",
+  request: async (operation) => {
+    const token = getStorageItem("auth-token");
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : ""
+      }
+    });
+  },
+  clientState: {
+    defaults: {
+      isLoggedIn: !!getStorageItem("auth-token")
+    },
+    typeDefs: `
+      type Query {
+        isLoggedIn: Boolean
+      }
+    `,
+  }
 });
 
 ReactDOM.render(
