@@ -5,6 +5,10 @@
   margin: 10px;
 }
 
+.weekLog {
+  margin: 10px;
+}
+
 .row {
   display: flex;
   flex-direction: row;

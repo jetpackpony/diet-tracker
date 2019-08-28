@@ -6,12 +6,14 @@ import { useMutation } from '@apollo/react-hooks';
 
 const DayItem = ({
   id,
-  title,
+  foodItem: {
+    title,
+    calories,
+    protein,
+    fat,
+    carbs
+  },
   weight,
-  calories,
-  protein,
-  fat,
-  carbs,
   updateWeight,
   deleteRecord
 }) => {
@@ -39,10 +41,10 @@ const DayItem = ({
         }
         g
       </span>
-      <span>{calories}</span>
-      <span>{protein}</span>
-      <span>{fat}</span>
-      <span>{carbs}</span>
+      <span>{calories * weight * 0.01}</span>
+      <span>{protein * weight * 0.01}</span>
+      <span>{fat * weight * 0.01}</span>
+      <span>{carbs * weight * 0.01}</span>
     </li>
   );
 };
