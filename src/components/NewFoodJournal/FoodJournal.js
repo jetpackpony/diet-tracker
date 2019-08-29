@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './FoodJournal.module.css';
 import RecordLine from './RecordLine';
 import DayHeader from './DayHeader';
+import WeekHeader from './WeekHeader';
 
 const FoodJournal = () => {
   const [unfolded, setUnfolded] = useState(false);
@@ -10,7 +11,7 @@ const FoodJournal = () => {
     <section className={styles.foodJournal}>
       <ol>
         <li className={styles.week}>
-          <h2>Week 26 Aug - 1 Sep</h2>
+          <WeekHeader />
           <ol>
             <li className={styles.day}>
               <DayHeader />

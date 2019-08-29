@@ -6,6 +6,7 @@ import { action } from '@storybook/addon-actions';
 import FoodJournal from './FoodJournal';
 import DayHeader from './DayHeader';
 import RecordLine from './RecordLine';
+import WeekHeader from './WeekHeader';
 
 storiesOf('FoodJournal', module)
   .add('with all items', () => (
@@ -18,6 +19,13 @@ storiesOf('FoodJournal', module)
   ))
   .add('with 0 items for this week', () => (
     <div>To be implemented</div>
+  ))
+
+storiesOf('FoodJournal/Week Header', module)
+  .add('default', () => (
+    <WeekHeader
+
+    />
   ))
 
 storiesOf('FoodJournal/Day Header', module)
