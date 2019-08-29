@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './FoodJournal.module.css';
+import RecordLine from './RecordLine';
 
 const FoodJournal = () => {
   const [unfolded, setUnfolded] = useState(false);
@@ -28,15 +29,10 @@ const FoodJournal = () => {
                 <div className={styles.statItem}>176.9 / 123.4 / 666.6</div>
               </header>
               <ol className={styles.recordList}>
-                <li className={[styles.unfolded, styles.lineGrid].join(" ")}>
-                  <div className={styles.title}>Cinnamon Rolls</div>
-                  <button className={styles.unfold}>unfold</button>
-                  <div className={styles.statItem}>181 g.</div>
-                  <div className={styles.statItem}>144 ccal</div>
-                  <div className={styles.statItem}>176.9 / 123.4 / 666.6</div>
-                </li>
-                <li>Momma's Cake</li>
-                <li>Borscht</li>
+                <RecordLine />
+                <RecordLine />
+                <RecordLine />
+                <RecordLine />
               </ol>
             </li>
             <li className={styles.day}>
@@ -48,9 +44,10 @@ const FoodJournal = () => {
                 <div>176.9 / 123.4 / 666.6</div>
               </header>
               <ol>
-                <li className={styles.record}>Cinnamon Rolls</li>
-                <li className={styles.record}>Momma's Cake</li>
-                <li className={styles.record}>Borscht</li>
+                <RecordLine />
+                <RecordLine />
+                <RecordLine />
+                <RecordLine />
               </ol>
             </li>
           </ol>
@@ -67,9 +64,10 @@ const FoodJournal = () => {
                 <div>176.9 / 123.4 / 666.6</div>
               </header>
               <ol>
-                <li className={styles.record}>Cinnamon Rolls</li>
-                <li className={styles.record}>Momma's Cake</li>
-                <li className={styles.record}>Borscht</li>
+                <RecordLine />
+                <RecordLine />
+                <RecordLine />
+                <RecordLine />
               </ol>
             </li>
             <li className={styles.day}>
@@ -81,9 +79,10 @@ const FoodJournal = () => {
                 <div>176.9 / 123.4 / 666.6</div>
               </header>
               <ol>
-                <li className={styles.record}>Cinnamon Rolls</li>
-                <li className={styles.record}>Momma's Cake</li>
-                <li className={styles.record}>Borscht</li>
+                <RecordLine />
+                <RecordLine />
+                <RecordLine />
+                <RecordLine />
               </ol>
             </li>
           </ol>

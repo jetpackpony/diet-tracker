@@ -79,7 +79,3 @@
     grid-column-start: auto;
   }
 }
-
-.recordList > li {
-  margin: .5rem;
-}
