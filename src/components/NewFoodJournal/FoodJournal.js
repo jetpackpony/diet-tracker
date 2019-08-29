@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './FoodJournal.module.css';
 import RecordLine from './RecordLine';
+import DayHeader from './DayHeader';
 
 const FoodJournal = () => {
   const [unfolded, setUnfolded] = useState(false);
@@ -12,22 +13,7 @@ const FoodJournal = () => {
           <h2>Week 26 Aug - 1 Sep</h2>
           <ol>
             <li className={styles.day}>
-              <header className={[unfolded ? styles.unfolded : "", styles.lineGrid].join(" ")}>
-                <h3 className={styles.title}>28 Aug</h3>
-                <button
-                  className={styles.unfold}
-                  onClick={() => setUnfolded(!unfolded)}
-                >
-                  {
-                    unfolded
-                      ? "fold"
-                      : "unfold"
-                  }
-                </button>
-                <div className={styles.statItem}>2348 left</div>
-                <div className={styles.statItem}>3478 ccal</div>
-                <div className={styles.statItem}>176.9 / 123.4 / 666.6</div>
-              </header>
+              <DayHeader />
               <ol className={styles.recordList}>
                 <RecordLine />
                 <RecordLine />

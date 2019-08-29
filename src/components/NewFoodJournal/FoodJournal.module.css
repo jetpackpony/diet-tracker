@@ -21,18 +21,6 @@
 
 }
 
-.day h3 {
-  margin: 0;
-  font-weight: 500;
-  font-size: 1.1rem;
-}
-
-.day header {
-  margin: .5rem;
-  padding-bottom: .5rem;
-  border-bottom: 1px solid #cecece;
-}
-
 .lineGrid {
   display: grid;
   grid-gap: .3rem;
