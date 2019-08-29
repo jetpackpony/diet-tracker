@@ -1,29 +1,21 @@
-import React, { useState } from 'react';
-import foodJournalStyles from './FoodJournal.module.css';
-import selfStyles from './RecordLine.module.css';
+import React from 'react';
+import styles from './RecordLine.module.css';
+import useFoldableGrid from './useFoldableGrid';
 
 const RecordLine = () => {
-  const [unfolded, setUnfolded] = useState(false);
+  const {
+    unfoldButton,
+    containerClass,
+    titleClass,
+    statItemClass
+  } = useFoldableGrid();
   return (
-    <li className={[
-      unfolded ? foodJournalStyles.unfolded : "",
-      foodJournalStyles.lineGrid,
-      selfStyles.line
-    ].join(" ")}>
-      <div className={foodJournalStyles.title}>Cinnamon Rolls</div>
-      <button
-        className={foodJournalStyles.unfold}
-        onClick={() => { console.log("clicked"); setUnfolded(!unfolded);}}
-      >
-        {
-          unfolded
-            ? "fold"
-            : "unfold"
-        }
-      </button>
-      <div className={foodJournalStyles.statItem}>181 g.</div>
-      <div className={foodJournalStyles.statItem}>144 ccal</div>
-      <div className={foodJournalStyles.statItem}>176.9 / 123.4 / 666.6</div>
+    <li className={[ containerClass, styles.recordLine ].join(" ")}>
+      <div className={titleClass}>Cinnamon Rolls</div>
+      {unfoldButton}
+      <div className={statItemClass}>181 g.</div>
+      <div className={statItemClass}>144 ccal</div>
+      <div className={statItemClass}>176.9 / 123.4 / 666.6</div>
     </li>
   )
 };
