@@ -1,0 +1,85 @@
+.foodJournal ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.week {
+  margin-bottom: 2rem;
+}
+
+.week h2 {
+  margin: 0;
+  padding: .5rem;
+  background-color: #00739D;
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: white;
+}
+
+.day {
+
+}
+
+.day h3 {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.day header {
+  margin: .5rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid #cecece;
+}
+
+.lineGrid {
+  display: grid;
+  grid-gap: .3rem;
+}
+
+.lineGrid > .title {
+  grid-area: title;
+}
+
+/* Mobile */
+@media screen and (max-width: 40em) {
+  .lineGrid {
+    grid-template-columns: 1rem 1fr 3rem;
+    grid-template-rows: 1.5rem auto;
+    grid-template-areas:
+      "title title unfold"
+      ". stats .";
+  }
+  .lineGrid > .unfold {
+    grid-area: unfold;
+  }
+  .lineGrid > .statItem {
+    display: none;
+  }
+  .lineGrid.unfolded > .statItem {
+    grid-column-start: stats;
+    display: block;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 40em) {
+  .lineGrid {
+    grid-template-columns: 3fr 2fr 2fr 3fr;
+    grid-template-rows: 1.5rem;
+    grid-template-areas:
+      "title stats . .";
+  }
+  .lineGrid > .unfold {
+    display: none;
+  }
+  .lineGrid > .statItem {
+    display: block;
+    grid-column-start: auto;
+  }
+}
+
+.recordList > li {
+  margin: .5rem;
+}
