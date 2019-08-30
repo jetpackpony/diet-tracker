@@ -2,25 +2,56 @@ import React from 'react';
 import FoodJournal from './FoodJournal';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import { mapObjArray } from '../../utils';
 
 const DAILY_CALORIES_NORMAL = 2370;
 
-const prepareRecords = (weeks) => {
-  return weeks.map((week) => {
-    const days = week.days.map((day) => {
-      return {
-        ...day,
-        calDeficit: DAILY_CALORIES_NORMAL - day.totals.calories
-      };
-    });
-    const weekCalDeficit = days.reduce((res, day) => (res + day.calDeficit), 0);
+const roundField = (key, value) => {
+  switch(key) {
+    case "calories":
+    case "weight":
+    case "calDeficit":
+      return Math.round(value);
+    case "protein":
+    case "fat":
+    case "carbs":
+      return Math.round(value * 100) / 100;
+    default:
+      return value;
+  }
+};
+const roundEverything = (obj) => {
+  return mapObjArray(roundField, obj);
+};
 
-    return {
-      ...week,
-      days,
-      calDeficit: weekCalDeficit
-    }
-  });
+const prepareRecords = (weeks) => {
+  return roundEverything(
+    weeks.map((week) => {
+      const days = week.days.map((day) => {
+        const records = day.records.map((rec) => {
+          return {
+            ...rec,
+            calories: rec.foodItem.calories * rec.weight * 0.01,
+            protein: rec.foodItem.protein * rec.weight * 0.01,
+            fat: rec.foodItem.fat * rec.weight * 0.01,
+            carbs: rec.foodItem.carbs * rec.weight * 0.01,
+          };
+        });
+        return {
+          ...day,
+          records,
+          calDeficit: DAILY_CALORIES_NORMAL - day.totals.calories
+        };
+      });
+      const weekCalDeficit = days.reduce((res, day) => (res + day.calDeficit), 0);
+
+      return {
+        ...week,
+        days,
+        calDeficit: weekCalDeficit
+      }
+    })
+  );
 };
 
 const GET_WEEKLY_FEED = gql`
