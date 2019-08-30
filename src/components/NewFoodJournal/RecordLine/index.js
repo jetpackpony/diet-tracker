@@ -15,13 +15,17 @@ const RecordLine = ({
   carbs,
 }) => {
   const {
+    toggleFold,
     unfoldButton,
     containerClass,
     titleClass,
     statItemClass
   } = useFoldableGrid();
   return (
-    <li className={[ containerClass, styles.recordLine ].join(" ")}>
+    <li
+      className={[containerClass, styles.recordLine].join(" ")}
+      onClick={toggleFold}
+    >
       <div className={titleClass}>{title}</div>
       {unfoldButton}
       <div className={statItemClass}>{weight} g.</div>

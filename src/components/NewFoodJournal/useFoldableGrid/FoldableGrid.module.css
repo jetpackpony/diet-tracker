@@ -7,6 +7,13 @@
   grid-area: title;
 }
 
+.grid > .unfold {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
 /* Mobile */
 @media screen and (max-width: 40em) {
   .grid {
@@ -15,6 +22,7 @@
     grid-template-areas:
       "title title unfold"
       ". stats .";
+    cursor: pointer;
   }
   .grid > .unfold {
     grid-area: unfold;

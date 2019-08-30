@@ -16,13 +16,17 @@ const DayHeader = ({
   calDeficit
 }) => {
   const {
+    toggleFold,
     unfoldButton,
     containerClass,
     titleClass,
     statItemClass
   } = useFoldableGrid();
   return (
-    <header className={[ containerClass, styles.dayHeader ].join(" ")}>
+    <header
+      className={[containerClass, styles.dayHeader].join(" ")}
+      onClick={toggleFold}
+    >
       <h3 className={titleClass}>{getDateString(dayStart)}</h3>
       {unfoldButton}
       <div className={statItemClass}>{calDeficit} left</div>
