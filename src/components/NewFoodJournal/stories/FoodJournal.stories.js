@@ -61,3 +61,17 @@ storiesOf('FoodJournal/Record Line', module)
       carbs={1.23}
     />
   ))
+  .add('long names', () => (
+    <RecordLine
+      id="5d66808e0a59eb06549e0fe3"
+      foodItem={{
+        "id": "5d66808e0a59eb06549e0fe2",
+        "title": "This is a long food item name probably shouldn't be this long in real life",
+      }}
+      weight={9999}
+      calories={9999}
+      protein={999.99}
+      fat={999.99}
+      carbs={999.99}
+    />
+  ))
