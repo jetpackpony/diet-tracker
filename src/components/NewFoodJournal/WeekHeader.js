@@ -1,12 +1,19 @@
 import React from 'react';
 import styles from './WeekHeader.module.css';
+import moment from 'moment';
 
-const WeekHeader = () => {
+const getDateString = (isoString) => moment(isoString).format("D MMMM");
+
+const WeekHeader = ({
+  weekStart,
+  weekEnd,
+  calDeficit,
+}) => {
   console.log(styles);
   return (
     <header className={styles.weekHeader}>
-      <h2>Week 26 Aug - 26 Sep</h2>
-      <div>3456 left</div>
+      <h2>{getDateString(weekStart)} - {getDateString(weekEnd)}</h2>
+      <div>{calDeficit} left</div>
     </header>
   )
 };

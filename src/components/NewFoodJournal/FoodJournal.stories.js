@@ -24,7 +24,9 @@ storiesOf('FoodJournal', module)
 storiesOf('FoodJournal/Week Header', module)
   .add('default', () => (
     <WeekHeader
-
+      weekStart="2019-08-26T00:00:00.000Z"
+      weekEnd="2019-09-02T00:00:00.000Z"
+      calDeficit={4723}
     />
   ))
 
