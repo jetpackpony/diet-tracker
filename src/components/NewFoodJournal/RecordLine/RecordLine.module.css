@@ -5,3 +5,23 @@
 .recordLine:nth-child(even) {
   background-color: #f5f5f5;
 }
+
+/* Mobile */
+@media screen and (width < 40em) {
+  .deleteDesktop {
+    display: none;
+  }
+}
+
+/* Desktop */
+@media screen and (width >= 40em) {
+  .delete {
+    display: none !important;
+  }
+  .delete > span {
+    display: none;
+  }
+  .recordLine:hover .delete {
+    display: block !important;
+  }
+}

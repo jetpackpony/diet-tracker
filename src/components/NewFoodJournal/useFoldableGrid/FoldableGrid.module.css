@@ -15,7 +15,7 @@
 }
 
 /* Mobile */
-@media screen and (max-width: 40em) {
+@media screen and (width < 40em) {
   .grid {
     grid-template-columns: 1rem 1fr 3rem;
     grid-template-rows: 1.5rem auto;
@@ -37,9 +37,9 @@
 }
 
 /* Desktop */
-@media screen and (min-width: 40em) {
+@media screen and (width >= 40em) {
   .grid {
-    grid-template-columns: 3fr 2fr 2fr 3fr;
+    grid-template-columns: 3fr 2fr 2fr 3fr 1fr;
     grid-template-rows: 1.5rem;
     grid-template-areas:
       "title stats . .";
