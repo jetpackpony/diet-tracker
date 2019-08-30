@@ -1,13 +1,16 @@
 import React from 'react';
+import moment from 'moment';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+import { changeAllDatesToDate } from './utils';
 
 import FoodJournal from '../FoodJournal';
 import DayHeader from '../DayHeader';
 import RecordLine from '../RecordLine';
 import WeekHeader from '../WeekHeader';
 import testData from './testData';
+import DaysList from '../DaysList';
 
 storiesOf('FoodJournal', module)
   .add('with all items', () => (
@@ -21,6 +24,18 @@ storiesOf('FoodJournal', module)
   ))
   .add('with 0 items for this week', () => (
     <div>To be implemented</div>
+  ))
+
+storiesOf('FoodJournal/Days list', module)
+  .add('default', () => (
+    <DaysList
+      days={[
+        changeAllDatesToDate(moment().add(2, 'day'), testData[1].days[2]),
+        changeAllDatesToDate(moment().add(1, 'day'), testData[1].days[1]),
+        changeAllDatesToDate(moment(), testData[1].days[0]),
+        ...testData[0].days
+      ]}
+    />
   ))
 
 storiesOf('FoodJournal/Week Header', module)

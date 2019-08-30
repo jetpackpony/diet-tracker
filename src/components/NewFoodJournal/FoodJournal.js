@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from './FoodJournal.module.css';
-import RecordLine from './RecordLine';
-import DayHeader from './DayHeader';
 import WeekHeader from './WeekHeader';
+import DaysList from './DaysList';
 
 const FoodJournal = ({ weeks, fetchMoreRecords }) => {
   return (
@@ -16,26 +15,7 @@ const FoodJournal = ({ weeks, fetchMoreRecords }) => {
                 weekEnd={week.weekEnd}
                 calDeficit={week.calDeficit}
               />
-              <ol>
-                {
-                  week.days.map((day, j) => (
-                    <li key={j} className={styles.day}>
-                      <DayHeader
-                        dayStart={day.dayStart}
-                        totals={day.totals}
-                        calDeficit={day.calDeficit}
-                      />
-                      <ol className={styles.recordList}>
-                        {
-                          day.records.map((rec) => (
-                            <RecordLine key={rec.id} {...rec} />
-                          ))
-                        }
-                      </ol>
-                    </li>
-                  ))
-                }
-              </ol>
+              <DaysList days={week.days} />
             </li>
           ))
         }
