@@ -2,7 +2,18 @@ import React from 'react';
 import styles from './RecordLine.module.css';
 import useFoldableGrid from './useFoldableGrid';
 
-const RecordLine = () => {
+const RecordLine = ({
+  id,
+  foodItem: {
+    id: foodItemId,
+    title
+  },
+  weight,
+  calories,
+  protein,
+  fat,
+  carbs,
+}) => {
   const {
     unfoldButton,
     containerClass,
@@ -11,11 +22,11 @@ const RecordLine = () => {
   } = useFoldableGrid();
   return (
     <li className={[ containerClass, styles.recordLine ].join(" ")}>
-      <div className={titleClass}>Cinnamon Rolls</div>
+      <div className={titleClass}>{title}</div>
       {unfoldButton}
-      <div className={statItemClass}>181 g.</div>
-      <div className={statItemClass}>144 ccal</div>
-      <div className={statItemClass}>176.9 / 123.4 / 666.6</div>
+      <div className={statItemClass}>{weight} g.</div>
+      <div className={statItemClass}>{calories} ccal</div>
+      <div className={statItemClass}>{protein} / {fat} / {carbs}</div>
     </li>
   )
 };
