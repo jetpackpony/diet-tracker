@@ -1,8 +1,20 @@
 import React from 'react';
 import styles from './DayHeader.module.css';
 import useFoldableGrid from './useFoldableGrid';
+import moment from 'moment';
 
-const DayHeader = () => {
+const getDateString = (isoString) => moment(isoString).format("D MMMM");
+
+const DayHeader = ({
+  dayStart,
+  totals: {
+    calories,
+    protein,
+    fat,
+    carbs,
+  },
+  calDeficit
+}) => {
   const {
     unfoldButton,
     containerClass,
@@ -11,11 +23,11 @@ const DayHeader = () => {
   } = useFoldableGrid();
   return (
     <header className={[ containerClass, styles.dayHeader ].join(" ")}>
-      <h3 className={titleClass}>28 Aug</h3>
+      <h3 className={titleClass}>{getDateString(dayStart)}</h3>
       {unfoldButton}
-      <div className={statItemClass}>2348 left</div>
-      <div className={statItemClass}>3478 ccal</div>
-      <div className={statItemClass}>176.9 / 123.4 / 666.6</div>
+      <div className={statItemClass}>{calDeficit} left</div>
+      <div className={statItemClass}>{calories} ccal</div>
+      <div className={statItemClass}>{protein} / {fat} / {carbs}</div>
     </header>
   )
 };

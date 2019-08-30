@@ -33,7 +33,14 @@ storiesOf('FoodJournal/Week Header', module)
 storiesOf('FoodJournal/Day Header', module)
   .add('default', () => (
     <DayHeader
-
+      dayStart="2019-08-28T00:00:00.000Z"
+      totals={{
+        "calories": 14,
+        "protein": 1.23,
+        "fat": 1.23,
+        "carbs": 1.23,
+      }}
+      calDeficit={2356}
     />
   ))
 
