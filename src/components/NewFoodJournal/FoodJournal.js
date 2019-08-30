@@ -1,81 +1,46 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './FoodJournal.module.css';
 import RecordLine from './RecordLine';
 import DayHeader from './DayHeader';
 import WeekHeader from './WeekHeader';
 
-const FoodJournal = () => {
-  const [unfolded, setUnfolded] = useState(false);
-  console.log(styles);
+const FoodJournal = ({ weeks, fetchMoreRecords }) => {
   return (
     <section className={styles.foodJournal}>
       <ol>
-        <li className={styles.week}>
-          <WeekHeader />
-          <ol>
-            <li className={styles.day}>
-              <DayHeader />
-              <ol className={styles.recordList}>
-                <RecordLine />
-                <RecordLine />
-                <RecordLine />
-                <RecordLine />
-              </ol>
-            </li>
-            <li className={styles.day}>
-              <header>
-                <h3>27 Aug</h3>
-                <button>unfold</button>
-                <div>2348 left</div>
-                <div>3478 ccal</div>
-                <div>176.9 / 123.4 / 666.6</div>
-              </header>
+        {
+          weeks.map((week, i) => (
+            <li key={i} className={styles.week}>
+              <WeekHeader
+                weekStart={week.weekStart}
+                weekEnd={week.weekEnd}
+                calDeficit={week.calDeficit}
+              />
               <ol>
-                <RecordLine />
-                <RecordLine />
-                <RecordLine />
-                <RecordLine />
+                {
+                  week.days.map((day, j) => (
+                    <li key={j} className={styles.day}>
+                      <DayHeader
+                        dayStart={day.dayStart}
+                        totals={day.totals}
+                        calDeficit={day.calDeficit}
+                      />
+                      <ol className={styles.recordList}>
+                        {
+                          day.records.map((rec) => (
+                            <RecordLine key={rec.id} {...rec} />
+                          ))
+                        }
+                      </ol>
+                    </li>
+                  ))
+                }
               </ol>
             </li>
-          </ol>
-        </li>
-        <li className={styles.week}>
-          <h2>Week 19 Aug - 26 Aug</h2>
-          <ol>
-            <li className={styles.day}>
-              <header>
-                <h3>21 Aug</h3>
-                <button>unfold</button>
-                <div>2348 left</div>
-                <div>3478 ccal</div>
-                <div>176.9 / 123.4 / 666.6</div>
-              </header>
-              <ol>
-                <RecordLine />
-                <RecordLine />
-                <RecordLine />
-                <RecordLine />
-              </ol>
-            </li>
-            <li className={styles.day}>
-              <header>
-                <h3>20 Aug</h3>
-                <button>unfold</button>
-                <div>2348 left</div>
-                <div>3478 ccal</div>
-                <div>176.9 / 123.4 / 666.6</div>
-              </header>
-              <ol>
-                <RecordLine />
-                <RecordLine />
-                <RecordLine />
-                <RecordLine />
-              </ol>
-            </li>
-          </ol>
-        </li>
+          ))
+        }
       </ol>
-      <button>Load More</button>
+      <button onClick={fetchMoreRecords}>Load More</button>
     </section>
   )
 };

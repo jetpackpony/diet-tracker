@@ -7,11 +7,13 @@ import FoodJournal from './FoodJournal';
 import DayHeader from './DayHeader';
 import RecordLine from './RecordLine';
 import WeekHeader from './WeekHeader';
+import testData from './testData';
 
 storiesOf('FoodJournal', module)
   .add('with all items', () => (
     <FoodJournal
-
+      weeks={testData}
+      fetchMoreRecords={action("fetchMoreRecords")}
     />
   ))
   .add('with 0 items for today', () => (
