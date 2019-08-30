@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './RecordLine.module.css';
-import useFoldableGrid from './useFoldableGrid';
+import useFoldableGrid from '../useFoldableGrid';
 
 const RecordLine = ({
   id,

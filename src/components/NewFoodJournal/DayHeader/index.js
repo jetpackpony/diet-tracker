@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './DayHeader.module.css';
-import useFoldableGrid from './useFoldableGrid';
+import useFoldableGrid from '../useFoldableGrid';
 import moment from 'moment';
 
 const getDateString = (isoString) => moment(isoString).format("D MMMM");

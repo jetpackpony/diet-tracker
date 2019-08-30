@@ -3,10 +3,10 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import FoodJournal from './FoodJournal';
-import DayHeader from './DayHeader';
-import RecordLine from './RecordLine';
-import WeekHeader from './WeekHeader';
+import FoodJournal from '../FoodJournal';
+import DayHeader from '../DayHeader';
+import RecordLine from '../RecordLine';
+import WeekHeader from '../WeekHeader';
 import testData from './testData';
 
 storiesOf('FoodJournal', module)
