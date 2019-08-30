@@ -90,3 +90,43 @@ storiesOf('FoodJournal/Record Line', module)
       carbs={999.99}
     />
   ))
+  .add('multiple', () => (
+    <ol style={{ listStyle: "none", margin: 0, padding: 0}}>
+      <RecordLine
+        id="5d66808e0a59eb06549e0fe3"
+        foodItem={{
+          "id": "5d66808e0a59eb06549e0fe2",
+          "title": "New Testeme",
+        }}
+        weight={123}
+        calories={14}
+        protein={1.23}
+        fat={1.23}
+        carbs={1.23}
+      />
+      <RecordLine
+        id="5d66808e0a59eb06549e0fe3"
+        foodItem={{
+          "id": "5d66808e0a59eb06549e0fe2",
+          "title": "New Testeme",
+        }}
+        weight={123}
+        calories={14}
+        protein={1.23}
+        fat={1.23}
+        carbs={1.23}
+      />
+      <RecordLine
+        id="5d66808e0a59eb06549e0fe3"
+        foodItem={{
+          "id": "5d66808e0a59eb06549e0fe2",
+          "title": "New Testeme",
+        }}
+        weight={123}
+        calories={14}
+        protein={1.23}
+        fat={1.23}
+        carbs={1.23}
+      />
+    </ol>
+  ))
