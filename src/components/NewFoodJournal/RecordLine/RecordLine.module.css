@@ -6,6 +6,11 @@
   background-color: #f5f5f5;
 }
 
+.delete {
+  justify-self: start;
+  align-self: baseline;
+}
+
 /* Mobile */
 @media screen and (width < 40em) {
   .deleteDesktop {
