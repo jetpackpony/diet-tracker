@@ -18,6 +18,8 @@ storiesOf('FoodJournal', module)
     <FoodJournal
       weeks={testData}
       fetchMoreRecords={action("fetchMoreRecords")}
+      updateRecord={action("updateRecord")}
+      deleteRecord={action("deleteRecord")}
     />
   ))
   .add('with 0 items for today', () => (
@@ -36,6 +38,8 @@ storiesOf('FoodJournal/Days list', module)
         changeAllDatesToDate(moment(), testData[1].days[0]),
         ...testData[0].days
       ]}
+      updateRecord={action("updateRecord")}
+      deleteRecord={action("deleteRecord")}
     />
   ))
 
@@ -75,7 +79,7 @@ storiesOf('FoodJournal/Record Line', module)
       protein={1.23}
       fat={1.23}
       carbs={1.23}
-      updateWeight={action("updateWeight")}
+      updateRecord={action("updateRecord")}
       deleteRecord={action("deleteRecord")}
     />
   ))
@@ -91,7 +95,7 @@ storiesOf('FoodJournal/Record Line', module)
       protein={999.99}
       fat={999.99}
       carbs={999.99}
-      updateWeight={action("updateWeight")}
+      updateRecord={action("updateRecord")}
       deleteRecord={action("deleteRecord")}
     />
   ))
@@ -108,7 +112,7 @@ storiesOf('FoodJournal/Record Line', module)
         protein={1.23}
         fat={1.23}
         carbs={1.23}
-        updateWeight={action("updateWeight")}
+        updateRecord={action("updateRecord")}
         deleteRecord={action("deleteRecord")}
       />
       <RecordLine
@@ -122,7 +126,7 @@ storiesOf('FoodJournal/Record Line', module)
         protein={1.23}
         fat={1.23}
         carbs={1.23}
-        updateWeight={action("updateWeight")}
+        updateRecord={action("updateRecord")}
         deleteRecord={action("deleteRecord")}
       />
       <RecordLine
@@ -136,7 +140,7 @@ storiesOf('FoodJournal/Record Line', module)
         protein={1.23}
         fat={1.23}
         carbs={1.23}
-        updateWeight={action("updateWeight")}
+        updateRecord={action("updateRecord")}
         deleteRecord={action("deleteRecord")}
       />
     </ol>
@@ -146,6 +150,6 @@ storiesOf('FoodJournal/Record Line/Edit Field', module)
   .add('default', () => (
     <EditField
       weight={123}
-      onUpdate={(...args) => console.log("Udating", args)}
+      onUpdate={action("onUpdate")}
     />
   ))

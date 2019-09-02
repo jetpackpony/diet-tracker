@@ -16,7 +16,7 @@ const RecordLine = ({
   protein,
   fat,
   carbs,
-  updateWeight,
+  updateRecord,
   deleteRecord
 }) => {
   const {
@@ -42,7 +42,7 @@ const RecordLine = ({
                 weight={weight}
                 onUpdate={({ weight }) => {
                   setEditing(false);
-                  updateWeight({ id, weight });
+                  updateRecord({ id, weight });
                 }}
               />
             )

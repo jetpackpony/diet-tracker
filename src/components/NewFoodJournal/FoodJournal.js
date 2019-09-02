@@ -4,7 +4,12 @@ import WeekHeader from './WeekHeader';
 import DaysList from './DaysList';
 import Button from '../Button';
 
-const FoodJournal = ({ weeks, fetchMoreRecords }) => {
+const FoodJournal = ({
+  weeks,
+  fetchMoreRecords,
+  updateRecord,
+  deleteRecord
+}) => {
   return (
     <section className={styles.foodJournal}>
       <ol>
@@ -16,7 +21,11 @@ const FoodJournal = ({ weeks, fetchMoreRecords }) => {
                 weekEnd={week.weekEnd}
                 calDeficit={week.calDeficit}
               />
-              <DaysList days={week.days} />
+              <DaysList
+                days={week.days}
+                updateRecord={updateRecord}
+                deleteRecord={deleteRecord}
+              />
             </li>
           ))
         }
