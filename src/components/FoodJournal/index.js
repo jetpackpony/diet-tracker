@@ -1,6 +1,6 @@
 import React from 'react';
 import FoodJournal from './FoodJournal';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { mapObjArray } from '../../utils';
 
@@ -93,7 +93,38 @@ const GET_WEEKLY_FEED = gql`
   }
 `;
 
+const UPDATE_RECORD = gql`
+  mutation UpdateRecord(
+    $id: ID!
+    $weight: Int!
+  ) {
+    updateRecord(
+      id: $id
+      weight: $weight
+    ) {
+      id
+      weight
+    }
+  }
+`;
+const DELETE_RECORD = gql`
+  mutation DeleteRecord($id: ID!) {
+    deleteRecord(id: $id)
+  }
+`;
+
 const FoodJournalContainer = ({...props}) => {
+  const [ updateRecordMut ] = useMutation(UPDATE_RECORD);
+  const [ deleteRecordMut ] = useMutation(DELETE_RECORD);
+  const updateRecord = ({ id, weight }) => {
+    console.log("Updating record: ", {id, weight});
+    updateRecordMut({ variables: { id, weight }});
+  };
+  const deleteRecord = (id) => {
+    console.log("Deleting record: ", id);
+    deleteRecordMut({ variables: { id }});
+  };
+
   const { loading, error, data, fetchMore } = useQuery(GET_WEEKLY_FEED, {
     variables: { cursor: "" }
   });
@@ -129,6 +160,8 @@ const FoodJournalContainer = ({...props}) => {
       {...props}
       weeks={prepareRecords(weeks)}
       fetchMoreRecords={fetchMoreRecords}
+      updateRecord={updateRecord}
+      deleteRecord={deleteRecord}
     />
   );
 };
