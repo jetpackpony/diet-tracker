@@ -1,0 +1,13 @@
+.weekHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: .5rem;
+  align-items: flex-end;
+  background-color: #00739D;
+  color: white;
+}
+.weekHeader h2 {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.1rem;
+}

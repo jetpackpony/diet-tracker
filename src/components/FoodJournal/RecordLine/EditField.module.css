@@ -1,0 +1,14 @@
+.save {
+  display: inline;
+}
+
+.editingInput {
+  width: 3rem;
+}
+
+/* Desktop */
+@media screen and (width >= 40em) {
+  .save > span {
+    display: none;
+  }
+}

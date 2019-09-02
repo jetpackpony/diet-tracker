@@ -1,32 +1,15 @@
-.container {
-}
-
-.dayLog {
-  margin: 10px;
-}
-
-.weekLog {
-  margin: 10px;
-}
-
-.row {
+.foodJournal {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: flex-end;
-  width: 100%;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
 }
 
-.row > span:nth-child(1) {
-  flex-basis: 30%;
-}
-
-.row > span {
-  flex-basis: 14%;
-}
-
-.list {
-  margin: 0;
+.foodJournal ol {
+  list-style: none;
   padding: 0;
+  margin: 0;
+}
+
+.loadMore {
+  align-self: center;
 }

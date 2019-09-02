@@ -1,0 +1,29 @@
+.recordLine {
+  padding: .5rem;
+}
+
+.recordLine:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.actionButton {
+  justify-self: start;
+  align-self: baseline;
+}
+
+.edit {
+  display: inline;
+}
+
+/* Desktop */
+@media screen and (width >= 40em) {
+  .actionButton {
+    display: none !important;
+  }
+  .actionButton > span {
+    display: none;
+  }
+  .recordLine:hover .actionButton {
+    display: initial !important;
+  }
+}

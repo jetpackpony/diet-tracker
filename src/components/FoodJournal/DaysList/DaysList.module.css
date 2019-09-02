@@ -1,0 +1,13 @@
+ol.list, .list ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.day {
+  margin-bottom: 1.5rem;
+}
+
+.current {
+  background-color: #eeffdd;
+}

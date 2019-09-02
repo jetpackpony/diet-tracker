@@ -1,0 +1,448 @@
+[
+  {
+    "weekStart": "2019-08-26T00:00:00.000Z",
+    "weekEnd": "2019-09-02T00:00:00.000Z",
+    "totals": {
+      "calories": 17,
+      "__typename": "Totals"
+    },
+    "days": [
+      {
+        "dayStart": "2019-08-28T00:00:00.000Z",
+        "dayEnd": "2019-08-29T00:00:00.000Z",
+        "totals": {
+          "calories": 14,
+          "protein": 1.23,
+          "fat": 1.23,
+          "carbs": 1.23,
+          "__typename": "Totals"
+        },
+        "records": [
+          {
+            "id": "5d66808e0a59eb06549e0fe3",
+            "foodItem": {
+              "id": "5d66808e0a59eb06549e0fe2",
+              "title": "New Testeme",
+              "calories": 11,
+              "protein": 1,
+              "fat": 1,
+              "carbs": 1,
+              "__typename": "FoodItem"
+            },
+            "weight": 123,
+            "eatenAt": "2019-08-28T13:24:00.000Z",
+            "createdAt": "2019-08-28T13:24:30.157Z",
+            "__typename": "Record",
+            "calories": 14,
+            "protein": 1.23,
+            "fat": 1.23,
+            "carbs": 1.23
+          }
+        ],
+        "__typename": "DayRecords",
+        "calDeficit": 2356
+      },
+      {
+        "dayStart": "2019-08-26T00:00:00.000Z",
+        "dayEnd": "2019-08-27T00:00:00.000Z",
+        "totals": {
+          "calories": 4,
+          "protein": 357.18,
+          "fat": 6.04,
+          "carbs": 4.83,
+          "__typename": "Totals"
+        },
+        "records": [
+          {
+            "id": "5d63b6e22ebe110072e9bbf3",
+            "foodItem": {
+              "id": "5d63b6e22ebe110072e9bbf2",
+              "title": "Testme",
+              "calories": 12,
+              "protein": 12,
+              "fat": 21,
+              "carbs": 21,
+              "__typename": "FoodItem"
+            },
+            "weight": 12,
+            "eatenAt": "2019-08-26T10:39:00.000Z",
+            "createdAt": "2019-08-26T10:39:30.071Z",
+            "__typename": "Record",
+            "calories": 1,
+            "protein": 1.44,
+            "fat": 2.52,
+            "carbs": 2.52
+          },
+          {
+            "id": "5d63b5cf2ebe110072e9bbef",
+            "foodItem": {
+              "id": "5d63b5cf2ebe110072e9bbee",
+              "title": "dfdf",
+              "calories": 22,
+              "protein": 3234,
+              "fat": 32,
+              "carbs": 21,
+              "__typename": "FoodItem"
+            },
+            "weight": 11,
+            "eatenAt": "2019-08-26T10:34:55.546Z",
+            "createdAt": "2019-08-26T10:34:55.546Z",
+            "__typename": "Record",
+            "calories": 2,
+            "protein": 355.74,
+            "fat": 3.52,
+            "carbs": 2.31
+          }
+        ],
+        "__typename": "DayRecords",
+        "calDeficit": 2366
+      }
+    ],
+    "__typename": "WeekRecords",
+    "calDeficit": 4723
+  },
+  {
+    "weekStart": "2019-08-19T00:00:00.000Z",
+    "weekEnd": "2019-08-26T00:00:00.000Z",
+    "totals": {
+      "calories": 4217,
+      "__typename": "Totals"
+    },
+    "days": [
+      {
+        "dayStart": "2019-08-23T00:00:00.000Z",
+        "dayEnd": "2019-08-24T00:00:00.000Z",
+        "totals": {
+          "calories": 15,
+          "protein": 12.44,
+          "fat": 12.44,
+          "carbs": 12.44,
+          "__typename": "Totals"
+        },
+        "records": [
+          {
+            "id": "5d5fd0ef659aa300285dba19",
+            "foodItem": {
+              "id": "5d5fd0ef659aa300285dba18",
+              "title": "Testme",
+              "calories": 23,
+              "protein": 1,
+              "fat": 1,
+              "carbs": 1,
+              "__typename": "FoodItem"
+            },
+            "weight": 11,
+            "eatenAt": "2019-08-23T11:41:00.000Z",
+            "createdAt": "2019-08-23T11:41:35.532Z",
+            "__typename": "Record",
+            "calories": 3,
+            "protein": 0.11,
+            "fat": 0.11,
+            "carbs": 0.11
+          },
+          {
+            "id": "5d5fc6a2659aa300285dba17",
+            "foodItem": {
+              "id": "5d5fc6a2659aa300285dba16",
+              "title": "Testme Food",
+              "calories": 1,
+              "protein": 1,
+              "fat": 1,
+              "carbs": 1,
+              "__typename": "FoodItem"
+            },
+            "weight": 12,
+            "eatenAt": "2019-08-23T10:56:00.000Z",
+            "createdAt": "2019-08-23T10:57:38.943Z",
+            "__typename": "Record",
+            "calories": 0,
+            "protein": 0.12,
+            "fat": 0.12,
+            "carbs": 0.12
+          },
+          {
+            "id": "5d5e779b0b3d620028d70df8",
+            "foodItem": {
+              "id": "5d5e62810b3d620028d70de8",
+              "title": "Food 1",
+              "calories": 11,
+              "protein": 11,
+              "fat": 11,
+              "carbs": 11,
+              "__typename": "FoodItem"
+            },
+            "weight": 111,
+            "eatenAt": "2019-08-23T08:00:00.000Z",
+            "createdAt": "2019-08-22T11:08:11.513Z",
+            "__typename": "Record",
+            "calories": 12,
+            "protein": 12.21,
+            "fat": 12.21,
+            "carbs": 12.21
+          }
+        ],
+        "__typename": "DayRecords",
+        "calDeficit": 2355
+      },
+      {
+        "dayStart": "2019-08-22T00:00:00.000Z",
+        "dayEnd": "2019-08-23T00:00:00.000Z",
+        "totals": {
+          "calories": 644,
+          "protein": 82.29,
+          "fat": 76.67,
+          "carbs": 323.95,
+          "__typename": "Totals"
+        },
+        "records": [
+          {
+            "id": "5d5e767b0b3d620028d70df6",
+            "foodItem": {
+              "id": "5d5e766e0b3d620028d70df4",
+              "title": "Cinnamon Rolls",
+              "calories": 112,
+              "protein": 12,
+              "fat": 11,
+              "carbs": 55,
+              "__typename": "FoodItem"
+            },
+            "weight": 332,
+            "eatenAt": "2019-08-22T11:03:00.000Z",
+            "createdAt": "2019-08-22T11:03:23.799Z",
+            "__typename": "Record",
+            "calories": 372,
+            "protein": 39.84,
+            "fat": 36.52,
+            "carbs": 182.6
+          },
+          {
+            "id": "5d5e766e0b3d620028d70df5",
+            "foodItem": {
+              "id": "5d5e766e0b3d620028d70df4",
+              "title": "Cinnamon Rolls",
+              "calories": 112,
+              "protein": 12,
+              "fat": 11,
+              "carbs": 55,
+              "__typename": "FoodItem"
+            },
+            "weight": 230,
+            "eatenAt": "2019-08-22T11:02:00.000Z",
+            "createdAt": "2019-08-22T11:03:10.132Z",
+            "__typename": "Record",
+            "calories": 258,
+            "protein": 27.6,
+            "fat": 25.3,
+            "carbs": 126.5
+          },
+          {
+            "id": "5d5e739c0b3d620028d70df3",
+            "foodItem": {
+              "id": "5d5e633b0b3d620028d70deb",
+              "title": "Food 2",
+              "calories": 5,
+              "protein": 5,
+              "fat": 5,
+              "carbs": 5,
+              "__typename": "FoodItem"
+            },
+            "weight": 22,
+            "eatenAt": "2019-08-22T10:50:00.000Z",
+            "createdAt": "2019-08-22T10:51:08.778Z",
+            "__typename": "Record",
+            "calories": 1,
+            "protein": 1.1,
+            "fat": 1.1,
+            "carbs": 1.1
+          },
+          {
+            "id": "5d5e6aca0b3d620028d70df2",
+            "foodItem": {
+              "id": "5d5e633b0b3d620028d70deb",
+              "title": "Food 2",
+              "calories": 5,
+              "protein": 5,
+              "fat": 5,
+              "carbs": 5,
+              "__typename": "FoodItem"
+            },
+            "weight": 55,
+            "eatenAt": "2019-08-22T10:13:00.000Z",
+            "createdAt": "2019-08-22T10:13:30.379Z",
+            "__typename": "Record",
+            "calories": 3,
+            "protein": 2.75,
+            "fat": 2.75,
+            "carbs": 2.75
+          },
+          {
+            "id": "5d5e6abd0b3d620028d70df1",
+            "foodItem": {
+              "id": "5d5e6aa60b3d620028d70def",
+              "title": "Food 3",
+              "calories": 6,
+              "protein": 6,
+              "fat": 6,
+              "carbs": 6,
+              "__typename": "FoodItem"
+            },
+            "weight": 22,
+            "eatenAt": "2019-08-22T10:13:00.000Z",
+            "createdAt": "2019-08-22T10:13:17.103Z",
+            "__typename": "Record",
+            "calories": 1,
+            "protein": 1.32,
+            "fat": 1.32,
+            "carbs": 1.32
+          },
+          {
+            "id": "5d5e63450b3d620028d70ded",
+            "foodItem": {
+              "id": "5d5e62810b3d620028d70de8",
+              "title": "Food 1",
+              "calories": 11,
+              "protein": 11,
+              "fat": 11,
+              "carbs": 11,
+              "__typename": "FoodItem"
+            },
+            "weight": 55,
+            "eatenAt": "2019-08-22T09:41:00.000Z",
+            "createdAt": "2019-08-22T09:41:22.982Z",
+            "__typename": "Record",
+            "calories": 6,
+            "protein": 6.05,
+            "fat": 6.05,
+            "carbs": 6.05
+          },
+          {
+            "id": "5d5e630b0b3d620028d70dea",
+            "foodItem": {
+              "id": "5d5e62810b3d620028d70de8",
+              "title": "Food 1",
+              "calories": 11,
+              "protein": 11,
+              "fat": 11,
+              "carbs": 11,
+              "__typename": "FoodItem"
+            },
+            "weight": 22,
+            "eatenAt": "2019-08-22T09:39:00.000Z",
+            "createdAt": "2019-08-22T09:39:50.110Z",
+            "__typename": "Record",
+            "calories": 2,
+            "protein": 2.42,
+            "fat": 2.42,
+            "carbs": 2.42
+          },
+          {
+            "id": "5d5e62810b3d620028d70de9",
+            "foodItem": {
+              "id": "5d5e62810b3d620028d70de8",
+              "title": "Food 1",
+              "calories": 11,
+              "protein": 11,
+              "fat": 11,
+              "carbs": 11,
+              "__typename": "FoodItem"
+            },
+            "weight": 11,
+            "eatenAt": "2019-08-22T09:37:00.000Z",
+            "createdAt": "2019-08-22T09:38:09.680Z",
+            "__typename": "Record",
+            "calories": 1,
+            "protein": 1.21,
+            "fat": 1.21,
+            "carbs": 1.21
+          }
+        ],
+        "__typename": "DayRecords",
+        "calDeficit": 1726
+      },
+      {
+        "dayStart": "2019-08-19T00:00:00.000Z",
+        "dayEnd": "2019-08-20T00:00:00.000Z",
+        "totals": {
+          "calories": 3558,
+          "protein": 35.53,
+          "fat": 3.52,
+          "carbs": 0.22,
+          "__typename": "Totals"
+        },
+        "records": [
+          {
+            "id": "5d63b61a2ebe110072e9bbf1",
+            "foodItem": {
+              "id": "5d63b61a2ebe110072e9bbf0",
+              "title": "Rrra",
+              "calories": 32342,
+              "protein": 323,
+              "fat": 32,
+              "carbs": 2,
+              "__typename": "FoodItem"
+            },
+            "weight": 11,
+            "eatenAt": "2019-08-19T10:36:00.000Z",
+            "createdAt": "2019-08-26T10:36:10.876Z",
+            "__typename": "Record",
+            "calories": 3558,
+            "protein": 35.53,
+            "fat": 3.52,
+            "carbs": 0.22
+          }
+        ],
+        "__typename": "DayRecords",
+        "calDeficit": -1188
+      }
+    ],
+    "__typename": "WeekRecords",
+    "calDeficit": 2893
+  },
+  {
+    "weekStart": "2019-08-12T00:00:00.000Z",
+    "weekEnd": "2019-08-19T00:00:00.000Z",
+    "totals": {
+      "calories": 250,
+      "__typename": "Totals"
+    },
+    "days": [
+      {
+        "dayStart": "2019-08-14T00:00:00.000Z",
+        "dayEnd": "2019-08-15T00:00:00.000Z",
+        "totals": {
+          "calories": 250,
+          "protein": 26.76,
+          "fat": 24.53,
+          "carbs": 122.65,
+          "__typename": "Totals"
+        },
+        "records": [
+          {
+            "id": "5d5e776d0b3d620028d70df7",
+            "foodItem": {
+              "id": "5d5e766e0b3d620028d70df4",
+              "title": "Cinnamon Rolls",
+              "calories": 112,
+              "protein": 12,
+              "fat": 11,
+              "carbs": 55,
+              "__typename": "FoodItem"
+            },
+            "weight": 223,
+            "eatenAt": "2019-08-14T19:22:00.000Z",
+            "createdAt": "2019-08-22T11:07:25.965Z",
+            "__typename": "Record",
+            "calories": 250,
+            "protein": 26.76,
+            "fat": 24.53,
+            "carbs": 122.65
+          }
+        ],
+        "__typename": "DayRecords",
+        "calDeficit": 2120
+      }
+    ],
+    "__typename": "WeekRecords",
+    "calDeficit": 2120
+  }
+]
