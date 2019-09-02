@@ -11,6 +11,7 @@ import RecordLine from '../RecordLine';
 import WeekHeader from '../WeekHeader';
 import testData from './testData';
 import DaysList from '../DaysList';
+import EditField from '../RecordLine/EditField';
 
 storiesOf('FoodJournal', module)
   .add('with all items', () => (
@@ -74,6 +75,8 @@ storiesOf('FoodJournal/Record Line', module)
       protein={1.23}
       fat={1.23}
       carbs={1.23}
+      updateWeight={action("updateWeight")}
+      deleteRecord={action("deleteRecord")}
     />
   ))
   .add('long names', () => (
@@ -88,6 +91,8 @@ storiesOf('FoodJournal/Record Line', module)
       protein={999.99}
       fat={999.99}
       carbs={999.99}
+      updateWeight={action("updateWeight")}
+      deleteRecord={action("deleteRecord")}
     />
   ))
   .add('multiple', () => (
@@ -103,6 +108,8 @@ storiesOf('FoodJournal/Record Line', module)
         protein={1.23}
         fat={1.23}
         carbs={1.23}
+        updateWeight={action("updateWeight")}
+        deleteRecord={action("deleteRecord")}
       />
       <RecordLine
         id="5d66808e0a59eb06549e0fe3"
@@ -115,6 +122,8 @@ storiesOf('FoodJournal/Record Line', module)
         protein={1.23}
         fat={1.23}
         carbs={1.23}
+        updateWeight={action("updateWeight")}
+        deleteRecord={action("deleteRecord")}
       />
       <RecordLine
         id="5d66808e0a59eb06549e0fe3"
@@ -127,6 +136,16 @@ storiesOf('FoodJournal/Record Line', module)
         protein={1.23}
         fat={1.23}
         carbs={1.23}
+        updateWeight={action("updateWeight")}
+        deleteRecord={action("deleteRecord")}
       />
     </ol>
+  ))
+
+storiesOf('FoodJournal/Record Line/Edit Field', module)
+  .add('default', () => (
+    <EditField
+      weight={123}
+      onUpdate={(...args) => console.log("Udating", args)}
+    />
   ))
