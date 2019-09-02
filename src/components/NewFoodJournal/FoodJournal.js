@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './FoodJournal.module.css';
 import WeekHeader from './WeekHeader';
 import DaysList from './DaysList';
+import Button from '../Button';
 
 const FoodJournal = ({ weeks, fetchMoreRecords }) => {
   return (
@@ -20,7 +21,9 @@ const FoodJournal = ({ weeks, fetchMoreRecords }) => {
           ))
         }
       </ol>
-      <button onClick={fetchMoreRecords}>Load More</button>
+      <Button className={styles.loadMore} onClick={fetchMoreRecords}>
+        Load More
+      </Button>
     </section>
   )
 };
