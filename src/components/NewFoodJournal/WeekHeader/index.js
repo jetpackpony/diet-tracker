@@ -9,7 +9,6 @@ const WeekHeader = ({
   weekEnd,
   calDeficit,
 }) => {
-  console.log(styles);
   return (
     <header className={styles.weekHeader}>
       <h2>{getDateString(weekStart)} - {getDateString(weekEnd)}</h2>
