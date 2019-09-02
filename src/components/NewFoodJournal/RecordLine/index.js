@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './RecordLine.module.css';
 import useFoldableGrid from '../useFoldableGrid';
-import { Trash } from 'grommet-icons';
+import { Trash, Edit } from 'grommet-icons';
 import Button from '../../Button';
 
 const RecordLine = ({
@@ -32,11 +32,19 @@ const RecordLine = ({
       {unfoldButton}
       <div className={statItemClass}>
         {weight} g.
+        <Button
+          className={[styles.actionButton, styles.edit].join(" ")}
+          onClick={(e) => { e.stopPropagation(); console.log("editing"); }}
+        >
+          <Edit size="small" color="blue" />
+          <span> Edit</span>
+        </Button>
+
       </div>
       <div className={statItemClass}>{calories} ccal</div>
       <div className={statItemClass}>{protein} / {fat} / {carbs}</div>
       <Button
-        className={[statItemClass, styles.delete].join(" ")}
+        className={[statItemClass, styles.actionButton].join(" ")}
         onClick={(e) => { e.stopPropagation(); console.log("deleting"); }}
       >
         <Trash size="small" color="red" />

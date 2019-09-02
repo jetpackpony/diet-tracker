@@ -6,27 +6,24 @@
   background-color: #f5f5f5;
 }
 
-.delete {
+.actionButton {
   justify-self: start;
   align-self: baseline;
 }
 
-/* Mobile */
-@media screen and (width < 40em) {
-  .deleteDesktop {
-    display: none;
-  }
+.edit {
+  display: inline;
 }
 
 /* Desktop */
 @media screen and (width >= 40em) {
-  .delete {
+  .actionButton {
     display: none !important;
   }
-  .delete > span {
+  .actionButton > span {
     display: none;
   }
-  .recordLine:hover .delete {
-    display: block !important;
+  .recordLine:hover .actionButton {
+    display: initial !important;
   }
 }
