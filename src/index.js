@@ -6,8 +6,14 @@ import * as serviceWorker from './serviceWorker';
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
 import { getStorageItem } from './storage';
+
+const apiAddress = 
+  (process.env.REACT_APP_API_ADDRESS)
+    ? process.env.REACT_APP_API_ADDRESS
+    : window.location.hostname;
+
 const client = new ApolloClient({
-  uri: "http://localhost:4000/",
+  uri: `http://${apiAddress}:4000/`,
   request: async (operation) => {
     const token = getStorageItem("auth-token");
     operation.setContext({
