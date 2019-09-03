@@ -69,7 +69,9 @@ const RecordLine = ({
         className={[statItemClass, styles.actionButton].join(" ")}
         onClick={(e) => {
           e.stopPropagation();
-          deleteRecord(id);
+          if (window.confirm("Do you really want to delete?")) {
+            deleteRecord(id);
+          }
         }}
       >
         <Trash size="small" color="red" />
