@@ -10,10 +10,10 @@ import { getStorageItem } from './storage';
 const apiAddress = 
   (process.env.REACT_APP_API_ADDRESS)
     ? process.env.REACT_APP_API_ADDRESS
-    : window.location.hostname;
+    : `http://${window.location.hostname}:4000/`;
 
 const client = new ApolloClient({
-  uri: `http://${apiAddress}:4000/`,
+  uri: apiAddress,
   request: async (operation) => {
     const token = getStorageItem("auth-token");
     operation.setContext({
