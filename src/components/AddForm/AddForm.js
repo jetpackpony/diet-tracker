@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styles from './AddForm.module.css';
 import moment from 'moment';
 import { useControlledFormHook } from '../../hooks/useForm';
@@ -28,6 +28,8 @@ const AddForm = ({
     addOnChangeListener
   } = useControlledFormHook(() => null, ["title", "eatenAt"]);
 
+  const titleInput = useRef(null);
+
   const [loadedFoodItem, setLoadedFoodItem] = useState(null);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [titleValue, setTitleValue] = useState("");
@@ -47,14 +49,16 @@ const AddForm = ({
   };
   addOnChangeListener({ updateDateField });
 
-  const handleTitleChange = (e) => {
-    const val = e.target.value;
+  const changeTitleWithSearch = (val) => {
     if (!loadedFoodItem && val && val.length >= MIN_LENGTH_TO_SEARCH) {
       if (searchTimeout) clearTimeout(searchTimeout);
       setSearchTimeout(setTimeout(() => searchFoodItem(val), 300));
     }
     setTitleValue(val);
     updateDateField();
+  };
+  const handleTitleChange = (e) => {
+    changeTitleWithSearch(e.target.value);
   };
 
   const loadFoodItem = (foodItem) => {
@@ -91,8 +95,36 @@ const AddForm = ({
     removeLoadedFoodItem();
   };
 
+  const onPaste = (e) => {
+    const regExp = /^(.+)((?:\s+(?:\d+(?:\.\d+)?)){5})$/;
+    const text = e.clipboardData.getData("text");
+    const res = text.match(regExp);
+    if (res) {
+      e.preventDefault();
+      e.stopPropagation();
+      const title = res[1].trim();
+      const [
+        weight,
+        calories,
+        protein,
+        fat,
+        carbs
+      ] = res[2].trim().split(/\s+/);
+      updateValues({
+        title,
+        weight: Number(weight),
+        calories: Number(calories),
+        protein: Number(protein),
+        fat: Number(fat),
+        carbs: Number(carbs)
+      });
+      changeTitleWithSearch(title);
+      titleInput.current.focus();
+    }
+  };
+
   return (
-    <form onSubmit={submitForm} ref={initForm}>
+    <form onSubmit={submitForm} ref={initForm} onPaste={onPaste}>
       <h1>Add Food</h1>
       {
         loadedFoodItem
@@ -108,6 +140,7 @@ const AddForm = ({
           </label>
           <div className={styles.inputContainer}>
             <input
+              ref={titleInput}
               type="text"
               id="title"
               name="title"
