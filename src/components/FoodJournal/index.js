@@ -1,8 +1,8 @@
 import React from 'react';
 import FoodJournal from './FoodJournal';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import { mapObjArray } from '../../utils';
+import { GET_WEEKLY_FEED, UPDATE_RECORD, DELETE_RECORD } from '../../queries';
 
 const DAILY_CALORIES_NORMAL = 2370;
 
@@ -53,65 +53,6 @@ const prepareRecords = (weeks) => {
     })
   );
 };
-
-const GET_WEEKLY_FEED = gql`
-  query WeeklyRecordsFeed($cursor: String!) {
-    weeklyRecordsFeed(cursor: $cursor, limit: 1) {
-      cursor
-      weeks {
-        weekStart
-        weekEnd
-        totals {
-          calories
-        }
-        days {
-          dayStart
-          dayEnd
-          totals {
-            calories
-            protein
-            fat
-            carbs
-          }
-          records {
-            id,
-            foodItem {
-              id
-              title
-              calories
-              protein
-              fat
-              carbs
-            }
-            weight
-            eatenAt
-            createdAt
-          }
-        }
-      }
-    }
-  }
-`;
-
-const UPDATE_RECORD = gql`
-  mutation UpdateRecord(
-    $id: ID!
-    $weight: Int!
-  ) {
-    updateRecord(
-      id: $id
-      weight: $weight
-    ) {
-      id
-      weight
-    }
-  }
-`;
-const DELETE_RECORD = gql`
-  mutation DeleteRecord($id: ID!) {
-    deleteRecord(id: $id)
-  }
-`;
 
 const updateTotals = (weeks) => {
   return weeks.map((week) => {
