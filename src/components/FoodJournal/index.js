@@ -1,8 +1,8 @@
 import React from 'react';
 import FoodJournal from './FoodJournal';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import { mapObjArray } from '../../utils';
+import { GET_WEEKLY_FEED, UPDATE_RECORD, DELETE_RECORD } from '../../queries';
 
 const DAILY_CALORIES_NORMAL = 2370;
 
@@ -54,75 +54,115 @@ const prepareRecords = (weeks) => {
   );
 };
 
-const GET_WEEKLY_FEED = gql`
-  query WeeklyRecordsFeed($cursor: String!) {
-    weeklyRecordsFeed(cursor: $cursor, limit: 1) {
-      cursor
-      weeks {
-        weekStart
-        weekEnd
-        totals {
-          calories
-        }
-        days {
-          dayStart
-          dayEnd
-          totals {
-            calories
-            protein
-            fat
-            carbs
-          }
-          records {
-            id,
-            foodItem {
-              id
-              title
-              calories
-              protein
-              fat
-              carbs
-            }
-            weight
-            eatenAt
-            createdAt
-          }
-        }
-      }
-    }
-  }
-`;
+export const updateTotals = (weeks) => {
+  return weeks.map((week) => {
+    const days = week.days.map((day) => {
+      const totals = day.records.reduce((acc, rec) => {
+        return {
+          ...acc,
+          calories: acc.calories + rec.foodItem.calories * rec.weight * 0.01,
+          protein: acc.protein + rec.foodItem.protein * rec.weight * 0.01,
+          fat: acc.fat + rec.foodItem.fat * rec.weight * 0.01,
+          carbs: acc.carbs + rec.foodItem.carbs * rec.weight * 0.01
+        };
+      }, {
+        ...day.totals,
+        calories: 0,
+        carbs: 0,
+        fat: 0,
+        protein: 0
+      });
+      return {
+        ...day,
+        totals
+      };
+    });
+    const totals = week.days.reduce((acc, day) => {
+      return {
+        ...acc,
+        calories: acc.calories + day.totals.calories,
+        protein: acc.protein + day.totals.protein,
+        fat: acc.fat + day.totals.fat,
+        carbs: acc.carbs + day.totals.carbs
+      };
+    }, {
+      ...week.totals,
+      calories: 0,
+      carbs: 0,
+      fat: 0,
+      protein: 0
+    });
+    return {
+      ...week,
+      days,
+      totals
+    };
+  });
+};
 
-const UPDATE_RECORD = gql`
-  mutation UpdateRecord(
-    $id: ID!
-    $weight: Int!
-  ) {
-    updateRecord(
-      id: $id
-      weight: $weight
-    ) {
-      id
-      weight
+const updateCachedTotals = (cache, data) => {
+  const { weeklyRecordsFeed } = cache.readQuery({ query: GET_WEEKLY_FEED, variables: { cursor: "" } });
+
+  const newData = {
+    weeklyRecordsFeed: {
+      ...weeklyRecordsFeed,
+      weeks: updateTotals(weeklyRecordsFeed.weeks)
     }
-  }
-`;
-const DELETE_RECORD = gql`
-  mutation DeleteRecord($id: ID!) {
-    deleteRecord(id: $id)
-  }
-`;
+  };
+  cache.writeQuery({
+    query: GET_WEEKLY_FEED,
+    variables: { cursor: "" },
+    data: newData
+  });
+};
+
+const deleteRecord = (weeks, recId) => {
+  const res = weeks.map((week) => {
+    return {
+      ...week,
+      days: week.days.map((day) => {
+        return {
+          ...day,
+          records: day.records.filter((rec) => rec.id !== recId)
+        };
+      })
+    };
+  });
+  return res;
+};
+
+const removeRecordFromCache = (cache, { data: { deleteRecord: recId }}) => {
+  const { weeklyRecordsFeed } = cache.readQuery({ query: GET_WEEKLY_FEED, variables: { cursor: "" } });
+
+  const newData = {
+    weeklyRecordsFeed: {
+      ...weeklyRecordsFeed,
+      weeks: updateTotals(deleteRecord(weeklyRecordsFeed.weeks, recId))
+    }
+  };
+  cache.writeQuery({
+    query: GET_WEEKLY_FEED,
+    variables: { cursor: "" },
+    data: newData
+  });
+};
 
 const FoodJournalContainer = ({...props}) => {
   const [ updateRecordMut ] = useMutation(UPDATE_RECORD);
   const [ deleteRecordMut ] = useMutation(DELETE_RECORD);
   const updateRecord = ({ id, weight }) => {
     console.log("Updating record: ", {id, weight});
-    updateRecordMut({ variables: { id, weight }});
+    updateRecordMut({
+      variables: { id, weight },
+      update: updateCachedTotals
+    });
   };
   const deleteRecord = (id) => {
     console.log("Deleting record: ", id);
-    deleteRecordMut({ variables: { id }});
+    deleteRecordMut({
+      variables: { id },
+      update: removeRecordFromCache
+    });
   };
 
   const { loading, error, data, fetchMore } = useQuery(GET_WEEKLY_FEED, {

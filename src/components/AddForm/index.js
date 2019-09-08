@@ -1,74 +1,78 @@
 import React from 'react';
 import AddForm from './AddForm';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import {
+  ADD_RECORD, ADD_RECORD_WITH_FOOD_ITEM,
+  SEARCH_FOOD_ITEMS, GET_WEEKLY_FEED
+} from '../../queries';
+import { updateTotals } from '../FoodJournal';
+import moment from 'moment';
 
-const ADD_RECORD_WITH_FOOD_ITEM = gql`
-  mutation AddRecordWithFoodItem(
-    $title: String!
-    $calories: Float!
-    $protein: Float!
-    $fat: Float!
-    $carbs: Float!
-    $weight: Int!
-    $eatenAt: DateTime!
-    $createdAt: DateTime!
-  ) {
-    addRecordWithFoodItem(
-      title: $title
-      calories: $calories
-      protein: $protein
-      fat: $fat
-      carbs: $carbs
-      weight: $weight
-      eatenAt: $eatenAt
-      createdAt: $createdAt
-    ) {
-      id
-    }
-  }
-`;
+const insertRecordIntoCache = (cache, newRecord) => {
+  const { weeklyRecordsFeed } = cache.readQuery({ query: GET_WEEKLY_FEED, variables: { cursor: "" } });
 
-const ADD_RECORD = gql`
-  mutation AddRecord(
-    $foodItemID: ID!
-    $weight: Int!
-    $eatenAt: DateTime!
-    $createdAt: DateTime!
-  ) {
-    addRecord(
-      foodItemID: $foodItemID
-      weight: $weight
-      eatenAt: $eatenAt
-      createdAt: $createdAt
-    ) {
-      id
+  const newWeeks = weeklyRecordsFeed.weeks.map((week) => {
+    if (moment(newRecord.eatenAt).isBetween(week.weekStart, week.weekEnd)) {
+      return {
+        ...week,
+        days: week.days.map((day) => {
+          if (moment(newRecord.eatenAt).isBetween(day.dayStart, day.dayEnd)) {
+            return {
+              ...day,
+              records: ([
+                ...day.records,
+                newRecord
+              ]).sort((a, b) => {
+                const diff = moment(b.eatenAt) - moment(a.eatenAt);
+                if (diff === 0) {
+                  const diffCreate = moment(b.createdAt) - moment(a.createdAt);
+                  return diffCreate;
+                } else {
+                  return diff;
+                }
+              })
+            };
+          } else {
+            return day;
+          }
+        })
+      };
+    } else {
+      return week;
     }
-  }
-`;
-
-const SEARCH_FOOD_ITEMS = gql`
-  query SearchFoodItems($filter: String!) {
-    filterFoodItems(filter: $filter, limit: 5) {
-      foodItemID: id
-      title
-      calories
-      protein
-      fat
-      carbs
+  });
+  const newData = {
+    weeklyRecordsFeed: {
+      ...weeklyRecordsFeed,
+      weeks: updateTotals(newWeeks)
     }
-  }
-`;
+  };
+  cache.writeQuery({
+    query: GET_WEEKLY_FEED,
+    variables: { cursor: "" },
+    data: newData
+  });
+};
 
 const AddFormContainer = () => {
   const [addRecordWithFoodItemMutation] = useMutation(ADD_RECORD_WITH_FOOD_ITEM);
   const addRecordWithFoodItem = (rec) => {
-    addRecordWithFoodItemMutation({ variables: { ...rec } });
+    addRecordWithFoodItemMutation({
+      variables: { ...rec },
+      update: (cache, { data: { addRecordWithFoodItem: newRecord } }) => {
+        insertRecordIntoCache(cache, newRecord);
+      }
+    });
   };
 
   const [addRecordMutation] = useMutation(ADD_RECORD);
   const addRecord = (rec) => {
-    addRecordMutation({ variables: { ...rec } });
+    addRecordMutation({
+      variables: { ...rec },
+      update: (cache, { data: { addRecord: newRecord } }) => {
+        insertRecordIntoCache(cache, newRecord);
+      }
+    });
   };
 
   const [
