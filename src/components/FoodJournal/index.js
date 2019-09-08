@@ -113,12 +113,77 @@ const DELETE_RECORD = gql`
   }
 `;
 
+const updateTotals = (weeks) => {
+  return weeks.map((week) => {
+    const days = week.days.map((day) => {
+      const totals = day.records.reduce((acc, rec) => {
+        return {
+          ...acc,
+          calories: acc.calories + rec.foodItem.calories * rec.weight * 0.01,
+          protein: acc.protein + rec.foodItem.protein * rec.weight * 0.01,
+          fat: acc.fat + rec.foodItem.fat * rec.weight * 0.01,
+          carbs: acc.carbs + rec.foodItem.carbs * rec.weight * 0.01
+        };
+      }, {
+        ...day.totals,
+        calories: 0,
+        carbs: 0,
+        fat: 0,
+        protein: 0
+      });
+      return {
+        ...day,
+        totals
+      };
+    });
+    const totals = week.days.reduce((acc, day) => {
+      return {
+        ...acc,
+        calories: acc.calories + day.totals.calories,
+        protein: acc.protein + day.totals.protein,
+        fat: acc.fat + day.totals.fat,
+        carbs: acc.carbs + day.totals.carbs
+      };
+    }, {
+      ...week.totals,
+      calories: 0,
+      carbs: 0,
+      fat: 0,
+      protein: 0
+    });
+    return {
+      ...week,
+      days,
+      totals
+    };
+  });
+};
+
+const updateCachedTotals = (cache, { data: { updateRecord }}) => {
+  const { weeklyRecordsFeed } = cache.readQuery({ query: GET_WEEKLY_FEED, variables: { cursor: "" } });
+
+  const newData = {
+    weeklyRecordsFeed: {
+      ...weeklyRecordsFeed,
+      weeks: updateTotals(weeklyRecordsFeed.weeks)
+    }
+  };
+  cache.writeQuery({
+    query: GET_WEEKLY_FEED,
+    variables: { cursor: "" },
+    data: newData
+  });
+};
+
 const FoodJournalContainer = ({...props}) => {
   const [ updateRecordMut ] = useMutation(UPDATE_RECORD);
   const [ deleteRecordMut ] = useMutation(DELETE_RECORD);
   const updateRecord = ({ id, weight }) => {
     console.log("Updating record: ", {id, weight});
-    updateRecordMut({ variables: { id, weight }});
+    updateRecordMut({
+      variables: { id, weight },
+      update: updateCachedTotals
+    });
   };
   const deleteRecord = (id) => {
     console.log("Deleting record: ", id);
