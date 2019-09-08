@@ -159,13 +159,44 @@ const updateTotals = (weeks) => {
   });
 };
 
-const updateCachedTotals = (cache, { data: { updateRecord }}) => {
+const updateCachedTotals = (cache, data) => {
   const { weeklyRecordsFeed } = cache.readQuery({ query: GET_WEEKLY_FEED, variables: { cursor: "" } });
 
   const newData = {
     weeklyRecordsFeed: {
       ...weeklyRecordsFeed,
       weeks: updateTotals(weeklyRecordsFeed.weeks)
+    }
+  };
+  cache.writeQuery({
+    query: GET_WEEKLY_FEED,
+    variables: { cursor: "" },
+    data: newData
+  });
+};
+
+const deleteRecord = (weeks, recId) => {
+  const res = weeks.map((week) => {
+    return {
+      ...week,
+      days: week.days.map((day) => {
+        return {
+          ...day,
+          records: day.records.filter((rec) => rec.id !== recId)
+        };
+      })
+    };
+  });
+  return res;
+};
+
+const removeRecordFromCache = (cache, { data: { deleteRecord: recId }}) => {
+  const { weeklyRecordsFeed } = cache.readQuery({ query: GET_WEEKLY_FEED, variables: { cursor: "" } });
+
+  const newData = {
+    weeklyRecordsFeed: {
+      ...weeklyRecordsFeed,
+      weeks: updateTotals(deleteRecord(weeklyRecordsFeed.weeks, recId))
     }
   };
   cache.writeQuery({
@@ -187,7 +218,10 @@ const FoodJournalContainer = ({...props}) => {
   };
   const deleteRecord = (id) => {
     console.log("Deleting record: ", id);
-    deleteRecordMut({ variables: { id }});
+    deleteRecordMut({
+      variables: { id },
+      update: removeRecordFromCache
+    });
   };
 
   const { loading, error, data, fetchMore } = useQuery(GET_WEEKLY_FEED, {
