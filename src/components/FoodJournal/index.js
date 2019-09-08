@@ -54,7 +54,7 @@ const prepareRecords = (weeks) => {
   );
 };
 
-const updateTotals = (weeks) => {
+export const updateTotals = (weeks) => {
   return weeks.map((week) => {
     const days = week.days.map((day) => {
       const totals = day.records.reduce((acc, rec) => {
