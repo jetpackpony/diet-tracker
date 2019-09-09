@@ -15,7 +15,7 @@ const roundField = (key, value) => {
     case "protein":
     case "fat":
     case "carbs":
-      return Math.round(value * 100) / 100;
+      return Math.round(value * 10) / 10;
     default:
       return value;
   }
