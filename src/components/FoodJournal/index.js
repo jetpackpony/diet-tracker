@@ -4,7 +4,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { mapObjArray } from '../../utils';
 import { GET_WEEKLY_FEED, UPDATE_RECORD, DELETE_RECORD } from '../../queries';
 
-const DAILY_CALORIES_NORMAL = 2370;
+const DAILY_CALORIES_NORMAL = 2200;
 
 const roundField = (key, value) => {
   switch(key) {
