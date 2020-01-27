@@ -4,7 +4,9 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { mapObjArray } from '../../utils';
 import { GET_WEEKLY_FEED, UPDATE_RECORD, DELETE_RECORD } from '../../queries';
 
-const DAILY_CALORIES_NORMAL = 2200;
+const getDailyCaloriesLimit = () => {
+  return 2700;
+};
 
 const roundField = (key, value) => {
   switch(key) {
@@ -40,7 +42,7 @@ const prepareRecords = (weeks) => {
         return {
           ...day,
           records,
-          calDeficit: DAILY_CALORIES_NORMAL - day.totals.calories
+          calDeficit: getDailyCaloriesLimit() - day.totals.calories
         };
       });
       const weekCalDeficit = days.reduce((res, day) => (res + day.calDeficit), 0);
