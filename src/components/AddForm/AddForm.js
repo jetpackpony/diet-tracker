@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './AddForm.module.css';
 import moment from 'moment';
 import { useControlledFormHook } from '../../hooks/useForm';
@@ -29,6 +29,7 @@ const AddForm = ({
   } = useControlledFormHook(() => null, ["title", "eatenAt"]);
 
   const titleInput = useRef(null);
+  const weightInput = useRef(null);
 
   const [loadedFoodItem, setLoadedFoodItem] = useState(null);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
@@ -60,6 +61,16 @@ const AddForm = ({
   const handleTitleChange = (e) => {
     changeTitleWithSearch(e.target.value);
   };
+
+  useEffect(() => {
+    if (titleDisabled) {
+      weightInput.current.focus();
+      weightInput.current.select();
+    } else {
+      titleInput.current.focus();
+      titleInput.current.select();
+    }
+  }, [titleDisabled, loadedFoodItem]);
 
   const loadFoodItem = (foodItem) => {
     setLoadedFoodItem(foodItem);
@@ -167,6 +178,7 @@ const AddForm = ({
           </label>
           <div className={styles.inputContainer}>
             <input type="number" id="weight" name="weight"
+              ref={weightInput}
               defaultValue={0}
             />
           </div>
