@@ -63,13 +63,15 @@ const AddForm = ({
   };
 
   useEffect(() => {
-    if (titleDisabled) {
-      weightInput.current.focus();
-      weightInput.current.select();
-    } else {
-      titleInput.current.focus();
-      titleInput.current.select();
-    }
+    setTimeout(() => {
+      if (titleDisabled) {
+        weightInput.current.focus();
+        weightInput.current.select();
+      } else {
+        titleInput.current.focus();
+        titleInput.current.select();
+      }
+    }, 100);
   }, [titleDisabled, loadedFoodItem]);
 
   const loadFoodItem = (foodItem) => {
