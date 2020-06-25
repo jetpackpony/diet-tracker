@@ -8,7 +8,8 @@ const FoodJournal = ({
   weeks,
   fetchMoreRecords,
   updateRecord,
-  deleteRecord
+  deleteRecord,
+  cloneRecord
 }) => {
   return (
     <section className={styles.foodJournal}>
@@ -25,6 +26,7 @@ const FoodJournal = ({
                 days={week.days}
                 updateRecord={updateRecord}
                 deleteRecord={deleteRecord}
+                cloneRecord={cloneRecord}
               />
             </li>
           ))

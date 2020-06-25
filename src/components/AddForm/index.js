@@ -8,7 +8,7 @@ import {
 import { updateTotals } from '../FoodJournal';
 import moment from 'moment';
 
-const insertRecordIntoCache = (cache, newRecord) => {
+export const insertRecordIntoCache = (cache, newRecord) => {
   const { weeklyRecordsFeed } = cache.readQuery({ query: GET_WEEKLY_FEED, variables: { cursor: "" } });
 
   const newWeeks = weeklyRecordsFeed.weeks.map((week) => {

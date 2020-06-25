@@ -2,7 +2,9 @@ import React from 'react';
 import FoodJournal from './FoodJournal';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { mapObjArray } from '../../utils';
-import { GET_WEEKLY_FEED, UPDATE_RECORD, DELETE_RECORD } from '../../queries';
+import { GET_WEEKLY_FEED, UPDATE_RECORD, DELETE_RECORD, ADD_RECORD } from '../../queries';
+import { insertRecordIntoCache } from '../AddForm';
+import moment from 'moment';
 
 const getDailyCaloriesLimit = () => {
   return 2700;
@@ -152,6 +154,7 @@ const removeRecordFromCache = (cache, { data: { deleteRecord: recId }}) => {
 const FoodJournalContainer = ({...props}) => {
   const [ updateRecordMut ] = useMutation(UPDATE_RECORD);
   const [ deleteRecordMut ] = useMutation(DELETE_RECORD);
+  const [ addRecordMut ] = useMutation(ADD_RECORD);
   const updateRecord = ({ id, weight }) => {
     console.log("Updating record: ", {id, weight});
     updateRecordMut({
@@ -164,6 +167,20 @@ const FoodJournalContainer = ({...props}) => {
     deleteRecordMut({
       variables: { id },
       update: removeRecordFromCache
+    });
+  };
+  const cloneRecord = (foodItemID) => {
+    console.log("Cloning record with food item: ", foodItemID);
+    addRecordMut({
+      variables: {
+        foodItemID,
+        weight: 0,
+        eatenAt: moment().toISOString(),
+        createdAt: moment().toISOString()
+      },
+      update: (cache, { data: { addRecord: newRecord } }) => {
+        insertRecordIntoCache(cache, newRecord);
+      }
     });
   };
 
@@ -204,6 +221,7 @@ const FoodJournalContainer = ({...props}) => {
       fetchMoreRecords={fetchMoreRecords}
       updateRecord={updateRecord}
       deleteRecord={deleteRecord}
+      cloneRecord={cloneRecord}
     />
   );
 };

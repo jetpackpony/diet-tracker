@@ -9,7 +9,7 @@ const isCurrent = (dateStr) => {
   return moment().isBetween(date, date.clone().add(1, "day"));
 }
 
-const DaysList = ({ days, updateRecord, deleteRecord }) => (
+const DaysList = ({ days, updateRecord, deleteRecord, cloneRecord }) => (
   <ol className={styles.list}>
     {
       days.map((day, j) => (
@@ -30,6 +30,7 @@ const DaysList = ({ days, updateRecord, deleteRecord }) => (
                   {...rec}
                   updateRecord={updateRecord}
                   deleteRecord={deleteRecord}
+                  cloneRecord={cloneRecord}
                 />
               ))
             }

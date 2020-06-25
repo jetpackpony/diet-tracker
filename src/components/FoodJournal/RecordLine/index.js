@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './RecordLine.module.css';
 import useFoldableGrid from '../useFoldableGrid';
-import { Trash, Edit } from 'grommet-icons';
+import { Clone, Trash, Edit } from 'grommet-icons';
 import Button from '../../Button';
 import EditField from './EditField';
 
@@ -17,7 +17,8 @@ const RecordLine = ({
   fat,
   carbs,
   updateRecord,
-  deleteRecord
+  deleteRecord,
+  cloneRecord
 }) => {
   const {
     toggleFold,
@@ -76,6 +77,16 @@ const RecordLine = ({
       >
         <Trash size="small" color="red" />
         <span> Delete</span>
+      </Button>
+      <Button
+        className={[statItemClass, styles.actionButton].join(" ")}
+        onClick={(e) => {
+          e.stopPropagation();
+          cloneRecord(foodItemId);
+        }}
+      >
+        <Clone size="small" color="blue" />
+        <span> Clone</span>
       </Button>
     </li>
   )
