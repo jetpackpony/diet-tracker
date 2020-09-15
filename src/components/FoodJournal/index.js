@@ -7,7 +7,7 @@ import { insertRecordIntoCache } from '../AddForm';
 import moment from 'moment';
 
 const getDailyCaloriesLimit = () => {
-  return 2700;
+  return 2500;
 };
 
 const roundField = (key, value) => {
