@@ -93,7 +93,7 @@ const AddForm = ({
     const formValues = getValues();
     const record = {
       ...formValues,
-      weight: parseInt(formValues.weight, 10),
+      weight: Math.floor(Number(formValues.weight) || 0),
       title: titleValue,
       eatenAt: moment(eatenAtValue).toISOString(),
       createdAt: moment().toISOString(),
