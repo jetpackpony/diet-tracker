@@ -62,6 +62,9 @@ export const updateTotals = (weeks) => {
   return weeks.map((week) => {
     const days = week.days.map((day) => {
       const totals = day.records.reduce((acc, rec) => {
+        if (rec.weight <= 0) {
+          return acc;
+        }
         return {
           ...acc,
           calories: acc.calories + rec.foodItem.calories * rec.weight * 0.01,
