@@ -6,6 +6,10 @@
   background-color: #f5f5f5;
 }
 
+.not-filled-in {
+  background-color: #ff8888!important;
+}
+
 .actionButton {
   justify-self: start;
   align-self: baseline;

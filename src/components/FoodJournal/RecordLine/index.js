@@ -28,9 +28,13 @@ const RecordLine = ({
     statItemClass
   } = useFoldableGrid();
   const [editing, setEditing] = useState(false);
+  const classes = [containerClass, styles.recordLine];
+  if (weight <= 0) {
+    classes.push(styles["not-filled-in"]);
+  }
   return (
     <li
-      className={[containerClass, styles.recordLine].join(" ")}
+      className={classes.join(" ")}
       onClick={toggleFold}
     >
       <div className={titleClass}>{title}</div>
