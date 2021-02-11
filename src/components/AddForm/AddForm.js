@@ -193,7 +193,7 @@ const AddForm = ({
           </label>
           <div className={styles.inputContainer}>
             <input type="number" id="calories" name="calories"
-              defaultValue={0}
+              defaultValue={""}
             />
           </div>
         </div>
@@ -204,7 +204,7 @@ const AddForm = ({
           </label>
           <div className={styles.inputContainer}>
             <input type="number" step={0.1} id="protein" name="protein"
-              defaultValue={0}
+              defaultValue={""}
             />
           </div>
         </div>
@@ -215,7 +215,7 @@ const AddForm = ({
           </label>
           <div className={styles.inputContainer}>
             <input type="number" step={0.1} id="fat" name="fat"
-              defaultValue={0}
+              defaultValue={""}
             />
           </div>
         </div>
@@ -226,7 +226,7 @@ const AddForm = ({
           </label>
           <div className={styles.inputContainer}>
             <input type="number" step={0.1} id="carbs" name="carbs"
-              defaultValue={0}
+              defaultValue={""}
             />
           </div>
         </div>

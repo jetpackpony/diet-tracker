@@ -42,8 +42,6 @@ export const useUncontrolledFormHook = (callback) => {
 
 const filterValueInputs = ({ name, tagName }) => name && tagName === "INPUT";
 
-const cleanUpValue = (type, value) => type === "number" ? Number(value) : value;
-
 export const useControlledFormHook = (onSubmitCallback, omit = []) => {
   const [values, setValues] = useState(null);
   const prevEventListener = useRef(null);
@@ -95,7 +93,7 @@ export const useControlledFormHook = (onSubmitCallback, omit = []) => {
         .filter(({name}) => !omitRef.current.includes(name))
         .reduce((res, input) => {
           input.disabled = false;
-          res[input.name] = cleanUpValue(input.type, input.defaultValue);
+          res[input.name] = input.defaultValue;
           return res;
         }, {})
     )
