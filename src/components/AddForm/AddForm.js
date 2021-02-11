@@ -180,7 +180,7 @@ const AddForm = ({
             <span>Weight: </span>
           </label>
           <div className={styles.inputContainer}>
-            <input type="text" id="weight" name="weight"
+            <input type="number" id="weight" name="weight"
               ref={weightInput}
               defaultValue={""}
             />

@@ -1,3 +1,4 @@
+import { mapObjArray } from '../utils';
 import { useRef, useState } from 'react';
 
 export const getFormControls = (form) => {
@@ -51,11 +52,16 @@ export const useControlledFormHook = (onSubmitCallback, omit = []) => {
   const changeListenersRef = useRef({});
 
   const handleInputChange = (e) => {
-    const { value, name, type } = e.target;
-    setValues((newValues) => ({
-      ...newValues,
-      [name]: cleanUpValue(type, value)
-    }));
+    setValues((formValues) => {
+      let { value, name } = e.target;
+      if (value === "" && e.data === "-") {
+        value = "-";
+      }
+      return {
+        ...formValues,
+        [name]: value
+      };
+    });
     Object.keys(changeListenersRef.current)
       .forEach((key) => changeListenersRef.current[key]());
   };
@@ -71,7 +77,10 @@ export const useControlledFormHook = (onSubmitCallback, omit = []) => {
         .filter(filterValueInputs)
         .filter(({name}) => !omitRef.current.includes(name))
         .forEach((input) => {
-          input.value = values[input.name];
+          // This check allows us to enter negative numbers in the number inputs
+          if (input.type !== "number" || values[input.name] !== "-") {
+            input.value = values[input.name];
+          }
           input.removeEventListener("input", prevEventListener.current);
           input.addEventListener("input", handleInputChange);
         });
@@ -107,7 +116,7 @@ export const useControlledFormHook = (onSubmitCallback, omit = []) => {
   };
 
   const getValues = () => {
-    return values;
+    return mapObjArray((k, v) => Number(v), values);
   }
 
   const updateValues = (newValues) => (
