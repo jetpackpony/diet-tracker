@@ -1,37 +1,43 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './EditField.module.css';
 import { Checkmark } from 'grommet-icons';
 import Button from '../../Button';
-import inputStyles from '../../Input/Input.module.css';
-import { useUncontrolledFormHook } from '../../../hooks/useForm';
+import Input from "../../Input";
 
 const EditField = ({ weight, onUpdate }) => {
+  const [value, setValue] = useState(weight);
   const inputEl = useRef(null);
-  const submitForm = (values, event) => {
-    event.target.reset();
-    onUpdate({ weight: values.weight });
+  const onInput = (val) => setValue(val);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    e.target.reset();
+    inputEl.current.blur();
+    onUpdate({ weight: Number(value) });
   }
-  const { onSubmit, initForm } = useUncontrolledFormHook(submitForm);
 
-  useEffect(() => {
+  const onClick = (e) => {
     inputEl.current.focus();
     inputEl.current.select();
-  }, []);
+  };
 
   return (
-    <form onSubmit={onSubmit} ref={initForm}>
-      <input
-        ref={inputEl}
-        className={[inputStyles.input, styles.editingInput].join(" ")}
-        type="number"
-        name="weight"
-        defaultValue={weight}
-      />
-      g.
-      <Button className={[styles.save].join(" ")}>
-        <Checkmark size="small" color="green" />
-        <span> Save</span>
-      </Button>
+    <form onSubmit={onSubmit}>
+      <div className={styles.formContainer}>
+        <Input
+          fieldType="number"
+          value={value}
+          controlled={true}
+          onInput={onInput}
+          onChange={onInput}
+          suffixText="g."
+          align="right"
+          onClick={onClick}
+          ref={inputEl}
+        />
+        <Button className={styles.save}>
+          <Checkmark size="small" color="green" />
+        </Button>
+      </div>
     </form>
   );
 };

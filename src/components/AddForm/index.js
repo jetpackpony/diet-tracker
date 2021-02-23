@@ -8,6 +8,8 @@ import {
 import { updateTotals } from '../FoodJournal';
 import moment from 'moment';
 
+export const MIN_LENGTH_TO_SEARCH = 2;
+
 export const insertRecordIntoCache = (cache, newRecord) => {
   const { weeklyRecordsFeed } = cache.readQuery({ query: GET_WEEKLY_FEED, variables: { cursor: "" } });
 

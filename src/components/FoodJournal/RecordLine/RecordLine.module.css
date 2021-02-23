@@ -1,33 +1,23 @@
 .recordLine {
-  padding: .5rem;
-}
-
-.recordLine:nth-child(even) {
-  background-color: #f5f5f5;
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  border-bottom: 1px solid #dfdfdf;
 }
 
 .not-filled-in {
   background-color: #ff8888!important;
 }
 
-.actionButton {
-  justify-self: start;
-  align-self: baseline;
+.title {
+  font-weight: 500;
 }
 
-.edit {
-  display: inline;
+.subtitle {
+  font-size: 0.75em;
+  color: var(--text-color-disabled);
 }
 
-/* Desktop */
-@media screen and (width >= 40em) {
-  .actionButton {
-    display: none !important;
-  }
-  .actionButton > span {
-    display: none;
-  }
-  .recordLine:hover .actionButton {
-    display: initial !important;
-  }
+.right {
+  max-width: 40%;
 }

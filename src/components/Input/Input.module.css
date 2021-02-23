@@ -1,6 +1,104 @@
-.input {
-  padding: 5px;
+.field {
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+}
+
+.field input {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height);
+  color: var(--text-color-primary);
+  background: transparent;
   outline: none;
   border: none;
-  border-bottom: 1px solid;
+  width: 100%;
+  padding: 0.75em 1em;
+}
+
+.field input::-webkit-outer-spin-button, .field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.field input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.suffix {
+  padding: 0.75em 1em 0.75em 0;
+}
+
+.with-suffix input {
+  padding: 0.75em 0.25em 0.75em 1em;
+}
+
+.align-right input {
+  text-align: right;
+}
+
+.disabled, .disabled input {
+  color: var(--disabled-grey-color);
+}
+
+.disabled .outline-left, .disabled .outline-notch, .disabled .outline-right {
+  border-color: var(--disabled-grey-border);
+}
+
+.outline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.outline label {
+  display: block;
+  pointer-events: none;
+  transition: transform 0.2s;
+}
+
+.outline-left, .outline-notch, .outline-right {
+  border: var(--light-border);
+  pointer-events: none;
+}
+
+.outline-left {
+  border-radius: 5px 0 0 5px;
+  border-right: none;
+  width: 1em;
+}
+
+.outline-notch {
+  border-left: none;
+  border-right: none;
+  padding: 0.75em 0.1em;
+}
+
+.outline-right {
+  border-radius: 0 5px 5px 0;
+  border-left: none;
+  flex-grow: 1;
+}
+
+.field:focus-within label {
+  color: var(--primary-color);
+}
+
+.field:focus-within .outline-left, .field:focus-within .outline-notch, .field:focus-within .outline-right {
+  border-width: var(--primary-border-width);
+  border-color: var(--primary-border-color);
+}
+
+.label-raised label {
+  transform: translateY(-1.5em) scale(0.75);
+  transition: transform 0.2s;
+}
+
+.label-raised .outline-notch {
+  border-top: none;
 }

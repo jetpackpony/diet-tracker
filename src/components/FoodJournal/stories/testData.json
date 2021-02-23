@@ -92,6 +92,26 @@
             "protein": 355.74,
             "fat": 3.52,
             "carbs": 2.31
+          },
+          {
+            "id": "5d63b5cf2ebe110072e9nbea",
+            "foodItem": {
+              "id": "5d63b5cf2ebe110072e9yue2",
+              "title": "dkjfasjdlfj",
+              "calories": 22,
+              "protein": 3234,
+              "fat": 32,
+              "carbs": 21,
+              "__typename": "FoodItem"
+            },
+            "weight": -11,
+            "eatenAt": "2019-08-26T10:34:55.546Z",
+            "createdAt": "2019-08-26T10:34:55.546Z",
+            "__typename": "Record",
+            "calories": 2,
+            "protein": 355.74,
+            "fat": 3.52,
+            "carbs": 2.31
           }
         ],
         "__typename": "DayRecords",

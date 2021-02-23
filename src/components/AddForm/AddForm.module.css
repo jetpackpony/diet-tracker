@@ -1,31 +1,53 @@
 .formContainer {
-  margin: 10px;
   max-width: 450px;
+  padding: 1em;
+  display: grid;
+  gap: 1em 1em;
+  justify-items: stretch;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-areas:
+    "title   title   title  title  title  closeButton"
+    "weight  weight  weight ccal   ccal   ccal"
+    "protein protein fat    fat    carbs  carbs"
+    "date    date    date   date   date   date"
+    "submit  submit  submit submit submit submit";
 }
 
-.fieldContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  justify-content: left;
-  margin-bottom: 10px;
+.title {
+  grid-area: title;
   position: relative;
 }
 
-.fieldContainer label {
-  margin: 5px;
-  flex-basis: 20%;
+.closeButton {
+  grid-area: closeButton;
 }
 
-.inputContainer {
-  border-bottom: 1px solid;
+.weight {
+  grid-area: weight;
 }
 
-.inputContainer input {
-  border: none;
-  padding: 5px;
-  outline: none;
-  width: 100%;
+.ccal {
+  grid-area: ccal;
+}
+
+.protein {
+  grid-area: protein;
+}
+
+.fat {
+  grid-area: fat;
+}
+
+.carbs {
+  grid-area: carbs;
+}
+
+.date {
+  grid-area: date;
+}
+
+.submit {
+  grid-area: submit;
 }
 
 .searchList {

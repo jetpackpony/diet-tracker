@@ -1,6 +1,7 @@
 import React from 'react';
 import FoodJournal from './components/FoodJournal';
 import AddForm from './components/AddForm';
+import "./reset.css";
 import "./App.css";
 import Login from './components/Login';
 import gql from 'graphql-tag';

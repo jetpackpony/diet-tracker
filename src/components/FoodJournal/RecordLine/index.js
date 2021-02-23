@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './RecordLine.module.css';
-import useFoldableGrid from '../useFoldableGrid';
-import { Clone, Trash, Edit } from 'grommet-icons';
-import Button from '../../Button';
 import EditField from './EditField';
+import ContextMenu from './ContextMenu';
 
 const RecordLine = ({
   id,
@@ -20,79 +18,35 @@ const RecordLine = ({
   deleteRecord,
   cloneRecord
 }) => {
-  const {
-    toggleFold,
-    unfoldButton,
-    containerClass,
-    titleClass,
-    statItemClass
-  } = useFoldableGrid();
-  const [editing, setEditing] = useState(false);
-  const classes = [containerClass, styles.recordLine];
+  const classes = [styles.recordLine];
   if (weight <= 0) {
     classes.push(styles["not-filled-in"]);
   }
+
   return (
-    <li
-      className={classes.join(" ")}
-      onClick={toggleFold}
+    <ContextMenu
+      items={[
+        { title: "Delete", action: () => window.confirm("Delete?") && deleteRecord(id) },
+        { title: "Clone", action: () => cloneRecord(foodItemId) },
+      ]}
     >
-      <div className={titleClass}>{title}</div>
-      {unfoldButton}
-      <div className={statItemClass} onClick={(e) => e.stopPropagation()}>
-        {
-          editing
-            ? (
-              <EditField
-                weight={weight}
-                onUpdate={({ weight }) => {
-                  setEditing(false);
-                  updateRecord({ id, weight });
-                }}
-              />
-            )
-            : (
-              <>
-                {weight} g.
-                <Button
-                  className={[styles.actionButton, styles.edit].join(" ")}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setEditing(true);
-                  }}
-                >
-                  <Edit size="small" color="blue" />
-                  <span> Edit</span>
-                </Button>
-              </>
-            )
-        }
-      </div>
-      <div className={statItemClass}>{calories} ccal</div>
-      <div className={statItemClass}>{protein} / {fat} / {carbs}</div>
-      <Button
-        className={[statItemClass, styles.actionButton].join(" ")}
-        onClick={(e) => {
-          e.stopPropagation();
-          if (window.confirm("Do you really want to delete?")) {
-            deleteRecord(id);
-          }
-        }}
-      >
-        <Trash size="small" color="red" />
-        <span> Delete</span>
-      </Button>
-      <Button
-        className={[statItemClass, styles.actionButton].join(" ")}
-        onClick={(e) => {
-          e.stopPropagation();
-          cloneRecord(foodItemId);
-        }}
-      >
-        <Clone size="small" color="blue" />
-        <span> Clone</span>
-      </Button>
-    </li>
+      <li className={classes.join(" ")}>
+        <div>
+          <div className={styles.title}>{title}</div>
+          <div className={styles.subtitle}>
+            {calories} ccal {protein} / {fat} / {carbs}
+          </div>
+        </div>
+        <div className={styles.right}>
+          <EditField
+            weight={weight}
+            onUpdate={({ weight }) => {
+              updateRecord({ id, weight });
+            }}
+          />
+        </div>
+      </li>
+    </ContextMenu>
   )
 };
 

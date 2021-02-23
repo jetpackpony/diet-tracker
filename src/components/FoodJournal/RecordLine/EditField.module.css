@@ -1,14 +1,9 @@
 .save {
   display: inline;
+  margin-left: 1em;
 }
 
-.editingInput {
-  width: 3rem;
-}
-
-/* Desktop */
-@media screen and (width >= 40em) {
-  .save > span {
-    display: none;
-  }
+.formContainer {
+  display: flex;
+  justify-content: right;
 }

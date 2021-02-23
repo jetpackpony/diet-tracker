@@ -1,46 +1,38 @@
 import React from 'react';
 import styles from './AddForm.module.css';
+import { List, ListItem } from '../List';
 
 const SearchResults = ({
-  showSuggestions,
   isSearching,
   foundFoodItems,
   onFoodItemSelected
 }) => {
 
-  if (!showSuggestions) return null;
+  const foundResults = !isSearching && foundFoodItems && foundFoodItems.length > 0;
+  const nothingFound = !isSearching && (!foundFoodItems || foundFoodItems.length <= 0);
 
   return (
     <div className={styles.searchList}>
-      {
-        (isSearching)
-          ? (
-            <span>Searching...</span>
-          )
-          : (
-            (foundFoodItems && foundFoodItems.length > 0)
-              ? (
-                <ul>
-                  {
-                    foundFoodItems.map((item) => (
-                      <li
-                        key={item.foodItemID}
-                        onMouseDown={() => onFoodItemSelected(item)}
-                        onTouchStart={() => onFoodItemSelected(item)}
-                      >
-                        {item.title}:
-                        {item.calories} ccal
-                        {item.protein}/{item.fat}/{item.carbs}
-                      </li>
-                    ))
-                  }
-                </ul>
-              )
-              : (
-                <span>Nothing found</span>
-              )
-          )
-      }
+      <List>
+        {
+          isSearching && <ListItem>Searchig...</ListItem>
+        }
+        {
+          foundResults && foundFoodItems.map((item) => (
+            <ListItem
+              key={item.foodItemID}
+              onClick={() => onFoodItemSelected(item)}
+            >
+              {item.title}:
+              {item.calories} ccal
+              {item.protein}/{item.fat}/{item.carbs}
+            </ListItem>
+          ))
+        }
+        {
+          nothingFound && <ListItem>Nothing found</ListItem>
+        }
+      </List>
     </div>
   );
 };

@@ -1,17 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useReducer } from 'react';
 import styles from './AddForm.module.css';
-import moment from 'moment';
-import { useControlledFormHook } from '../../hooks/useForm';
 import SuggestionsList from './SuggestionsList';
+import Input from '../Input';
+import Button from '../Button';
+import { Close } from 'grommet-icons';
+import {
+  reducer, loadFoodItemAction, removeFoodItemAction, initState, setTitleFocusAction, setFieldValueAction, getField, getFormValues, showSuggestions
+} from './reducer';
 
-const MIN_LENGTH_TO_SEARCH = 2;
+import { MIN_LENGTH_TO_SEARCH } from './index';
 
-const getDateStringForDate = (date = null) => (
-  (date !== null
-    ? moment(date)
-    : moment()
-  ).format("YYYY-MM-DD[T]HH:mm")
-);
 const AddForm = ({
   addRecordWithFoodItem,
   addRecord,
@@ -19,87 +17,50 @@ const AddForm = ({
   foundFoodItems,
   searchFoodItem
 }) => {
-  const {
-    initForm,
-    getValues,
-    resetForm,
-    updateValues,
-    setDisabled,
-    addOnChangeListener
-  } = useControlledFormHook(() => null, ["title", "eatenAt"]);
+  const [state, dispatch] = useReducer(reducer, {}, initState);
 
-  const titleInput = useRef(null);
-  const weightInput = useRef(null);
+  const titleEl = useRef(null);
+  const weightEl = useRef(null);
+  const searchTimeout = useRef(null);
 
-  const [loadedFoodItem, setLoadedFoodItem] = useState(null);
-  const [isTitleFocused, setIsTitleFocused] = useState(false);
-  const [titleValue, setTitleValue] = useState("");
-  const [titleDisabled, setTitleDisabled] = useState(false);
-  const [searchTimeout, setSearchTimeout] = useState(null);
-
-  const [eatenAtValue, setEatenAtValue] = useState(getDateStringForDate());
-  const [dateExplicitlyChanged, setDateExplicitlyChanged] = useState(false);
-  const onEatenAtChange = (e) => {
-    setEatenAtValue(e.target.value);
-    setDateExplicitlyChanged(true);
+  const handleFieldChange = (name) => (val) => {
+    dispatch(setFieldValueAction(name, val));
   };
-  const updateDateField = () => {
-    if (!dateExplicitlyChanged) {
-      setEatenAtValue(getDateStringForDate());
+  const handleTitleChange = (val) => {
+    if (!state.loadedFoodItem && val && val.length >= MIN_LENGTH_TO_SEARCH) {
+      if (searchTimeout.current) clearTimeout(searchTimeout.current);
+      searchTimeout.current = setTimeout(() => searchFoodItem(val), 300);
     }
+    dispatch(setFieldValueAction("title", val));
   };
-  addOnChangeListener({ updateDateField });
+  const handleEatenAtChange = (val) => {
+    dispatch(setFieldValueAction("eatenAt", val));
+  };
 
-  const changeTitleWithSearch = (val) => {
-    if (!loadedFoodItem && val && val.length >= MIN_LENGTH_TO_SEARCH) {
-      if (searchTimeout) clearTimeout(searchTimeout);
-      setSearchTimeout(setTimeout(() => searchFoodItem(val), 300));
-    }
-    setTitleValue(val);
-    updateDateField();
+  const loadFoodItem = (foodItem) => {
+    dispatch(loadFoodItemAction(foodItem));
   };
-  const handleTitleChange = (e) => {
-    changeTitleWithSearch(e.target.value);
+  const removeLoadedFoodItem = () => {
+    dispatch(removeFoodItemAction());
   };
 
   useEffect(() => {
     setTimeout(() => {
-      if (titleDisabled) {
-        weightInput.current.focus();
-        weightInput.current.select();
+      if (getField(state, "title").disabled) {
+        weightEl.current.focus();
+        weightEl.current.select();
       } else {
-        titleInput.current.focus();
-        titleInput.current.select();
+        titleEl.current.focus();
+        titleEl.current.select();
       }
     }, 100);
-  }, [titleDisabled, loadedFoodItem]);
-
-  const loadFoodItem = (foodItem) => {
-    setLoadedFoodItem(foodItem);
-    updateValues(foodItem);
-    setTitleValue(foodItem.title);
-    setTitleDisabled(true);
-    setDisabled(Object.keys(foodItem));
-  };
-  const removeLoadedFoodItem = () =>{
-    setLoadedFoodItem(null);
-    setTitleValue("");
-    setTitleDisabled(false);
-    resetForm();
-  };
+  }, [getField(state, "title").disabled, state.loadedFoodItem]);
 
   const submitForm = (e) => {
     e.preventDefault();
-    const formValues = getValues();
-    const record = {
-      ...formValues,
-      weight: Math.floor(Number(formValues.weight) || 0),
-      title: titleValue,
-      eatenAt: moment(eatenAtValue).toISOString(),
-      createdAt: moment().toISOString(),
-    };
-    if (loadedFoodItem !== null) {
-      record.foodItemID = loadedFoodItem.foodItemID;
+    const record = getFormValues(state);
+    if (state.loadedFoodItem !== null) {
+      record.foodItemID = state.loadedFoodItem.foodItemID;
       console.log("Record NO food item: ", record);
       addRecord(record);
     } else {
@@ -109,146 +70,123 @@ const AddForm = ({
     removeLoadedFoodItem();
   };
 
-  const onPaste = (e) => {
-    const regExp = /^(.+)((?:\s+(?:\d+(?:\.\d+)?)){5})$/;
-    const text = e.clipboardData.getData("text");
-    const res = text.match(regExp);
-    if (res) {
-      e.preventDefault();
-      e.stopPropagation();
-      const title = res[1].trim();
-      const [
-        weight,
-        calories,
-        protein,
-        fat,
-        carbs
-      ] = res[2].trim().split(/\s+/);
-      updateValues({
-        title,
-        weight: Number(weight),
-        calories: Number(calories),
-        protein: Number(protein),
-        fat: Number(fat),
-        carbs: Number(carbs)
-      });
-      changeTitleWithSearch(title);
-      titleInput.current.focus();
-    }
-  };
-
   return (
-    <form onSubmit={submitForm} ref={initForm} onPaste={onPaste}>
-      <h1>Add Food</h1>
-      {
-        loadedFoodItem
-          ? (
-            <span onClick={removeLoadedFoodItem}>X</span>
-          )
-          : null
-      }
+    <form onSubmit={submitForm}>
       <div className={styles.formContainer}>
-        <div className={styles.fieldContainer}>
-          <label htmlFor="title">
-            <span>Food: </span>
-          </label>
-          <div className={styles.inputContainer}>
-            <input
-              ref={titleInput}
-              type="text"
-              id="title"
-              name="title"
-              disabled={titleDisabled}
-              value={titleValue}
-              onChange={handleTitleChange}
-              onFocus={() => { console.log("focused"); setIsTitleFocused(true); }}
-              onBlur={() => { console.log("UN focused"); setIsTitleFocused(false); }}
-            />
-          </div>
+        {/* This is to make sure we submitform on enter */}
+        <input type="submit" style={{ display: "none" }} />
+        <div className={styles.title}>
+          <Input
+            name="title"
+            labelText="Food"
+            fieldType="text"
+            ref={titleEl}
+            disabled={getField(state, "title").disabled}
+            value={getField(state, "title").value}
+            onChange={handleTitleChange}
+            onFocus={() => dispatch(setTitleFocusAction(true))}
+            onBlur={() => dispatch(setTitleFocusAction(false))}
+          />
           {
-            <SuggestionsList
-              showSuggestions={isTitleFocused && !titleDisabled && titleValue.length >= MIN_LENGTH_TO_SEARCH}
-              isSearching={isSearching}
-              foundFoodItems={foundFoodItems}
-              onFoodItemSelected={loadFoodItem}
-            />
+            showSuggestions(state, isSearching, foundFoodItems) && (
+              <SuggestionsList
+                isSearching={isSearching}
+                foundFoodItems={foundFoodItems}
+                onFoodItemSelected={loadFoodItem}
+              />
+            )
           }
         </div>
-
-        <div className={styles.fieldContainer}>
-          <label htmlFor="weight">
-            <span>Weight: </span>
-          </label>
-          <div className={styles.inputContainer}>
-            <input type="number" id="weight" name="weight"
-              ref={weightInput}
-              defaultValue={""}
-            />
-          </div>
+        <div className={styles.closeButton}>
+          {
+            state.loadedFoodItem && (
+              <Button onClick={removeLoadedFoodItem}>
+                <Close size="small" color="red" />
+              </Button>
+            )
+          }
         </div>
-
-        <div className={styles.fieldContainer}>
-          <label htmlFor="calories">
-            <span>Ccal: </span>
-          </label>
-          <div className={styles.inputContainer}>
-            <input type="number" id="calories" name="calories"
-              defaultValue={""}
-            />
-          </div>
+        <div className={styles.weight}>
+          <Input
+            name="weight"
+            labelText="Weight"
+            suffixText="g."
+            fieldType="number"
+            align="right"
+            ref={weightEl}
+            disabled={getField(state, "weight").disabled}
+            value={getField(state, "weight").value}
+            onChange={handleFieldChange("weight")}
+          />
         </div>
-
-        <div className={styles.fieldContainer}>
-          <label htmlFor="protein">
-            <span>Protein: </span>
-          </label>
-          <div className={styles.inputContainer}>
-            <input type="number" step={0.1} id="protein" name="protein"
-              defaultValue={""}
-            />
-          </div>
+        <div className={styles.ccal}>
+          <Input
+            name="calories"
+            labelText="Calories"
+            suffixText="ccal"
+            fieldType="number"
+            align="right"
+            disabled={getField(state, "calories").disabled}
+            value={getField(state, "calories").value}
+            onChange={handleFieldChange("calories")}
+          />
         </div>
-
-        <div className={styles.fieldContainer}>
-          <label htmlFor="fat">
-            <span>Fat: </span>
-          </label>
-          <div className={styles.inputContainer}>
-            <input type="number" step={0.1} id="fat" name="fat"
-              defaultValue={""}
-            />
-          </div>
+        <div className={styles.protein}>
+          <Input
+            name="protein"
+            labelText="Protein"
+            suffixText="g."
+            fieldType="number"
+            step={0.1}
+            align="right"
+            disabled={getField(state, "protein").disabled}
+            value={getField(state, "protein").value}
+            onChange={handleFieldChange("protein")}
+          />
         </div>
-
-        <div className={styles.fieldContainer}>
-          <label htmlFor="carbs">
-            <span>Net Carbs: </span>
-          </label>
-          <div className={styles.inputContainer}>
-            <input type="number" step={0.1} id="carbs" name="carbs"
-              defaultValue={""}
-            />
-          </div>
+        <div className={styles.fat}>
+          <Input
+            name="fat"
+            labelText="Fat"
+            suffixText="g."
+            fieldType="number"
+            step={0.1}
+            align="right"
+            disabled={getField(state, "fat").disabled}
+            value={getField(state, "fat").value}
+            onChange={handleFieldChange("fat")}
+          />
         </div>
-
-        <div className={styles.fieldContainer}>
-          <label htmlFor="date">
-            <span>Date: </span>
-          </label>
-          <div className={styles.inputContainer}>
-            <input type="datetime-local" id="eatenAt" name="eatenAt"
-              value={eatenAtValue}
-              onChange={onEatenAtChange}
-            />
-          </div>
+        <div className={styles.carbs}>
+          <Input
+            name="carbs"
+            labelText="Carbs"
+            suffixText="g."
+            fieldType="number"
+            step={0.1}
+            align="right"
+            disabled={getField(state, "carbs").disabled}
+            value={getField(state, "carbs").value}
+            onChange={handleFieldChange("carbs")}
+          />
         </div>
-
-        <div className={styles.fieldContainer}>
-          <button type="submit" id="submit" name="submit">Submit</button>
+        <div className={styles.date}>
+          <Input
+            name="eatenAt"
+            labelText="Date"
+            fieldType="datetime-local"
+            disabled={getField(state, "eatenAt").disabled}
+            value={getField(state, "eatenAt").value}
+            onChange={handleEatenAtChange}
+          />
+        </div>
+        <div className={styles.submit}>
+          <Button name="submit" type="submit">
+            Submit
+          </Button>
         </div>
       </div>
     </form>
-
   );
 };
 export default AddForm;
