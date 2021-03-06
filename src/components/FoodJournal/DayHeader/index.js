@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './DayHeader.module.css';
 import moment from 'moment';
 
-const getDateString = (isoString) => moment(isoString).format("D MMMM");
+const getDateString = (isoString) => moment(isoString).format("ddd, D MMMM");
 
 const DayHeader = ({
   dayStart,
