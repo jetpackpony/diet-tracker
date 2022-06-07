@@ -14,7 +14,7 @@
   outline: none;
   border: none;
   width: 100%;
-  padding: 0.75em 1em;
+  padding: 0.75rem 1rem;
 }
 
 .field input::-webkit-outer-spin-button, .field input::-webkit-inner-spin-button {
@@ -27,11 +27,11 @@
 }
 
 .suffix {
-  padding: 0.75em 1em 0.75em 0;
+  padding: 0.75rem 1rem 0.75rem 0;
 }
 
 .with-suffix input {
-  padding: 0.75em 0.25em 0.75em 1em;
+  padding: 0.75rem 0.25rem 0.75rem 1rem;
 }
 
 .align-right input {
@@ -70,13 +70,13 @@
 .outline-left {
   border-radius: 5px 0 0 5px;
   border-right: none;
-  width: 1em;
+  width: 1rem;
 }
 
 .outline-notch {
   border-left: none;
   border-right: none;
-  padding: 0.75em 0.1em;
+  padding: 0.75rem 0.1rem;
 }
 
 .outline-right {
@@ -95,7 +95,7 @@
 }
 
 .label-raised label {
-  transform: translateY(-1.5em) scale(0.75);
+  transform: translateY(-1.5rem) scale(0.75);
   transition: transform 0.2s;
 }
 

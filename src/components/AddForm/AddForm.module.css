@@ -1,8 +1,8 @@
 .formContainer {
   max-width: 450px;
-  padding: 1em;
+  padding: 1rem;
   display: grid;
-  gap: 1em 1em;
+  gap: 1rem 1rem;
   justify-items: stretch;
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas:
