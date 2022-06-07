@@ -1,44 +1,48 @@
 :root {
+  --content-padding: 1.25rem;
+  --inline-spacing: 0.5rem;
+  --border-radius: 6px;
+  --surface-hover: rgba(255, 255, 255, .03);
+  --maskbg: rgba(0, 0, 0, 0.4);
+  --focus-ring: 0 0 0 1px #e0d8fc;
+
   --font-family: -apple-system, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  --font-size: 16px;
+  --font-size: 14px;
   --font-weight: 500;
-  --line-height: 22px;
+  --line-height: 1.5;
   --font-weight-light: 300;
   --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-bold: 700;
-  --text-color-primary: rgba(0, 0, 0, 0.87);
-  --text-color-secondary: rgba(0, 0, 0, 0.54);
-  --text-color-disabled: rgba(0, 0, 0, 0.38);
-  --text-color-hint: rgba(0, 0, 0, 0.38);
-  --text-color-divider: rgba(0, 0, 0, 0.12);
-  --background-color-raised: rgb(240, 240, 240);
-  --light-grey: rgba(0, 0, 0, .35);
-  --light-border: 1px solid var(--light-grey);
-  --disabled-grey: rgba(0, 0, 0, .18);
-  --disabled-grey-color: rgba(0, 0, 0, .24);
-  --disabled-border: 1px solid var(--disabled-grey);
-  --primary-border-color: rgba(77, 145, 255, 1);
-  --primary-border-width: 2px;
-  --primary-color: rgba(77, 145, 255, 1);
+  --font-weight-medium: 600;
+  --font-weight-bold: 800;
+  --text-color-primary: #e6e6e6;
+  --text-color-secondary: #b3b3b3;
+  --primary-color: #b19df7;
+  --primary-color-text: #212529;
+  --error-color: #832225;
+  --disabled-opacity: 0.4;
+  --ground-color: #1d1e27;
+  --content-color: #282936;
+  --border-color: #3e4053;
 }
 
 body {
   margin: 0;
-  font-family: var(--font-family);
-  font-size: var(--font-size);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height);
-  color: var(--text-color-primary);
 }
 
 html {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height);
+  color: var(--text-color-primary);
+  background-color: var(--ground-color);
 }
 
-input, textarea {
+input,
+textarea {
   -webkit-touch-callout: default;
   -webkit-user-select: text;
   user-select: text;

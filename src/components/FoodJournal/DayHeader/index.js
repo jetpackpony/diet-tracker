@@ -18,12 +18,12 @@ const DayHeader = ({
     <header className={styles.dayHeader}>
       <span>
         <h3>{getDateString(dayStart)}</h3>
+      </span>
+      <span className={styles.right}>
+        <div>{calDeficit} left</div>
         <div className={styles.subtext}>
           {calories} ccal {protein} / {fat} / {carbs}
         </div>
-      </span>
-      <span>
-        <div>{calDeficit} left</div>
       </span>
     </header>
   )
