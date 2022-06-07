@@ -23,6 +23,7 @@
   --ground-color: #1d1e27;
   --content-color: #282936;
   --border-color: #3e4053;
+  --border-radius: 6px;
 }
 
 body {

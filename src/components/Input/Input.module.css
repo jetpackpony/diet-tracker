@@ -1,23 +1,35 @@
 .field {
-  border-radius: 5px;
   position: relative;
-  display: flex;
+  display: block;
 }
 
 .field input {
   font-family: var(--font-family);
-  font-size: var(--font-size);
+  font-size: 1rem;
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height);
   color: var(--text-color-primary);
-  background: transparent;
-  outline: none;
-  border: none;
+  background: var(--content-color);
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 0.75rem;
+  border: 1px solid var(--border-color);
+  transition: background-color .2s, color .2s, border-color .2s, box-shadow .2s;
+  appearance: none;
+  border-radius: var(--border-radius);
 }
 
-.field input::-webkit-outer-spin-button, .field input::-webkit-inner-spin-button {
+.field input:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  border-color: var(--primary-color);
+}
+
+.field input:hover {
+  border-color: var(--primary-color);
+}
+
+.field input::-webkit-outer-spin-button,
+.field input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -26,72 +38,21 @@
   -moz-appearance: textfield;
 }
 
-.suffix {
-  padding: 0.75rem 1rem 0.75rem 0;
-}
-
-.with-suffix input {
-  padding: 0.75rem 0.25rem 0.75rem 1rem;
-}
-
-.align-right input {
-  text-align: right;
-}
-
-.disabled, .disabled input {
-  color: var(--disabled-grey-color);
-}
-
-.disabled .outline-left, .disabled .outline-notch, .disabled .outline-right {
-  border-color: var(--disabled-grey-border);
-}
-
-.outline {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.outline label {
+.field label {
   display: block;
   pointer-events: none;
+  position: absolute;
+  top: 0.75rem;
+  left: 0.25rem;
+  padding: 0 0.5rem;
+  background: var(--content-color);
+  color: var(--text-color-secondary);
   transition: transform 0.2s;
-}
-
-.outline-left, .outline-notch, .outline-right {
-  border: var(--light-border);
-  pointer-events: none;
-}
-
-.outline-left {
-  border-radius: 5px 0 0 5px;
-  border-right: none;
-  width: 1rem;
-}
-
-.outline-notch {
-  border-left: none;
-  border-right: none;
-  padding: 0.75rem 0.1rem;
-}
-
-.outline-right {
-  border-radius: 0 5px 5px 0;
-  border-left: none;
-  flex-grow: 1;
+  border-radius: 6px;
 }
 
 .field:focus-within label {
   color: var(--primary-color);
-}
-
-.field:focus-within .outline-left, .field:focus-within .outline-notch, .field:focus-within .outline-right {
-  border-width: var(--primary-border-width);
-  border-color: var(--primary-border-color);
 }
 
 .label-raised label {
@@ -99,6 +60,24 @@
   transition: transform 0.2s;
 }
 
-.label-raised .outline-notch {
-  border-top: none;
+.suffix {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+}
+
+.with-suffix input {
+  padding-right: 2.5rem;
+}
+
+.align-right input {
+  text-align: right;
+}
+
+.disabled {
+  opacity: var(--disabled-opacity);
+}
+
+.disabled.field input:hover {
+  border-color: var(--border-color);
 }

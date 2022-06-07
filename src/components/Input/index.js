@@ -82,7 +82,6 @@ const Input = React.forwardRef(({
             />
           )
           : (
-
             <input
               type={fieldType}
               onFocus={onFocusEvent}
@@ -94,19 +93,11 @@ const Input = React.forwardRef(({
             />
           )
       }
-      <div className={styles.outline}>
-        <div className={styles['outline-left']}></div>
-        {
-          (labelText)
-            ? (
-              <div className={styles['outline-notch']}>
-                <label>{labelText}</label>
-              </div>
-            )
-            : null
-        }
-        <div className={styles['outline-right']}></div>
-      </div>
+      {
+        (labelText)
+          ? <label>{labelText}</label>
+          : null
+      }
       {
         (suffixText)
           ? <span className={styles.suffix}>{suffixText}</span>
