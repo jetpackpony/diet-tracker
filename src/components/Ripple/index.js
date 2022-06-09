@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Ripple.module.css';
 
-export const useRipple = () => {
+const Ripple = () => {
   const [inkPos, setInkPos] = useState({ top: 0, left: 0, size: 0 });
   const [inkActive, setInkActive] = useState(false);
   const triggerRipple = (e) => {
@@ -14,17 +14,14 @@ export const useRipple = () => {
     setTimeout(() => setInkActive(false), 400);
   };
 
-  const Ripple = () => {
-    return (
+  return (
+    <div className={styles.wrapper} onClick={triggerRipple}>
       <span
         className={[styles.ink, (inkActive) ? styles.inkActive : ""].join(" ")}
         style={{ top: inkPos.top, left: inkPos.left, width: inkPos.size, height: inkPos.size }}
       ></span>
-    );
-  };
-
-  return {
-    Ripple,
-    triggerRipple
-  };
+    </div>
+  );
 };
+
+export default Ripple;

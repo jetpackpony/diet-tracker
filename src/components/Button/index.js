@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Button.module.css';
-import { useRipple } from '../../hooks/useRipple';
+import Ripple from '../Ripple';
 
 const Button = ({
   className,
@@ -10,12 +10,6 @@ const Button = ({
   onClick,
   buttonProps = { type: "submit", name: "submit" }
 }) => {
-  const { Ripple, triggerRipple } = useRipple();
-  const buttonOnClick = (e) => {
-    triggerRipple(e);
-    onClick(e);
-  };
-
   // We need this to be able to use prop as component
   const Icon = icon;
 
@@ -41,7 +35,7 @@ const Button = ({
   return (
     <button
       className={buttonStyles.join(" ")}
-      onClick={buttonOnClick}
+      onClick={onClick}
       {...buttonProps}
     >
 
