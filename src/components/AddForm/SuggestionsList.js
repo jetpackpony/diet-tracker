@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './AddForm.module.css';
+import styles from './SuggestionsList.module.css';
 import { List, ListItem } from '../List';
 
 const SearchResults = ({
@@ -23,9 +23,8 @@ const SearchResults = ({
               key={item.foodItemID}
               onClick={() => onFoodItemSelected(item)}
             >
-              {item.title}:
-              {item.calories} ccal
-              {item.protein}/{item.fat}/{item.carbs}
+              <div>{item.title}</div>
+              <div className={styles.subtitle}>{item.calories} ccal {item.protein}/{item.fat}/{item.carbs}</div>
             </ListItem>
           ))
         }

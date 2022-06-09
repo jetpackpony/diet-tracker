@@ -49,14 +49,3 @@
 .submit {
   grid-area: submit;
 }
-
-.searchList {
-  position: absolute;
-  top: 100%;
-  background: white;
-  border: 1px solid;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  z-index: 1000;
-}
