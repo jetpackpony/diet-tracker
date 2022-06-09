@@ -1,7 +1,87 @@
 .button {
-  background: none;
-  outline: none;
+  margin: 0;
+  display: inline-flex;
+  user-select: none;
+  align-items: center;
+  vertical-align: bottom;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
   cursor: pointer;
-  border: 2px solid #2e87a8;
-  border-radius: 10px;
+  transition: background-color .2s, color .2s, border-color .2s, box-shadow .2s;
+  border-radius: 6px;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+}
+
+.button:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: var(--focus-shadow);
+}
+
+.primary {
+  color: var(--primary-color-text);
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.primary:hover {
+  background: var(--primary-hover-color);
+  border-color: var(--primary-hover-color);
+}
+
+.primary:active {
+  background: var(--primary-active-color);
+  border-color: var(--primary-active-color);
+}
+
+.outlined {
+  color: var(--primary-color);
+  background: var(--content-color);
+  border: 1px solid var(--primary-color);
+}
+
+.outlined:hover {
+  background: var(--content-hover);
+}
+
+.outlined:active {
+  background: var(--content-active);
+}
+
+.plainText {
+  color: var(--primary-color);
+  background: var(--content-color);
+  border: 1px solid var(--content-color);
+}
+
+.plainText:hover {
+  background: var(--content-hover);
+}
+
+.plainText:active {
+  background: var(--content-active);
+}
+
+.ink {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6rem;
+  height: 6rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 100%;
+  transform: scale(0);
+}
+
+.inkActive {
+  animation: ripple .4s linear;
+}
+
+@keyframes ripple {
+  to {
+    opacity: 0;
+    transform: scale(2.5);
+  }
 }
