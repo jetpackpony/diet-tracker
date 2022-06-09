@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import styles from './Button.module.css';
+import { useRipple } from '../../hooks/useRipple';
 
 const Button = ({
   className,
@@ -9,16 +10,9 @@ const Button = ({
   onClick,
   buttonProps = { type: "submit", name: "submit" }
 }) => {
-  const [inkPos, setInkPos] = useState({ top: 0, left: 0, size: 0 });
-  const [inkActive, setInkActive] = useState(false);
+  const { Ripple, triggerRipple } = useRipple();
   const buttonOnClick = (e) => {
-    const buttonRect = e.currentTarget.getBoundingClientRect();
-    const size = Math.max(buttonRect.width, buttonRect.height);
-    const top = e.clientY - buttonRect.top - size / 2;
-    const left = e.clientX - buttonRect.left - size / 2;
-    setInkPos({ top, left, size });
-    setInkActive(true);
-    setTimeout(() => setInkActive(false), 400);
+    triggerRipple(e);
     onClick(e);
   };
 
@@ -55,10 +49,7 @@ const Button = ({
         {icon && <Icon size="small" color={iconColor} />}
       </span>
       <span>{text}</span>
-      <span
-        className={[styles.ink, (inkActive) ? styles.inkActive : ""].join(" ")}
-        style={{ top: inkPos.top, left: inkPos.left, width: inkPos.size, height: inkPos.size }}
-      ></span>
+      <Ripple />
     </button>
   )
 };
