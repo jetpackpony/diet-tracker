@@ -61,13 +61,14 @@
 }
 
 .suffix {
+  color: var(--text-color-secondary);
   position: absolute;
   right: 0.75rem;
   top: 0.75rem;
 }
 
 .with-suffix input {
-  padding-right: 2.5rem;
+  padding-right: 2rem;
 }
 
 .align-right input {

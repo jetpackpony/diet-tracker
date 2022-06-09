@@ -14,10 +14,16 @@ storiesOf('Input', module)
         <Input />
       </div>
       <div style={{ margin: "0 0 20px 0" }}>
-        <Input labelText="Label" align="right" suffixText="g." />
+        <Input labelText="Right" align="right" />
       </div>
       <div style={{ margin: "0 0 20px 0" }}>
-        <Input labelText="Number" fieldType="number" align="right" suffixText="g." />
+        <Input labelText="Suffix" align="right" suffixText="gramms" />
+      </div>
+      <div style={{ margin: "0 0 20px 0" }}>
+        <Input labelText="Number" fieldType="number" align="right" />
+      </div>
+      <div style={{ margin: "0 0 20px 0" }}>
+        <Input labelText="Number suffix" fieldType="number" align="right" suffixText="g." />
       </div>
       <div style={{ margin: "0 0 20px 0" }}>
         <Input labelText="Password" fieldType="password" />
@@ -28,12 +34,18 @@ storiesOf('Input', module)
     </div>
   ))
   .add('controlled', () => {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState(123);
     const onInput = (val) => setValue(val);
     return (
       <div style={{ padding: "2rem", background: "var(--content-color)" }}>
         <div style={{ margin: "0 0 20px 0" }}>
           <Input labelText="Label" value={value} onInput={onInput} onChange={onInput} />
+        </div>
+        <div style={{ margin: "0 0 20px 0" }}>
+          <Input labelText="Number suffix" fieldType="number" align="right" suffixText="g." value={value} onInput={onInput} onChange={onInput} />
+        </div>
+        <div style={{ margin: "0 0 20px 0" }}>
+          <Input labelText="Number" fieldType="number" align="right" value={value} onInput={onInput} onChange={onInput} />
         </div>
       </div>
     );

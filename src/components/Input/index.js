@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './Input.module.css';
 
@@ -35,6 +35,7 @@ const Input = React.forwardRef(({
 }, ref) => {
   const localRef = useRef(null);
   const inputRef = ref || localRef;
+  const suffixRef = useRef(null);
   const forceUpdate = useForceUpdate();
   const onFocusEvent = () => {
     forceUpdate();
@@ -63,12 +64,21 @@ const Input = React.forwardRef(({
     if (onClick && typeof onClick === "function") onClick(e);
   };
 
+  const [paddingRight, setPaddingRight] = useState(`calc(var(--font-size)*0.75*${(suffixText) ? 2.5 : 1})`);
+  useEffect(() => {
+    if (suffixRef.current) {
+      const width = suffixRef.current.getBoundingClientRect().width;
+      setPaddingRight(`calc(var(--font-size) * (0.75 + 0.2) + ${width}px)`);
+    }
+  }, [suffixText]);
+
   return (
     <div className={fieldClasses.join(" ")} onClick={onClickEvent}>
       {
         (onInput || onChange)
           ? (
             <input
+              style={{ paddingRight }}
               type={fieldType}
               onFocus={onFocusEvent}
               onBlur={onBlurEvent}
@@ -83,6 +93,7 @@ const Input = React.forwardRef(({
           )
           : (
             <input
+              style={{ paddingRight }}
               type={fieldType}
               onFocus={onFocusEvent}
               onBlur={onBlurEvent}
@@ -100,7 +111,7 @@ const Input = React.forwardRef(({
       }
       {
         (suffixText)
-          ? <span className={styles.suffix}>{suffixText}</span>
+          ? <span ref={suffixRef} className={styles.suffix}>{suffixText}</span>
           : null
       }
     </div>
