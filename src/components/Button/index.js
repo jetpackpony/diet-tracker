@@ -38,7 +38,6 @@ const Button = ({
       onClick={onClick}
       {...buttonProps}
     >
-
       <span style={{ marginRight: (icon && text) ? "0.5rem" : "0" }}>
         {icon && <Icon size="small" color={iconColor} />}
       </span>

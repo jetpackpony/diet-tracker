@@ -19,6 +19,7 @@ const isLabelRaised = (el, type, externalValue) => {
 };
 
 const Input = React.forwardRef(({
+  className = "",
   labelText,
   suffixText,
   name = "",
@@ -46,7 +47,7 @@ const Input = React.forwardRef(({
     onBlur && onBlur();
   };
 
-  const fieldClasses = [styles.field];
+  const fieldClasses = [className, styles.field];
   if (isLabelRaised(inputRef.current, fieldType, value)) {
     fieldClasses.push(styles['label-raised']);
   }

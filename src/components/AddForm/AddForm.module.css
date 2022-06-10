@@ -6,7 +6,7 @@
   justify-items: stretch;
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas:
-    "title   title   title  title  title  closeButton"
+    "title   title   title  title  title  title"
     "weight  weight  weight ccal   ccal   ccal"
     "protein protein fat    fat    carbs  carbs"
     "date    date    date   date   date   date"
@@ -14,12 +14,15 @@
 }
 
 .title {
-  grid-area: title;
   position: relative;
+  grid-area: title;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.closeButton {
-  grid-area: closeButton;
+.searchBox {
+  flex-grow: 1;
 }
 
 .weight {
