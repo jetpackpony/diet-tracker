@@ -118,11 +118,11 @@ const AddForm = ({
             onChange={handleFieldChange("weight")}
           />
         </div>
-        <div className={styles.ccal}>
+        <div className={styles.cal}>
           <Input
             name="calories"
             labelText="Calories"
-            suffixText="ccal"
+            suffixText="cal"
             fieldType="number"
             align="right"
             disabled={getField(state, "calories").disabled}

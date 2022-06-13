@@ -24,7 +24,7 @@ const SearchResults = ({
               onClick={() => onFoodItemSelected(item)}
             >
               <div>{item.title}</div>
-              <div className={styles.subtitle}>{item.calories} ccal {item.protein}/{item.fat}/{item.carbs}</div>
+              <div className={styles.subtitle}>{item.calories} cal {item.protein}/{item.fat}/{item.carbs}</div>
             </ListItem>
           ))
         }

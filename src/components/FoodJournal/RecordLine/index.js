@@ -34,7 +34,7 @@ const RecordLine = ({
         <div>
           <div className={styles.title}>{title}</div>
           <div className={styles.subtitle}>
-            {calories} ccal {protein} / {fat} / {carbs}
+            {calories} cal {protein} / {fat} / {carbs}
           </div>
         </div>
         <div className={styles.right}>

@@ -7,7 +7,7 @@
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas:
     "title   title   title  title  title  title"
-    "weight  weight  weight ccal   ccal   ccal"
+    "weight  weight  weight cal   cal   cal"
     "protein protein fat    fat    carbs  carbs"
     "date    date    date   date   date   date"
     "submit  submit  submit submit submit submit";
@@ -29,8 +29,8 @@
   grid-area: weight;
 }
 
-.ccal {
-  grid-area: ccal;
+.cal {
+  grid-area: cal;
 }
 
 .protein {

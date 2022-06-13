@@ -22,7 +22,7 @@ const DayHeader = ({
       <span className={styles.right}>
         <div>{calDeficit} left</div>
         <div className={styles.subtext}>
-          {calories} ccal {protein} / {fat} / {carbs}
+          {calories} cal {protein} / {fat} / {carbs}
         </div>
       </span>
     </header>
