@@ -15,17 +15,19 @@ const foundFoodItems = [
 
 storiesOf('AddForm', module)
   .add('Add Form', () => (
-    <AddForm
-      addRecordWithFoodItem={action("addRecordWithFoodItem")}
-      addRecord={action("addRecord")}
-      isSearching={false}
-      foundFoodItems={foundFoodItems}
-      searchFoodItem={action("searchFoodItem")}
-    />
+    <div style={{ background: "var(--content-color)", height: "200vh" }}>
+      <AddForm
+        addRecordWithFoodItem={action("addRecordWithFoodItem")}
+        addRecord={action("addRecord")}
+        isSearching={false}
+        foundFoodItems={foundFoodItems}
+        searchFoodItem={action("searchFoodItem")}
+      />
+    </div>
   ));
 
 const Container = ({ children }) => (
-  <div style={{ padding: "2rem", background: "var(--content-color)", height: "100vh" }}>
+  <div style={{ padding: "2rem", background: "var(--content-color)", height: "200vh" }}>
     <div style={{ position: "relative" }}>
       {children}
     </div>

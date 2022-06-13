@@ -23,8 +23,8 @@
   --disabled-opacity: 0.4;
   --ground-color: #1d1e27;
   --content-color: #282936;
-  --content-hover: rgba(177,157,247,.04);
-  --content-active: rgba(177,157,247,.16);
+  --content-hover: rgba(177, 157, 247, .04);
+  --content-active: rgba(177, 157, 247, .16);
   --border-color: #3e4053;
   --border-radius: 6px;
 }
@@ -34,6 +34,7 @@ body {
 }
 
 html {
+  -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
