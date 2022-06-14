@@ -1,7 +1,6 @@
 :root {
   --content-padding: 1.25rem;
   --inline-spacing: 0.5rem;
-  --border-radius: 6px;
   --maskbg: rgba(0, 0, 0, 0.4);
   --focus-shadow: 0 0 0 1px #e0d8fc;
   --primary-color: #b19df7;
@@ -25,6 +24,7 @@
   --content-color: #282936;
   --content-hover: rgba(177, 157, 247, .04);
   --content-active: rgba(177, 157, 247, .16);
+  --raised-color: #333544;
   --border-color: #3e4053;
   --border-radius: 6px;
 }

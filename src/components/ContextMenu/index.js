@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import styles from './ContextMenu.module.css';
-import { List, ListItem } from '../../List';
+import { List, ListItem } from '../List';
 
 const ContextMenu = ({ items, children, debugPos = null }) => {
   const menuEl = useRef(null);

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './RecordLine.module.css';
 import EditField from './EditField';
-import ContextMenu from './ContextMenu';
+import ContextMenu from '../../ContextMenu';
 
 const RecordLine = ({
   id,
