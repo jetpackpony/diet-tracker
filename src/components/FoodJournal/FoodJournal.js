@@ -32,9 +32,11 @@ const FoodJournal = ({
           ))
         }
       </ol>
-      <Button className={styles.loadMore} onClick={fetchMoreRecords}>
-        Load More
-      </Button>
+      <Button
+        className={styles.loadMore}
+        onClick={fetchMoreRecords}
+        text="Load More"
+      />
     </section>
   )
 };
