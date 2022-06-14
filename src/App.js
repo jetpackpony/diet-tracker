@@ -1,11 +1,13 @@
 import React from 'react';
-import FoodJournal from './components/FoodJournal';
-import AddForm from './components/AddForm';
 import "./reset.css";
 import "./App.css";
+import styles from './App.module.css';
 import Login from './components/Login';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
+import AppBar from './components/AppBar';
+import AddForm from './components/AddForm';
+import FoodJournal from './components/FoodJournal';
 
 
 const IS_LOGGED_IN = gql`
@@ -17,20 +19,21 @@ const IS_LOGGED_IN = gql`
 const App = () => {
   const { data } = useQuery(IS_LOGGED_IN);
   return (
-    <main>
-      {
-        data && data.isLoggedIn
-          ? (
-            <>
-              <AddForm />
-              <FoodJournal />
-            </>
-          )
-          : (
-            <Login />
-          )
-      }
-    </main>
+    <>
+      <AppBar />
+      <main className={styles.main}>
+        {
+          data && data.isLoggedIn
+            ? (
+              <>
+                <AddForm />
+                <FoodJournal />
+              </>
+            )
+            : <Login />
+        }
+      </main>
+    </>
   );
 };
 

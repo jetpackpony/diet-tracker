@@ -1,6 +1,5 @@
 .formContainer {
-  max-width: 450px;
-  padding: 1rem;
+  padding: 0 1rem;
   display: grid;
   gap: 1rem 1rem;
   justify-items: stretch;
