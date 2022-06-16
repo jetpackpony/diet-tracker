@@ -16,3 +16,7 @@
 .right {
   max-width: 22%;
 }
+
+.selected {
+  background-color: rgb(0, 68, 255);
+}

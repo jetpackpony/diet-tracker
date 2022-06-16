@@ -7,9 +7,7 @@ import Button from '../Button';
 const FoodJournal = ({
   weeks,
   fetchMoreRecords,
-  updateRecord,
-  deleteRecord,
-  cloneRecord
+  updateRecord
 }) => {
   return (
     <section className={styles.foodJournal}>
@@ -25,8 +23,6 @@ const FoodJournal = ({
               <DaysList
                 days={week.days}
                 updateRecord={updateRecord}
-                deleteRecord={deleteRecord}
-                cloneRecord={cloneRecord}
               />
             </li>
           ))
