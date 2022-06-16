@@ -31,6 +31,8 @@ const App = () => {
   }), [selectedRecords, setSelectedRecords]);
   return (
     <SelectionContext.Provider value={selectionContextValue}>
+      <AppBar
+      />
       <main className={styles.main}>
         {
           data && data.isLoggedIn

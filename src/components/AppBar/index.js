@@ -1,10 +1,30 @@
-import React from "react";
+import { Close, Copy, Menu, Trash } from "grommet-icons";
+import React, { useContext } from "react";
+import SelectionContext from "../../SelectionContext";
 import styles from './AppBar.module.css';
+import AppBarButton from "./AppBarButton";
 
-const AppBar = () => {
+const AppBar = ({
+}) => {
+  const { selectedRecords, clearSelection } = useContext(SelectionContext);
+  const onCloseSelection = () => {
+    clearSelection();
+  }
 
   return (
-    <header className={styles.header}>Food</header>
+    <header className={styles.header}>
+      <AppBarButton icon={Menu} />
+      <div className={styles.title}>Food</div>
+      {
+        (selectedRecords.length > 0) && (
+          <>
+            <AppBarButton icon={Copy} />
+            <AppBarButton icon={Trash} onClick={onDeleteRecords} />
+            <AppBarButton icon={Close} onClick={onCloseSelection} />
+          </>
+        )
+      }
+    </header>
   );
 };
 
