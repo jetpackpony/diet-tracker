@@ -6,7 +6,7 @@ import SelectionContext from '../../../SelectionContext';
 const RecordLine = ({
   id,
   foodItem: {
-    id: foodItemId,
+    id: foodItemID,
     title
   },
   weight,
@@ -39,7 +39,7 @@ const RecordLine = ({
       clickStart.current = true;
       timer.current = setTimeout(() => {
         if (clickStart.current) {
-          toggleSelection(id);
+          toggleSelection({ id, foodItemID });
           clickCancel();
         }
       }, 500);
@@ -49,7 +49,7 @@ const RecordLine = ({
   const onPointerUp = () => {
     // If there are items already selected, select following items on click
     if (clickStart.current && selectedRecords.length > 0) {
-      toggleSelection(id);
+      toggleSelection({ id, foodItemID });
     }
     clickCancel();
   };
@@ -66,7 +66,7 @@ const RecordLine = ({
   if (weight <= 0) {
     classes.push(styles["not-filled-in"]);
   }
-  if (selectedRecords.includes(id)) {
+  if (selectedRecords.find((rec) => rec.id === id)) {
     classes.push(styles["selected"]);
   }
 

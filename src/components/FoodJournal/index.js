@@ -2,9 +2,7 @@ import React from 'react';
 import FoodJournal from './FoodJournal';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { mapObjArray } from '../../utils';
-import { GET_WEEKLY_FEED, UPDATE_RECORD, DELETE_RECORD, ADD_RECORD } from '../../queries';
-import { insertRecordIntoCache } from '../AddForm';
-import moment from 'moment';
+import { GET_WEEKLY_FEED, UPDATE_RECORD } from '../../queries';
 
 const getDailyCaloriesLimit = () => {
   return 2500;

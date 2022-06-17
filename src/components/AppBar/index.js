@@ -13,6 +13,10 @@ const AppBar = ({
     deleteRecords(selectedRecords);
     clearSelection();
   };
+  const onCloneRecords = () => {
+    cloneRecords(selectedRecords);
+    clearSelection();
+  };
   const onCloseSelection = () => {
     clearSelection();
   }
@@ -24,7 +28,7 @@ const AppBar = ({
       {
         (selectedRecords.length > 0) && (
           <>
-            <AppBarButton icon={Copy} />
+            <AppBarButton icon={Copy} onClick={onCloneRecords} />
             <AppBarButton icon={Trash} onClick={onDeleteRecords} />
             <AppBarButton icon={Close} onClick={onCloseSelection} />
           </>
