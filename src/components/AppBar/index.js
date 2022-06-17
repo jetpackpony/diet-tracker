@@ -10,8 +10,10 @@ const AppBar = ({
 }) => {
   const { selectedRecords, clearSelection } = useContext(SelectionContext);
   const onDeleteRecords = () => {
-    deleteRecords(selectedRecords);
-    clearSelection();
+    if (window.confirm("Delete?")) {
+      deleteRecords(selectedRecords);
+      clearSelection();
+    }
   };
   const onCloneRecords = () => {
     cloneRecords(selectedRecords);
