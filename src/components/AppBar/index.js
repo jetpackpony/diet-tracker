@@ -5,8 +5,14 @@ import styles from './AppBar.module.css';
 import AppBarButton from "./AppBarButton";
 
 const AppBar = ({
+  deleteRecords,
+  cloneRecords
 }) => {
   const { selectedRecords, clearSelection } = useContext(SelectionContext);
+  const onDeleteRecords = () => {
+    deleteRecords(selectedRecords);
+    clearSelection();
+  };
   const onCloseSelection = () => {
     clearSelection();
   }
