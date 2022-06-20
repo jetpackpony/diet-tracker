@@ -1,7 +1,5 @@
 import React, { useRef, useState } from 'react';
 import styles from './EditField.module.css';
-import { Checkmark } from 'grommet-icons';
-import Button from '../../Button';
 import Input from "../../Input";
 
 const EditField = ({ weight, onUpdate }) => {
@@ -34,9 +32,6 @@ const EditField = ({ weight, onUpdate }) => {
           onClick={onClick}
           ref={inputEl}
         />
-        <Button className={styles.save}>
-          <Checkmark size="small" color="green" />
-        </Button>
       </div>
     </form>
   );

@@ -1,23 +1,23 @@
 .recordLine {
   display: flex;
   justify-content: space-between;
-  padding: 1em;
-  border-bottom: 1px solid #dfdfdf;
+  padding: 0.75rem 1rem;
+  transition: background-color .15s ease-out;
 }
 
 .not-filled-in {
-  background-color: #ff8888!important;
-}
-
-.title {
-  font-weight: 500;
+  background-color: var(--error-color);
 }
 
 .subtitle {
-  font-size: 0.75em;
-  color: var(--text-color-disabled);
+  font-size: 0.75rem;
+  color: var(--text-color-secondary);
 }
 
 .right {
-  max-width: 40%;
+  max-width: 22%;
+}
+
+.selected {
+  background-color: var(--selected-color);
 }

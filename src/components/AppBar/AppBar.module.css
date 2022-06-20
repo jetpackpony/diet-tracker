@@ -1,0 +1,53 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  background: var(--appbar-color);
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-medium);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.title {
+  flex-grow: 1;
+  margin-right: 0.5rem;
+}
+
+.button {
+  margin: 0;
+  display: inline-flex;
+  user-select: none;
+  align-items: center;
+  vertical-align: bottom;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: background-color .2s, color .2s, border-color .2s, box-shadow .2s;
+  border-radius: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  color: var(--primary-color);
+  background: transparent;
+  border: none;
+}
+
+.button:focus {
+  outline: 0 none;
+  outline-offset: 0;
+}
+
+.button:hover {
+  background: var(--content-hover);
+}
+
+.button:active {
+  background: var(--content-active);
+}

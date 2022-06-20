@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './Input.module.css';
 
@@ -19,6 +19,7 @@ const isLabelRaised = (el, type, externalValue) => {
 };
 
 const Input = React.forwardRef(({
+  className = "",
   labelText,
   suffixText,
   name = "",
@@ -35,6 +36,7 @@ const Input = React.forwardRef(({
 }, ref) => {
   const localRef = useRef(null);
   const inputRef = ref || localRef;
+  const suffixRef = useRef(null);
   const forceUpdate = useForceUpdate();
   const onFocusEvent = () => {
     forceUpdate();
@@ -45,7 +47,7 @@ const Input = React.forwardRef(({
     onBlur && onBlur();
   };
 
-  const fieldClasses = [styles.field];
+  const fieldClasses = [className, styles.field];
   if (isLabelRaised(inputRef.current, fieldType, value)) {
     fieldClasses.push(styles['label-raised']);
   }
@@ -63,12 +65,21 @@ const Input = React.forwardRef(({
     if (onClick && typeof onClick === "function") onClick(e);
   };
 
+  const [paddingRight, setPaddingRight] = useState(`calc(var(--font-size)*0.75*${(suffixText) ? 2.5 : 1})`);
+  useEffect(() => {
+    if (suffixRef.current) {
+      const width = suffixRef.current.getBoundingClientRect().width;
+      setPaddingRight(`calc(var(--font-size) * (0.75 + 0.2) + ${width}px)`);
+    }
+  }, [suffixText]);
+
   return (
     <div className={fieldClasses.join(" ")} onClick={onClickEvent}>
       {
         (onInput || onChange)
           ? (
             <input
+              style={{ paddingRight }}
               type={fieldType}
               onFocus={onFocusEvent}
               onBlur={onBlurEvent}
@@ -82,8 +93,8 @@ const Input = React.forwardRef(({
             />
           )
           : (
-
             <input
+              style={{ paddingRight }}
               type={fieldType}
               onFocus={onFocusEvent}
               onBlur={onBlurEvent}
@@ -94,22 +105,14 @@ const Input = React.forwardRef(({
             />
           )
       }
-      <div className={styles.outline}>
-        <div className={styles['outline-left']}></div>
-        {
-          (labelText)
-            ? (
-              <div className={styles['outline-notch']}>
-                <label>{labelText}</label>
-              </div>
-            )
-            : null
-        }
-        <div className={styles['outline-right']}></div>
-      </div>
+      {
+        (labelText)
+          ? <label>{labelText}</label>
+          : null
+      }
       {
         (suffixText)
-          ? <span className={styles.suffix}>{suffixText}</span>
+          ? <span ref={suffixRef} className={styles.suffix}>{suffixText}</span>
           : null
       }
     </div>

@@ -1,33 +1,35 @@
 .formContainer {
-  max-width: 450px;
-  padding: 1em;
+  padding: 0 1rem;
   display: grid;
-  gap: 1em 1em;
+  gap: 1rem 1rem;
   justify-items: stretch;
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas:
-    "title   title   title  title  title  closeButton"
-    "weight  weight  weight ccal   ccal   ccal"
+    "title   title   title  title  title  title"
+    "weight  weight  weight cal   cal   cal"
     "protein protein fat    fat    carbs  carbs"
     "date    date    date   date   date   date"
     "submit  submit  submit submit submit submit";
 }
 
 .title {
-  grid-area: title;
   position: relative;
+  grid-area: title;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.closeButton {
-  grid-area: closeButton;
+.searchBox {
+  flex-grow: 1;
 }
 
 .weight {
   grid-area: weight;
 }
 
-.ccal {
-  grid-area: ccal;
+.cal {
+  grid-area: cal;
 }
 
 .protein {
@@ -48,15 +50,4 @@
 
 .submit {
   grid-area: submit;
-}
-
-.searchList {
-  position: absolute;
-  top: 100%;
-  background: white;
-  border: 1px solid;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  z-index: 1000;
 }

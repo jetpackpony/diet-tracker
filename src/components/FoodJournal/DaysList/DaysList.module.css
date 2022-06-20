@@ -6,8 +6,5 @@ ol.list, .list ol {
 
 .day {
   margin-bottom: 1.5rem;
-}
-
-.current {
-  background-color: #eeffdd;
+  background-color: var(--content-color);
 }

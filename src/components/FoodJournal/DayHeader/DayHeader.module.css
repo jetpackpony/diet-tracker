@@ -1,18 +1,24 @@
 .dayHeader {
   display: flex;
   justify-content: space-between;
-  padding: 1em;
+  padding: 1rem;
+  font-weight: var(--font-weight-medium);
 }
 
 .dayHeader h3 {
-  font-size: 1.2em;
+  font-size: 1rem;
   margin: 0;
   margin-block: 0;
   margin-inline: 0;
-  font-weight: 600;
+  font-weight: var(--font-weight-medium);
 }
 
 .subtext {
-  font-size: 0.75em;
-  color: var(--text-color-disabled);
+  font-size: 0.75rem;
+  color: var(--text-color-secondary) ;
+  font-weight: var(--font-weight-regular);
+}
+
+.right {
+  text-align: right;
 }

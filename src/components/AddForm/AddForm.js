@@ -5,7 +5,9 @@ import Input from '../Input';
 import Button from '../Button';
 import { Close } from 'grommet-icons';
 import {
-  reducer, loadFoodItemAction, removeFoodItemAction, initState, setTitleFocusAction, setFieldValueAction, getField, getFormValues, showSuggestions
+  reducer, loadFoodItemAction, removeFoodItemAction, initState,
+  setTitleFocusAction, setFieldValueAction, getField, getFormValues,
+  showSuggestions
 } from './reducer';
 
 import { MIN_LENGTH_TO_SEARCH } from './index';
@@ -77,6 +79,7 @@ const AddForm = ({
         <input type="submit" style={{ display: "none" }} />
         <div className={styles.title}>
           <Input
+            className={styles.searchBox}
             name="title"
             labelText="Food"
             fieldType="text"
@@ -96,13 +99,9 @@ const AddForm = ({
               />
             )
           }
-        </div>
-        <div className={styles.closeButton}>
           {
             state.loadedFoodItem && (
-              <Button onClick={removeLoadedFoodItem}>
-                <Close size="small" color="red" />
-              </Button>
+              <Button onClick={removeLoadedFoodItem} icon={Close} type="outlined" />
             )
           }
         </div>
@@ -119,11 +118,11 @@ const AddForm = ({
             onChange={handleFieldChange("weight")}
           />
         </div>
-        <div className={styles.ccal}>
+        <div className={styles.cal}>
           <Input
             name="calories"
             labelText="Calories"
-            suffixText="ccal"
+            suffixText="cal"
             fieldType="number"
             align="right"
             disabled={getField(state, "calories").disabled}
@@ -181,9 +180,7 @@ const AddForm = ({
           />
         </div>
         <div className={styles.submit}>
-          <Button name="submit" type="submit">
-            Submit
-          </Button>
+          <Button buttonProps={{ name: "submit", type: "submit" }} text="Submit" />
         </div>
       </div>
     </form>

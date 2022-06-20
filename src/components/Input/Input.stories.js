@@ -6,7 +6,7 @@ import Input from './index';
 
 storiesOf('Input', module)
   .add('default', () => (
-    <div style={{ width: "80%", margin: "20px auto" }}>
+    <div style={{ padding: "2rem", background: "var(--content-color)" }}>
       <div style={{ margin: "0 0 20px 0" }}>
         <Input labelText="Label" />
       </div>
@@ -14,10 +14,16 @@ storiesOf('Input', module)
         <Input />
       </div>
       <div style={{ margin: "0 0 20px 0" }}>
-        <Input labelText="Label" align="right" suffixText="grams." />
+        <Input labelText="Right" align="right" />
       </div>
       <div style={{ margin: "0 0 20px 0" }}>
-        <Input labelText="Number" fieldType="number" align="right" suffixText="grams." />
+        <Input labelText="Suffix" align="right" suffixText="gramms" />
+      </div>
+      <div style={{ margin: "0 0 20px 0" }}>
+        <Input labelText="Number" fieldType="number" align="right" />
+      </div>
+      <div style={{ margin: "0 0 20px 0" }}>
+        <Input labelText="Number suffix" fieldType="number" align="right" suffixText="g." />
       </div>
       <div style={{ margin: "0 0 20px 0" }}>
         <Input labelText="Password" fieldType="password" />
@@ -28,12 +34,18 @@ storiesOf('Input', module)
     </div>
   ))
   .add('controlled', () => {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState(123);
     const onInput = (val) => setValue(val);
     return (
-      <div style={{ width: "80%", margin: "20px auto" }}>
+      <div style={{ padding: "2rem", background: "var(--content-color)" }}>
         <div style={{ margin: "0 0 20px 0" }}>
           <Input labelText="Label" value={value} onInput={onInput} onChange={onInput} />
+        </div>
+        <div style={{ margin: "0 0 20px 0" }}>
+          <Input labelText="Number suffix" fieldType="number" align="right" suffixText="g." value={value} onInput={onInput} onChange={onInput} />
+        </div>
+        <div style={{ margin: "0 0 20px 0" }}>
+          <Input labelText="Number" fieldType="number" align="right" value={value} onInput={onInput} onChange={onInput} />
         </div>
       </div>
     );
@@ -43,7 +55,7 @@ storiesOf('Input', module)
     const [disabled, setDisabled] = useState(false);
     const onInput = (val) => setValue(val);
     return (
-      <div style={{ width: "80%", margin: "20px auto" }}>
+      <div style={{ padding: "2rem", background: "var(--content-color)" }}>
         <div style={{ margin: "0 0 20px 0" }}>
           <Input labelText="Label" disabled={true} value="testme" onInput={onInput} onChange={onInput} />
         </div>
@@ -64,7 +76,7 @@ storiesOf('Input', module)
     const [value, setValue] = useState('');
     const onInput = (val) => setValue(val);
     return (
-      <div style={{ width: "80%", margin: "20px auto" }}>
+      <div style={{ padding: "2rem", background: "var(--content-color)" }}>
         <div style={{ margin: "0 0 20px 0" }}>
           <Input labelText="Label" ref={ref} value={value} onInput={onInput} onChange={onInput} />
           <button onClick={() => setValue("testme")}>Set Value</button>
@@ -76,7 +88,7 @@ storiesOf('Input', module)
     const [value, setValue] = useState('');
     const onInput = (val) => setValue(val);
     return (
-      <div style={{ width: "80%", margin: "20px auto" }}>
+      <div style={{ padding: "2rem", background: "var(--content-color)" }}>
         <div style={{ margin: "0 0 20px 0" }}>
           <Input labelText="Label" fieldType="number" value={value} onInput={onInput} onChange={onInput} />
         </div>

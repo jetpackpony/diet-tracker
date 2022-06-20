@@ -2,16 +2,14 @@ import React from 'react';
 import FoodJournal from './FoodJournal';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { mapObjArray } from '../../utils';
-import { GET_WEEKLY_FEED, UPDATE_RECORD, DELETE_RECORD, ADD_RECORD } from '../../queries';
-import { insertRecordIntoCache } from '../AddForm';
-import moment from 'moment';
+import { GET_WEEKLY_FEED, UPDATE_RECORD } from '../../queries';
 
 const getDailyCaloriesLimit = () => {
   return 2500;
 };
 
 const roundField = (key, value) => {
-  switch(key) {
+  switch (key) {
     case "calories":
     case "weight":
     case "calDeficit":
@@ -123,67 +121,13 @@ const updateCachedTotals = (cache, data) => {
   });
 };
 
-const deleteRecord = (weeks, recId) => {
-  const res = weeks.map((week) => {
-    return {
-      ...week,
-      days: week.days.map((day) => {
-        return {
-          ...day,
-          records: day.records.filter((rec) => rec.id !== recId)
-        };
-      })
-    };
-  });
-  return res;
-};
-
-const removeRecordFromCache = (cache, { data: { deleteRecord: recId }}) => {
-  const { weeklyRecordsFeed } = cache.readQuery({ query: GET_WEEKLY_FEED, variables: { cursor: "" } });
-
-  const newData = {
-    weeklyRecordsFeed: {
-      ...weeklyRecordsFeed,
-      weeks: updateTotals(deleteRecord(weeklyRecordsFeed.weeks, recId))
-    }
-  };
-  cache.writeQuery({
-    query: GET_WEEKLY_FEED,
-    variables: { cursor: "" },
-    data: newData
-  });
-};
-
-const FoodJournalContainer = ({...props}) => {
-  const [ updateRecordMut ] = useMutation(UPDATE_RECORD);
-  const [ deleteRecordMut ] = useMutation(DELETE_RECORD);
-  const [ addRecordMut ] = useMutation(ADD_RECORD);
+const FoodJournalContainer = ({ ...props }) => {
+  const [updateRecordMut] = useMutation(UPDATE_RECORD);
   const updateRecord = ({ id, weight }) => {
-    console.log("Updating record: ", {id, weight});
+    console.log("Updating record: ", { id, weight });
     updateRecordMut({
       variables: { id, weight },
       update: updateCachedTotals
-    });
-  };
-  const deleteRecord = (id) => {
-    console.log("Deleting record: ", id);
-    deleteRecordMut({
-      variables: { id },
-      update: removeRecordFromCache
-    });
-  };
-  const cloneRecord = (foodItemID) => {
-    console.log("Cloning record with food item: ", foodItemID);
-    addRecordMut({
-      variables: {
-        foodItemID,
-        weight: 0,
-        eatenAt: moment().toISOString(),
-        createdAt: moment().toISOString()
-      },
-      update: (cache, { data: { addRecord: newRecord } }) => {
-        insertRecordIntoCache(cache, newRecord);
-      }
     });
   };
 
@@ -223,8 +167,6 @@ const FoodJournalContainer = ({...props}) => {
       weeks={prepareRecords(weeks)}
       fetchMoreRecords={fetchMoreRecords}
       updateRecord={updateRecord}
-      deleteRecord={deleteRecord}
-      cloneRecord={cloneRecord}
     />
   );
 };

@@ -12,7 +12,6 @@ import WeekHeader from '../WeekHeader';
 import testData from './testData';
 import DaysList from '../DaysList';
 import EditField from '../RecordLine/EditField';
-import ContextMenu from '../RecordLine/ContextMenu';
 
 storiesOf('FoodJournal', module)
   .add('with all items', () => (
@@ -160,63 +159,4 @@ storiesOf('FoodJournal/Record Line/Edit Field', module)
       weight={123}
       onUpdate={action("onUpdate")}
     />
-  ))
-
-storiesOf('FoodJournal/Context Menu', module)
-  .add('default', () => (
-    <ContextMenu
-      items={[
-        { title: "Delete", action: action("deleteRecord") },
-        { title: "Clone", action: action("cloneRecord") },
-      ]}
-    >
-      <div>Press here</div>
-    </ContextMenu>
-  ))
-  .add('open', () => (
-    <ContextMenu
-      items={[
-        { title: "Delete", action: action("deleteRecord") },
-        { title: "Clone", action: action("cloneRecord") },
-      ]}
-      debugPos={{ x: "100px", y: "100px" }}
-    >
-      <div>Press here</div>
-    </ContextMenu>
-  ))
-  .add('corners', () => (
-    <>
-      <ContextMenu
-        items={[
-          { title: "Delete", action: action("deleteRecord") },
-          { title: "Clone", action: action("cloneRecord") },
-        ]}
-      >
-        <div style={{ position: "fixed", top: 0, left: 0 }}>Press here</div>
-      </ContextMenu>
-      <ContextMenu
-        items={[
-          { title: "Delete", action: action("deleteRecord") },
-          { title: "Clone", action: action("cloneRecord") },
-        ]}
-      >
-        <div style={{ position: "fixed", bottom: 0, left: 0 }}>Press here</div>
-      </ContextMenu>
-      <ContextMenu
-        items={[
-          { title: "Delete", action: action("deleteRecord") },
-          { title: "Clone", action: action("cloneRecord") },
-        ]}
-      >
-        <div style={{ position: "fixed", bottom: 0, right: 0 }}>Press here</div>
-      </ContextMenu>
-      <ContextMenu
-        items={[
-          { title: "Delete", action: action("deleteRecord") },
-          { title: "Clone", action: action("cloneRecord") },
-        ]}
-      >
-        <div style={{ position: "fixed", top: 0, right: 0 }}>Press here</div>
-      </ContextMenu>
-    </>
   ))

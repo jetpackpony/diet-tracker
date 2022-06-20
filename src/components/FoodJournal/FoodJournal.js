@@ -7,9 +7,7 @@ import Button from '../Button';
 const FoodJournal = ({
   weeks,
   fetchMoreRecords,
-  updateRecord,
-  deleteRecord,
-  cloneRecord
+  updateRecord
 }) => {
   return (
     <section className={styles.foodJournal}>
@@ -25,16 +23,16 @@ const FoodJournal = ({
               <DaysList
                 days={week.days}
                 updateRecord={updateRecord}
-                deleteRecord={deleteRecord}
-                cloneRecord={cloneRecord}
               />
             </li>
           ))
         }
       </ol>
-      <Button className={styles.loadMore} onClick={fetchMoreRecords}>
-        Load More
-      </Button>
+      <Button
+        className={styles.loadMore}
+        onClick={fetchMoreRecords}
+        text="Load More"
+      />
     </section>
   )
 };
