@@ -5,14 +5,12 @@
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "graphql": "^16.5.0",
-    "grommet": "^2.14.0",
-    "grommet-icons": "^4.4.0",
-    "moment": "^2.27.0",
+    "grommet": "^2.25.0",
+    "grommet-icons": "^4.7.0",
+    "moment": "^2.29.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "^3.4.1",
-    "styled-components": "^5.1.1",
-    "uuid": "^8.2.0"
+    "react-scripts": "^3.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
