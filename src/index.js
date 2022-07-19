@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
@@ -50,11 +50,11 @@ const client = new ApolloClient({
   }
 });
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+root.render(
   <ApolloProvider client={client}>
     <App />
-  </ApolloProvider>,
-  document.getElementById('root')
+  </ApolloProvider>
 );
 
 // If you want your app to work offline and load faster, you can change
