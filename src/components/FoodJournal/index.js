@@ -1,6 +1,6 @@
 import React from 'react';
 import FoodJournal from './FoodJournal';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/client';
 import { mapObjArray } from '../../utils';
 import { GET_WEEKLY_FEED, UPDATE_RECORD } from '../../queries';
 
