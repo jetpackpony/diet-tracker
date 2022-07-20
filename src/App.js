@@ -7,7 +7,7 @@ import { useQuery, useMutation, gql } from '@apollo/client';
 import AppBar from './components/AppBar';
 import AddForm, { insertRecordIntoCache } from './components/AddForm';
 import FoodJournal, { updateTotals } from './components/FoodJournal';
-import SelectionContext from './SelectionContext';
+import SelectionContext, { useSelection } from './SelectionContext';
 import { GET_WEEKLY_FEED, DELETE_RECORD, ADD_RECORD } from './queries';
 import moment from 'moment';
 
@@ -50,18 +50,7 @@ const removeRecordFromCache = (cache, { data: { deleteRecord: recId } }) => {
 
 const App = () => {
   const { data } = useQuery(IS_LOGGED_IN);
-  const [selectedRecords, setSelectedRecords] = useState([]);
-  const selectionContextValue = useMemo(() => ({
-    selectedRecords,
-    toggleSelection: (item) => {
-      if (selectedRecords.find((i) => i.id === item.id)) {
-        setSelectedRecords(selectedRecords.filter((i) => i.id !== item.id));
-      } else {
-        setSelectedRecords([...selectedRecords, item])
-      }
-    },
-    clearSelection: () => setSelectedRecords([])
-  }), [selectedRecords, setSelectedRecords]);
+  const selectionContextValue = useSelection();
 
   const [deleteRecordMut] = useMutation(DELETE_RECORD);
   const [addRecordMut] = useMutation(ADD_RECORD);
@@ -93,7 +82,6 @@ const App = () => {
   return (
     <SelectionContext.Provider value={selectionContextValue}>
       <AppBar
-        selectedRecords={selectedRecords}
         deleteRecords={deleteRecords}
         cloneRecords={cloneRecords}
       />
