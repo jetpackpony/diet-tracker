@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState, createContext } from 'react';
 
-const SelectionContext = React.createContext({
+const SelectionContext = createContext({
   selectedIDs: [],
   toggleSelection: () => { }
 });

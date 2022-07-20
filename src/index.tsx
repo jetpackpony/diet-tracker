@@ -1,4 +1,3 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -40,14 +39,6 @@ const client = new ApolloClient({
       }
     }
   }),
-  request: async (operation) => {
-    const token = getStorageItem("auth-token");
-    operation.setContext({
-      headers: {
-        authorization: token ? `Bearer ${token}` : ""
-      }
-    });
-  }
 });
 
 const root = createRoot(document.getElementById('root'));
