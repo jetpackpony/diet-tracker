@@ -1,6 +1,6 @@
 import React from 'react';
 import AddForm from './AddForm';
-import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import {
   ADD_RECORD, ADD_RECORD_WITH_FOOD_ITEM,
   SEARCH_FOOD_ITEMS, GET_WEEKLY_FEED
