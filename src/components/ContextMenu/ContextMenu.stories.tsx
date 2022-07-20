@@ -2,7 +2,7 @@ import React from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import ContextMenu from './index.js';
+import ContextMenu from './index';
 
 storiesOf('ContextMenu', module)
   .add('default', () => (
