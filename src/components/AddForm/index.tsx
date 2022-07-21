@@ -1,17 +1,17 @@
 import React from 'react';
 import AddForm from './AddForm';
 import { useMutation, useLazyQuery } from '@apollo/client';
-import {
-  ADD_RECORD, ADD_RECORD_WITH_FOOD_ITEM,
-  SEARCH_FOOD_ITEMS, GET_WEEKLY_FEED
-} from '../../queries';
 import { updateTotals } from '../FoodJournal';
 import moment from 'moment';
+import {
+  AddRecordDocument, AddRecordWithFoodItemDocument,
+  SearchFoodItemsDocument, WeeklyRecordsFeedDocument
+} from '../../generated/graphql';
 
 export const MIN_LENGTH_TO_SEARCH = 2;
 
 export const insertRecordIntoCache = (cache, newRecord) => {
-  const { weeklyRecordsFeed } = cache.readQuery({ query: GET_WEEKLY_FEED, variables: { cursor: "" } });
+  const { weeklyRecordsFeed } = cache.readQuery({ query: WeeklyRecordsFeedDocument, variables: { cursor: "" } });
 
   const newWeeks = weeklyRecordsFeed.weeks.map((week) => {
     if (moment(newRecord.eatenAt).isBetween(week.weekStart, week.weekEnd)) {
@@ -50,14 +50,14 @@ export const insertRecordIntoCache = (cache, newRecord) => {
     }
   };
   cache.writeQuery({
-    query: GET_WEEKLY_FEED,
+    query: WeeklyRecordsFeedDocument,
     variables: { cursor: "" },
     data: newData
   });
 };
 
 const AddFormContainer = () => {
-  const [addRecordWithFoodItemMutation] = useMutation(ADD_RECORD_WITH_FOOD_ITEM);
+  const [addRecordWithFoodItemMutation] = useMutation(AddRecordWithFoodItemDocument);
   const addRecordWithFoodItem = (rec) => {
     addRecordWithFoodItemMutation({
       variables: { ...rec },
@@ -67,7 +67,7 @@ const AddFormContainer = () => {
     });
   };
 
-  const [addRecordMutation] = useMutation(ADD_RECORD);
+  const [addRecordMutation] = useMutation(AddRecordDocument);
   const addRecord = (rec) => {
     addRecordMutation({
       variables: { ...rec },
@@ -83,7 +83,7 @@ const AddFormContainer = () => {
       loading: isSearching,
       data: searchData
     }
-  ] = useLazyQuery(SEARCH_FOOD_ITEMS);
+  ] = useLazyQuery(SearchFoodItemsDocument);
   const searchFoodItem = (filter) => {
     console.log("Searching for: ", filter);
     search({ variables: { filter } });

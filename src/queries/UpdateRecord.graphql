@@ -1,0 +1,12 @@
+mutation UpdateRecord(
+  $id: ID!
+  $weight: Int!
+) {
+  updateRecord(
+    id: $id
+    weight: $weight
+  ) {
+    id
+    weight
+  }
+}

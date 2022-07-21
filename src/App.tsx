@@ -3,19 +3,16 @@ import "./reset.css";
 import "./App.css";
 import styles from './App.module.css';
 import Login from './components/Login';
-import { useQuery, useMutation, gql } from '@apollo/client';
+import { useQuery, useMutation, InMemoryCache } from '@apollo/client';
 import AppBar from './components/AppBar';
 import AddForm, { insertRecordIntoCache } from './components/AddForm';
 import FoodJournal, { updateTotals } from './components/FoodJournal';
 import SelectionContext, { useSelection } from './SelectionContext';
-import { GET_WEEKLY_FEED, DELETE_RECORD, ADD_RECORD } from './queries';
 import moment from 'moment';
-
-const IS_LOGGED_IN = gql`
-  query IsLoggedIn {
-    isLoggedIn @client
-  }
-`;
+import {
+  AddRecordDocument, DeleteRecordDocument,
+  IsLoggedInDocument, WeeklyRecordsFeedDocument
+} from './generated/graphql';
 
 const deleteRecord = (weeks, recId) => {
   const res = weeks.map((week) => {
@@ -32,8 +29,8 @@ const deleteRecord = (weeks, recId) => {
   return res;
 };
 
-const removeRecordFromCache = (cache, { data: { deleteRecord: recId } }) => {
-  const { weeklyRecordsFeed } = cache.readQuery({ query: GET_WEEKLY_FEED, variables: { cursor: "" } });
+const removeRecordFromCache = (cache: InMemoryCache, { data: { deleteRecord: recId } }) => {
+  const { weeklyRecordsFeed } = cache.readQuery({ query: WeeklyRecordsFeedDocument, variables: { cursor: "" } });
 
   const newData = {
     weeklyRecordsFeed: {
@@ -42,18 +39,18 @@ const removeRecordFromCache = (cache, { data: { deleteRecord: recId } }) => {
     }
   };
   cache.writeQuery({
-    query: GET_WEEKLY_FEED,
+    query: WeeklyRecordsFeedDocument,
     variables: { cursor: "" },
     data: newData
   });
 };
 
 const App = () => {
-  const { data } = useQuery(IS_LOGGED_IN);
+  const { data } = useQuery(IsLoggedInDocument);
   const selectionContextValue = useSelection();
 
-  const [deleteRecordMut] = useMutation(DELETE_RECORD);
-  const [addRecordMut] = useMutation(ADD_RECORD);
+  const [deleteRecordMut] = useMutation(DeleteRecordDocument);
+  const [addRecordMut] = useMutation(AddRecordDocument);
 
   const deleteRecords = (items) => {
     items.map(({ id }) => {

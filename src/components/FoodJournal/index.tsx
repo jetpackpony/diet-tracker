@@ -2,7 +2,9 @@ import React from 'react';
 import FoodJournal from './FoodJournal';
 import { useQuery, useMutation } from '@apollo/client';
 import { mapObjArray } from '../../utils';
-import { GET_WEEKLY_FEED, UPDATE_RECORD } from '../../queries';
+import {
+  UpdateRecordDocument, WeeklyRecordsFeedDocument
+} from '../../generated/graphql';
 
 const getDailyCaloriesLimit = () => {
   return 2500;
@@ -106,7 +108,7 @@ export const updateTotals = (weeks) => {
 };
 
 const updateCachedTotals = (cache, data) => {
-  const { weeklyRecordsFeed } = cache.readQuery({ query: GET_WEEKLY_FEED, variables: { cursor: "" } });
+  const { weeklyRecordsFeed } = cache.readQuery({ query: WeeklyRecordsFeedDocument, variables: { cursor: "" } });
 
   const newData = {
     weeklyRecordsFeed: {
@@ -115,14 +117,14 @@ const updateCachedTotals = (cache, data) => {
     }
   };
   cache.writeQuery({
-    query: GET_WEEKLY_FEED,
+    query: WeeklyRecordsFeedDocument,
     variables: { cursor: "" },
     data: newData
   });
 };
 
 const FoodJournalContainer = ({ ...props }) => {
-  const [updateRecordMut] = useMutation(UPDATE_RECORD);
+  const [updateRecordMut] = useMutation(UpdateRecordDocument);
   const updateRecord = ({ id, weight }) => {
     console.log("Updating record: ", { id, weight });
     updateRecordMut({
@@ -131,7 +133,7 @@ const FoodJournalContainer = ({ ...props }) => {
     });
   };
 
-  const { loading, error, data, fetchMore } = useQuery(GET_WEEKLY_FEED, {
+  const { loading, error, data, fetchMore } = useQuery(WeeklyRecordsFeedDocument, {
     variables: { cursor: "" }
   });
 
@@ -144,7 +146,7 @@ const FoodJournalContainer = ({ ...props }) => {
   const { cursor, weeks } = data.weeklyRecordsFeed;
   const fetchMoreRecords = () => {
     fetchMore({
-      query: GET_WEEKLY_FEED,
+      query: WeeklyRecordsFeedDocument,
       variables: { cursor },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;

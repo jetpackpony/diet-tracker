@@ -1,0 +1,26 @@
+mutation AddRecord(
+  $foodItemID: ID!
+  $weight: Int!
+  $eatenAt: DateTime!
+  $createdAt: DateTime!
+) {
+  addRecord(
+    foodItemID: $foodItemID
+    weight: $weight
+    eatenAt: $eatenAt
+    createdAt: $createdAt
+  ) {
+    id,
+    foodItem {
+      id
+      title
+      calories
+      protein
+      fat
+      carbs
+    }
+    weight
+    eatenAt
+    createdAt
+  }
+}
