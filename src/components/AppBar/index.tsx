@@ -1,13 +1,18 @@
 import { Close, Copy, Menu, Trash } from "grommet-icons";
 import React, { useContext } from "react";
-import SelectionContext from "../../SelectionContext";
+import SelectionContext, { SelectionItem } from "../../SelectionContext";
 import styles from './AppBar.module.css';
 import AppBarButton from "./AppBarButton";
+
+interface Props {
+  deleteRecords: (items: SelectionItem[]) => void,
+  cloneRecords: (items: SelectionItem[]) => void
+}
 
 const AppBar = ({
   deleteRecords,
   cloneRecords
-}) => {
+}: Props) => {
   const { selectedRecords, clearSelection } = useContext(SelectionContext);
   const onDeleteRecords = () => {
     if (window.confirm("Delete?")) {

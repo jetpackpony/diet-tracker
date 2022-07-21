@@ -1,15 +1,27 @@
 import { useMemo, useState, createContext } from 'react';
 
-const SelectionContext = createContext({
-  selectedIDs: [],
-  toggleSelection: () => { }
+export interface SelectionItem {
+  id: string,
+  foodItemID: string
+};
+
+export interface SelectionContextInterface {
+  selectedRecords: SelectionItem[],
+  toggleSelection: (item: SelectionItem) => void,
+  clearSelection: () => void
+};
+
+const SelectionContext = createContext<SelectionContextInterface>({
+  selectedRecords: [],
+  toggleSelection: () => { },
+  clearSelection: () => { }
 });
 
 export default SelectionContext;
 
-export const useSelection = () => {
-  const [selectedRecords, setSelectedRecords] = useState([]);
-  const selectionContextValue = useMemo(() => ({
+export const useSelection = (): SelectionContextInterface => {
+  const [selectedRecords, setSelectedRecords] = useState<SelectionItem[]>([]);
+  const selectionContextValue = useMemo<SelectionContextInterface>(() => ({
     selectedRecords,
     toggleSelection: (item) => {
       if (selectedRecords.find((i) => i.id === item.id)) {
