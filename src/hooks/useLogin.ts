@@ -1,10 +1,10 @@
 import { useLazyQuery } from "@apollo/client";
-import { IsLoggedInDocument, LoginDocument } from "../generated/graphql";
+import { IsLoggedInDocument, LoginDocument, QueryLoginArgs } from "../generated/graphql";
 import { setStorageItem } from "../storage";
 
 export const useLogin = () => {
   const [login, { loading, error, data, client }] = useLazyQuery(LoginDocument);
-  const performLogin = ({ userName, password }) => {
+  const performLogin = ({ userName, password }: QueryLoginArgs) => {
     login({ variables: { userName, password } });
   };
 
