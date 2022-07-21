@@ -2,24 +2,10 @@ import React from "react";
 import { useLazyQuery, gql } from "@apollo/client";
 import styles from '../AddForm/AddForm.module.css';
 import { useControlledFormHook } from "../../hooks/useForm";
-import { setStorageItem } from "../../storage";
-import { IsLoggedInDocument, LoginDocument } from "../../generated/graphql";
+import { useLogin } from "../../hooks/useLogin";
 
 const LoginContainer = () => {
-  const [login, { loading, error, data, client }] = useLazyQuery(LoginDocument);
-  const performLogin = ({ userName, password }) => {
-    login({ variables: { userName, password } });
-  };
-
-  if (data && data.login) {
-    setStorageItem("auth-token", data.login.token);
-    client.writeQuery({
-      query: IsLoggedInDocument,
-      data: {
-        isLoggedIn: true
-      }
-    });
-  }
+  const { performLogin, loading, error } = useLogin();
 
   return (
     <Login

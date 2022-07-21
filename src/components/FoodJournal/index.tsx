@@ -1,10 +1,8 @@
-import React from 'react';
 import FoodJournal from './FoodJournal';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { mapObjArray } from '../../utils';
-import {
-  UpdateRecordDocument, WeeklyRecordsFeedDocument
-} from '../../generated/graphql';
+import { WeeklyRecordsFeedDocument } from '../../generated/graphql';
+import { useUpdateRecord } from '../../hooks/useUpdateRecord';
 
 const getDailyCaloriesLimit = () => {
   return 2500;
@@ -58,80 +56,8 @@ const prepareRecords = (weeks) => {
   );
 };
 
-export const updateTotals = (weeks) => {
-  return weeks.map((week) => {
-    const days = week.days.map((day) => {
-      const totals = day.records.reduce((acc, rec) => {
-        if (rec.weight <= 0) {
-          return acc;
-        }
-        return {
-          ...acc,
-          calories: acc.calories + rec.foodItem.calories * rec.weight * 0.01,
-          protein: acc.protein + rec.foodItem.protein * rec.weight * 0.01,
-          fat: acc.fat + rec.foodItem.fat * rec.weight * 0.01,
-          carbs: acc.carbs + rec.foodItem.carbs * rec.weight * 0.01
-        };
-      }, {
-        ...day.totals,
-        calories: 0,
-        carbs: 0,
-        fat: 0,
-        protein: 0
-      });
-      return {
-        ...day,
-        totals
-      };
-    });
-    const totals = week.days.reduce((acc, day) => {
-      return {
-        ...acc,
-        calories: acc.calories + day.totals.calories,
-        protein: acc.protein + day.totals.protein,
-        fat: acc.fat + day.totals.fat,
-        carbs: acc.carbs + day.totals.carbs
-      };
-    }, {
-      ...week.totals,
-      calories: 0,
-      carbs: 0,
-      fat: 0,
-      protein: 0
-    });
-    return {
-      ...week,
-      days,
-      totals
-    };
-  });
-};
-
-const updateCachedTotals = (cache, data) => {
-  const { weeklyRecordsFeed } = cache.readQuery({ query: WeeklyRecordsFeedDocument, variables: { cursor: "" } });
-
-  const newData = {
-    weeklyRecordsFeed: {
-      ...weeklyRecordsFeed,
-      weeks: updateTotals(weeklyRecordsFeed.weeks)
-    }
-  };
-  cache.writeQuery({
-    query: WeeklyRecordsFeedDocument,
-    variables: { cursor: "" },
-    data: newData
-  });
-};
-
 const FoodJournalContainer = ({ ...props }) => {
-  const [updateRecordMut] = useMutation(UpdateRecordDocument);
-  const updateRecord = ({ id, weight }) => {
-    console.log("Updating record: ", { id, weight });
-    updateRecordMut({
-      variables: { id, weight },
-      update: updateCachedTotals
-    });
-  };
+  const updateRecord = useUpdateRecord();
 
   const { loading, error, data, fetchMore } = useQuery(WeeklyRecordsFeedDocument, {
     variables: { cursor: "" }
