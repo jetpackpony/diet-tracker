@@ -41,7 +41,13 @@ const client = new ApolloClient({
   }),
 });
 
-const root = createRoot(document.getElementById('root'));
+let container = document.getElementById('root');
+if (!container) {
+  container = document.createElement("div");
+  container.id = "root";
+  document.body.appendChild(container);
+}
+const root = createRoot(container);
 root.render(
   <ApolloProvider client={client}>
     <App />
