@@ -1,9 +1,8 @@
-import React from "react";
-import { useLazyQuery, gql } from "@apollo/client";
 import styles from '../AddForm/AddForm.module.css';
 import { FormSubmitCallback, useControlledFormHook } from "../../hooks/useForm";
 import { useLogin } from "../../hooks/useLogin";
 import { QueryLoginArgs } from "../../generated/graphql";
+import { isQueryLoginArgs } from '../../generated/graphql.guard';
 
 const LoginContainer = () => {
   const { performLogin, loading, error } = useLogin();
@@ -22,16 +21,6 @@ interface LoginProps {
   loading: boolean,
   error: string | undefined
 }
-
-const isQueryLoginArgs = (args: any): args is QueryLoginArgs => {
-  if (args['userName'] === undefined || typeof args['userName'] !== 'string') {
-    return false;
-  }
-  if (args['password'] === undefined || typeof args['password'] !== 'string') {
-    return false;
-  }
-  return true;
-};
 
 const Login = ({ performLogin, loading, error }: LoginProps) => {
   const submitForm: FormSubmitCallback = (values) => {

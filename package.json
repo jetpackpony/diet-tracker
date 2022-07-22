@@ -22,7 +22,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "codegen": "graphql-codegen --config graphql-codegen.yml"
+    "codegen": "graphql-codegen --config graphql-codegen.yml && ts-auto-guard --export-all src/generated/graphql.tsx"
   },
   "eslintConfig": {
     "extends": "react-app",
@@ -72,6 +72,7 @@
     "@types/react-dom": "^18.0.6",
     "babel-plugin-named-exports-order": "^0.0.2",
     "prop-types": "^15.8.1",
+    "ts-auto-guard": "^2.4.1",
     "typescript": "^4.7.4",
     "typescript-plugin-css-modules": "^3.4.0",
     "webpack": "^5.73.0"
