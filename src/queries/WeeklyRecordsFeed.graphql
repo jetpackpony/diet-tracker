@@ -6,6 +6,9 @@ query WeeklyRecordsFeed($cursor: String!) {
       weekEnd
       totals {
         calories
+        protein
+        fat
+        carbs
       }
       days {
         dayStart

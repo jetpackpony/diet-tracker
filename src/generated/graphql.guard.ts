@@ -70,12 +70,9 @@ export function isDayRecords(obj: any, _argumentName?: string): obj is DayRecord
             obj.__typename === "DayRecords") &&
         Array.isArray(obj.records) &&
         obj.records.every((e: any) =>
-        (e === null ||
-            isRecord(e) as boolean)
+            isRecord(e) as boolean
         ) &&
-        (typeof obj.totals === "undefined" ||
-            obj.totals === null ||
-            isTotals(obj.totals) as boolean)
+        isTotals(obj.totals) as boolean
     )
 }
 
@@ -189,23 +186,19 @@ export function isQuery(obj: any, _argumentName?: string): obj is Query {
             obj.__typename === "Query") &&
         Array.isArray(obj.filterFoodItems) &&
         obj.filterFoodItems.every((e: any) =>
-        (e === null ||
-            isFoodItem(e) as boolean)
+            isFoodItem(e) as boolean
         ) &&
         Array.isArray(obj.foodItems) &&
         obj.foodItems.every((e: any) =>
-        (e === null ||
-            isFoodItem(e) as boolean)
+            isFoodItem(e) as boolean
         ) &&
         Array.isArray(obj.getAllRecords) &&
         obj.getAllRecords.every((e: any) =>
-        (e === null ||
-            isRecord(e) as boolean)
+            isRecord(e) as boolean
         ) &&
         Array.isArray(obj.getFoodItems) &&
         obj.getFoodItems.every((e: any) =>
-        (e === null ||
-            isFoodItem(e) as boolean)
+            isFoodItem(e) as boolean
         ) &&
         (typeof obj.getRecord === "undefined" ||
             obj.getRecord === null ||
@@ -310,8 +303,7 @@ export function isRecordFeed(obj: any, _argumentName?: string): obj is RecordFee
         typeof obj.cursor === "string" &&
         Array.isArray(obj.records) &&
         obj.records.every((e: any) =>
-        (e === null ||
-            isRecord(e) as boolean)
+            isRecord(e) as boolean
         )
     )
 }
@@ -351,12 +343,9 @@ export function isWeekRecords(obj: any, _argumentName?: string): obj is WeekReco
             obj.__typename === "WeekRecords") &&
         Array.isArray(obj.days) &&
         obj.days.every((e: any) =>
-        (e === null ||
-            isDayRecords(e) as boolean)
+            isDayRecords(e) as boolean
         ) &&
-        (typeof obj.totals === "undefined" ||
-            obj.totals === null ||
-            isTotals(obj.totals) as boolean)
+        isTotals(obj.totals) as boolean
     )
 }
 
@@ -370,8 +359,7 @@ export function isWeeklyRecordsFeed(obj: any, _argumentName?: string): obj is We
         typeof obj.cursor === "string" &&
         Array.isArray(obj.weeks) &&
         obj.weeks.every((e: any) =>
-        (e === null ||
-            isWeekRecords(e) as boolean)
+            isWeekRecords(e) as boolean
         )
     )
 }
@@ -545,7 +533,6 @@ export function isSearchFoodItemsQuery(obj: any, _argumentName?: string): obj is
             obj.__typename === "Query") &&
         Array.isArray(obj.filterFoodItems) &&
         obj.filterFoodItems.every((e: any) =>
-        (e === null ||
             (e !== null &&
                 typeof e === "object" ||
                 typeof e === "function") &&
@@ -556,7 +543,7 @@ export function isSearchFoodItemsQuery(obj: any, _argumentName?: string): obj is
             typeof e.protein === "number" &&
             typeof e.fat === "number" &&
             typeof e.carbs === "number" &&
-            typeof e.foodItemID === "string")
+            typeof e.foodItemID === "string"
         )
     )
 }
@@ -612,42 +599,38 @@ export function isWeeklyRecordsFeedQuery(obj: any, _argumentName?: string): obj 
         typeof obj.weeklyRecordsFeed.cursor === "string" &&
         Array.isArray(obj.weeklyRecordsFeed.weeks) &&
         obj.weeklyRecordsFeed.weeks.every((e: any) =>
-        (e === null ||
             (e !== null &&
                 typeof e === "object" ||
                 typeof e === "function") &&
             (typeof e.__typename === "undefined" ||
                 e.__typename === "WeekRecords") &&
-            (typeof e.totals === "undefined" ||
-                e.totals === null ||
-                (e.totals !== null &&
-                    typeof e.totals === "object" ||
-                    typeof e.totals === "function") &&
-                (typeof e.totals.__typename === "undefined" ||
-                    e.totals.__typename === "Totals") &&
-                typeof e.totals.calories === "number") &&
+            (e.totals !== null &&
+                typeof e.totals === "object" ||
+                typeof e.totals === "function") &&
+            (typeof e.totals.__typename === "undefined" ||
+                e.totals.__typename === "Totals") &&
+            typeof e.totals.calories === "number" &&
+            typeof e.totals.protein === "number" &&
+            typeof e.totals.fat === "number" &&
+            typeof e.totals.carbs === "number" &&
             Array.isArray(e.days) &&
             e.days.every((e: any) =>
-            (e === null ||
                 (e !== null &&
                     typeof e === "object" ||
                     typeof e === "function") &&
                 (typeof e.__typename === "undefined" ||
                     e.__typename === "DayRecords") &&
-                (typeof e.totals === "undefined" ||
-                    e.totals === null ||
-                    (e.totals !== null &&
-                        typeof e.totals === "object" ||
-                        typeof e.totals === "function") &&
-                    (typeof e.totals.__typename === "undefined" ||
-                        e.totals.__typename === "Totals") &&
-                    typeof e.totals.calories === "number" &&
-                    typeof e.totals.protein === "number" &&
-                    typeof e.totals.fat === "number" &&
-                    typeof e.totals.carbs === "number") &&
+                (e.totals !== null &&
+                    typeof e.totals === "object" ||
+                    typeof e.totals === "function") &&
+                (typeof e.totals.__typename === "undefined" ||
+                    e.totals.__typename === "Totals") &&
+                typeof e.totals.calories === "number" &&
+                typeof e.totals.protein === "number" &&
+                typeof e.totals.fat === "number" &&
+                typeof e.totals.carbs === "number" &&
                 Array.isArray(e.records) &&
                 e.records.every((e: any) =>
-                (e === null ||
                     (e !== null &&
                         typeof e === "object" ||
                         typeof e === "function") &&
@@ -665,9 +648,9 @@ export function isWeeklyRecordsFeedQuery(obj: any, _argumentName?: string): obj 
                     typeof e.foodItem.calories === "number" &&
                     typeof e.foodItem.protein === "number" &&
                     typeof e.foodItem.fat === "number" &&
-                    typeof e.foodItem.carbs === "number")
-                ))
-            ))
+                    typeof e.foodItem.carbs === "number"
+                )
+            )
         )
     )
 }
