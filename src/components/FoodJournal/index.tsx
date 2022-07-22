@@ -3,9 +3,7 @@ import { useQuery } from '@apollo/client';
 import { mapObjArray } from '../../utils';
 import { DayRecords, WeeklyRecordsFeedDocument, WeekRecords } from '../../generated/graphql';
 import { useUpdateRecord } from '../../hooks/useUpdateRecord';
-
-export type WeekRecordsWithCalDeficit = WeekRecords & { calDeficit: number };
-export type DayRecordsWithCalDeficit = DayRecords & { calDeficit: number };
+import { DayRecordsWithCalDeficit, WeekRecordsWithCalDeficit } from '../../types';
 
 const getDailyCaloriesLimit = () => {
   return 2500;
