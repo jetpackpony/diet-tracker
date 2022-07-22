@@ -1,7 +1,7 @@
 import styles from '../AddForm/AddForm.module.css';
 import { FormSubmitCallback, useControlledFormHook } from "../../hooks/useForm";
 import { useLogin } from "../../hooks/useLogin";
-import { QueryLoginArgs } from "../../generated/graphql";
+import { LoginQueryVariables } from "../../generated/graphql";
 import { isQueryLoginArgs } from '../../generated/graphql.guard';
 
 const LoginContainer = () => {
@@ -17,7 +17,7 @@ const LoginContainer = () => {
 };
 
 interface LoginProps {
-  performLogin: (args: QueryLoginArgs) => void,
+  performLogin: (args: LoginQueryVariables) => void,
   loading: boolean,
   error: string | undefined
 }
