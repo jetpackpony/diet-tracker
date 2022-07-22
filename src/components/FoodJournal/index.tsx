@@ -1,14 +1,17 @@
 import FoodJournal from './FoodJournal';
 import { useQuery } from '@apollo/client';
 import { mapObjArray } from '../../utils';
-import { WeeklyRecordsFeedDocument } from '../../generated/graphql';
+import { DayRecords, WeeklyRecordsFeedDocument, WeekRecords } from '../../generated/graphql';
 import { useUpdateRecord } from '../../hooks/useUpdateRecord';
+
+export type WeekRecordsWithCalDeficit = WeekRecords & { calDeficit: number };
+export type DayRecordsWithCalDeficit = DayRecords & { calDeficit: number };
 
 const getDailyCaloriesLimit = () => {
   return 2500;
 };
 
-const roundField = (key, value) => {
+const roundField = (key: string, value: any) => {
   switch (key) {
     case "calories":
     case "weight":
@@ -22,38 +25,39 @@ const roundField = (key, value) => {
       return value;
   }
 };
-const roundEverything = (obj) => {
-  return mapObjArray(roundField, obj);
+const roundEverything = (weeks: WeekRecordsWithCalDeficit[]): WeekRecordsWithCalDeficit[] => {
+  return (mapObjArray(roundField, weeks) as WeekRecordsWithCalDeficit[]);
 };
 
-const prepareRecords = (weeks) => {
-  return roundEverything(
-    weeks.map((week) => {
-      const days = week.days.map((day) => {
-        const records = day.records.map((rec) => {
-          return {
-            ...rec,
-            calories: rec.foodItem.calories * rec.weight * 0.01,
-            protein: rec.foodItem.protein * rec.weight * 0.01,
-            fat: rec.foodItem.fat * rec.weight * 0.01,
-            carbs: rec.foodItem.carbs * rec.weight * 0.01,
-          };
-        });
-        return {
-          ...day,
-          records,
-          calDeficit: getDailyCaloriesLimit() - day.totals.calories
-        };
-      });
-      const weekCalDeficit = days.reduce((res, day) => (res + day.calDeficit), 0);
+const calcDayCalDeficit = (day: DayRecords): DayRecordsWithCalDeficit => {
+  const records = day.records.map((rec) => {
+    return {
+      ...rec,
+      calories: rec.foodItem.calories * rec.weight * 0.01,
+      protein: rec.foodItem.protein * rec.weight * 0.01,
+      fat: rec.foodItem.fat * rec.weight * 0.01,
+      carbs: rec.foodItem.carbs * rec.weight * 0.01,
+    };
+  });
+  return {
+    ...day,
+    records,
+    calDeficit: getDailyCaloriesLimit() - day.totals.calories
+  };
+};
 
-      return {
-        ...week,
-        days,
-        calDeficit: weekCalDeficit
-      }
-    })
-  );
+const calcWeekCalDeficit = (week: WeekRecords): WeekRecordsWithCalDeficit => {
+  const days = week.days.map(calcDayCalDeficit);
+  const weekCalDeficit = days.reduce((res, day) => (res + day.calDeficit), 0);
+  return {
+    ...week,
+    days,
+    calDeficit: weekCalDeficit
+  }
+};
+
+const prepareRecords = (weeks: WeekRecords[]) => {
+  return roundEverything(weeks.map(calcWeekCalDeficit));
 };
 
 const FoodJournalContainer = ({ ...props }) => {
@@ -64,10 +68,14 @@ const FoodJournalContainer = ({ ...props }) => {
   });
 
   if (error) {
-    console.log("Error: ", error);
+    console.error("Error: ", error);
     return <div>Error (look in the console, dum-dum)</div>;
   }
   if (loading) return <div>Loading...</div>;
+  if (!data) {
+    console.error("Couldn't load any data: ", data);
+    return <div>Error (look in the console, dum-dum)</div>;
+  }
 
   const { cursor, weeks } = data.weeklyRecordsFeed;
   const fetchMoreRecords = () => {
