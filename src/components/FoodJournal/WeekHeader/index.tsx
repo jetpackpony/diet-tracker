@@ -4,11 +4,17 @@ import moment from 'moment';
 
 const weekHeaderFormat = "D MMMM";
 
+interface WeekHeaderProps {
+  weekStart: string,
+  weekEnd: string,
+  calDeficit: number
+};
+
 const WeekHeader = ({
   weekStart,
   weekEnd,
   calDeficit,
-}) => {
+}: WeekHeaderProps) => {
   const newStart = moment(weekStart).add(6, "hours");
   const newEnd = moment(weekEnd).subtract(6, "hours");
   return (

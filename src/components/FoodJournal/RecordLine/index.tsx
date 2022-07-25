@@ -1,7 +1,20 @@
-import React, { useEffect, useRef, useContext } from 'react';
+import { useEffect, useRef, useContext } from 'react';
 import styles from './RecordLine.module.css';
 import EditField from './EditField';
 import SelectionContext from '../../../SelectionContext';
+import { UpdateRecord } from '../../../hooks/useUpdateRecord';
+import { FoodItem } from '../../../generated/graphql';
+
+interface RecordLineProps {
+  id: string,
+  foodItem: FoodItem,
+  weight: number,
+  calories: number,
+  protein: number,
+  fat: number,
+  carbs: number,
+  updateRecord: UpdateRecord
+}
 
 const RecordLine = ({
   id,
@@ -15,9 +28,9 @@ const RecordLine = ({
   fat,
   carbs,
   updateRecord
-}) => {
+}: RecordLineProps) => {
   const { selectedRecords, toggleSelection } = useContext(SelectionContext);
-  const timer = useRef(null);
+  const timer = useRef<NodeJS.Timeout | null>(null);
   const clickStart = useRef(false);
   useEffect(() => {
     const clear = () => timer.current && clearTimeout(timer.current);
@@ -79,7 +92,7 @@ const RecordLine = ({
       className={classes.join(" ")}
     >
       <div>
-        <div className={styles.title}>{title}</div>
+        <div>{title}</div>
         <div className={styles.subtitle}>
           {calories} cal {protein} / {fat} / {carbs}
         </div>
@@ -87,7 +100,7 @@ const RecordLine = ({
       <div className={styles.right}>
         <EditField
           weight={weight}
-          onUpdate={({ weight }) => {
+          onUpdate={(weight) => {
             updateRecord({ id, weight });
           }}
         />

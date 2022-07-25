@@ -2,7 +2,7 @@ import React, { useReducer, useRef, useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import Input from './index';
+import Input, { InputFieldValue } from './index';
 
 storiesOf('Input', module)
   .add('default', () => (
@@ -34,8 +34,8 @@ storiesOf('Input', module)
     </div>
   ))
   .add('controlled', () => {
-    const [value, setValue] = useState(123);
-    const onInput = (val) => setValue(val);
+    const [value, setValue] = useState<InputFieldValue>(123);
+    const onInput = (val: string) => setValue(val);
     return (
       <div style={{ padding: "2rem", background: "var(--content-color)" }}>
         <div style={{ margin: "0 0 20px 0" }}>
@@ -53,7 +53,7 @@ storiesOf('Input', module)
   .add('controlled disabled', () => {
     const [value, setValue] = useState('');
     const [disabled, setDisabled] = useState(false);
-    const onInput = (val) => setValue(val);
+    const onInput = (val: string) => setValue(val);
     return (
       <div style={{ padding: "2rem", background: "var(--content-color)" }}>
         <div style={{ margin: "0 0 20px 0" }}>
@@ -74,7 +74,7 @@ storiesOf('Input', module)
   .add('controlled with ref', () => {
     const ref = useRef(null);
     const [value, setValue] = useState('');
-    const onInput = (val) => setValue(val);
+    const onInput = (val: string) => setValue(val);
     return (
       <div style={{ padding: "2rem", background: "var(--content-color)" }}>
         <div style={{ margin: "0 0 20px 0" }}>
@@ -86,7 +86,7 @@ storiesOf('Input', module)
   })
   .add('controlled number', () => {
     const [value, setValue] = useState('');
-    const onInput = (val) => setValue(val);
+    const onInput = (val: string) => setValue(val);
     return (
       <div style={{ padding: "2rem", background: "var(--content-color)" }}>
         <div style={{ margin: "0 0 20px 0" }}>

@@ -1,8 +1,15 @@
 import React from 'react';
 import styles from './DayHeader.module.css';
 import moment from 'moment';
+import { Totals } from '../../../generated/graphql';
 
-const getDateString = (isoString) => moment(isoString).format("ddd, D MMMM");
+interface DayHeaderProps {
+  dayStart: string,
+  totals: Totals,
+  calDeficit: number
+};
+
+const getDateString = (isoString: string) => moment(isoString).format("ddd, D MMMM");
 
 const DayHeader = ({
   dayStart,
@@ -13,7 +20,7 @@ const DayHeader = ({
     carbs,
   },
   calDeficit
-}) => {
+}: DayHeaderProps) => {
   return (
     <header className={styles.dayHeader}>
       <span>

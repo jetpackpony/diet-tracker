@@ -1,4 +1,18 @@
-import { DayRecords, WeekRecords } from "./generated/graphql";
+import { DayRecords, Record, WeekRecords } from "./generated/graphql";
 
-export type WeekRecordsWithCalDeficit = WeekRecords & { calDeficit: number };
-export type DayRecordsWithCalDeficit = DayRecords & { calDeficit: number };
+export type WeekRecordsWithCalDeficit = {
+  days: DayRecordsWithCalDeficit[],
+  calDeficit: number
+} & WeekRecords;
+
+export type DayRecordsWithCalDeficit = {
+  records: RecordWithMacros[],
+  calDeficit: number
+} & DayRecords;
+
+export type RecordWithMacros = {
+  calories: number,
+  protein: number,
+  fat: number,
+  carbs: number,
+} & Record;

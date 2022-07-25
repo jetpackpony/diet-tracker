@@ -1,9 +1,9 @@
 import FoodJournal from './FoodJournal';
 import { useQuery } from '@apollo/client';
 import { mapObjArray } from '../../utils';
-import { DayRecords, WeeklyRecordsFeedDocument, WeekRecords } from '../../generated/graphql';
+import { DayRecords, Record, WeeklyRecordsFeedDocument, WeekRecords } from '../../generated/graphql';
 import { useUpdateRecord } from '../../hooks/useUpdateRecord';
-import { DayRecordsWithCalDeficit, WeekRecordsWithCalDeficit } from '../../types';
+import { DayRecordsWithCalDeficit, RecordWithMacros, WeekRecordsWithCalDeficit } from '../../types';
 
 const getDailyCaloriesLimit = () => {
   return 2500;
@@ -27,16 +27,18 @@ const roundEverything = (weeks: WeekRecordsWithCalDeficit[]): WeekRecordsWithCal
   return (mapObjArray(roundField, weeks) as WeekRecordsWithCalDeficit[]);
 };
 
+const caclRecordMacros = (rec: Record): RecordWithMacros => {
+  return {
+    ...rec,
+    calories: rec.foodItem.calories * rec.weight * 0.01,
+    protein: rec.foodItem.protein * rec.weight * 0.01,
+    fat: rec.foodItem.fat * rec.weight * 0.01,
+    carbs: rec.foodItem.carbs * rec.weight * 0.01,
+  };
+};
+
 const calcDayCalDeficit = (day: DayRecords): DayRecordsWithCalDeficit => {
-  const records = day.records.map((rec) => {
-    return {
-      ...rec,
-      calories: rec.foodItem.calories * rec.weight * 0.01,
-      protein: rec.foodItem.protein * rec.weight * 0.01,
-      fat: rec.foodItem.fat * rec.weight * 0.01,
-      carbs: rec.foodItem.carbs * rec.weight * 0.01,
-    };
-  });
+  const records = day.records.map(caclRecordMacros);
   return {
     ...day,
     records,

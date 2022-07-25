@@ -1,21 +1,30 @@
 import React, { useRef, useState } from 'react';
 import styles from './EditField.module.css';
-import Input from "../../Input";
+import Input, { InputFieldValue } from "../../Input";
 
-const EditField = ({ weight, onUpdate }) => {
-  const [value, setValue] = useState(weight);
-  const inputEl = useRef(null);
-  const onInput = (val) => setValue(val);
-  const onSubmit = (e) => {
+interface EditFieldProps {
+  weight: number,
+  onUpdate: (weight: number) => void
+};
+
+const EditField = ({ weight, onUpdate }: EditFieldProps) => {
+  const [value, setValue] = useState<InputFieldValue>(weight);
+  const inputEl = useRef<HTMLInputElement>(null);
+  const onInput = (val: string) => setValue(val);
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    e.target.reset();
-    inputEl.current.blur();
-    onUpdate({ weight: Number(value) });
+    e.currentTarget.reset();
+    if (inputEl.current) {
+      inputEl.current.blur();
+    }
+    onUpdate(Number(value) || 0);
   }
 
-  const onClick = (e) => {
-    inputEl.current.focus();
-    inputEl.current.select();
+  const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (inputEl.current) {
+      inputEl.current.focus();
+      inputEl.current.select();
+    }
   };
 
   return (
@@ -24,7 +33,6 @@ const EditField = ({ weight, onUpdate }) => {
         <Input
           fieldType="number"
           value={value}
-          controlled={true}
           onInput={onInput}
           onChange={onInput}
           suffixText="g."

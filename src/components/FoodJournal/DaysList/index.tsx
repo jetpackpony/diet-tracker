@@ -1,22 +1,19 @@
-import React from 'react';
-import moment from 'moment';
 import styles from './DaysList.module.css';
 import RecordLine from '../RecordLine';
 import DayHeader from '../DayHeader';
+import { DayRecordsWithCalDeficit } from '../../../types';
+import { UpdateRecord } from '../../../hooks/useUpdateRecord';
 
-const isCurrent = (dateStr) => {
-  const date = moment(dateStr);
-  return moment().isBetween(date, date.clone().add(1, "day"));
-}
+interface DaysListProps {
+  days: DayRecordsWithCalDeficit[],
+  updateRecord: UpdateRecord
+};
 
-const DaysList = ({ days, updateRecord }) => (
+const DaysList = ({ days, updateRecord }: DaysListProps) => (
   <ol className={styles.list}>
     {
       days.map((day, j) => (
-        <li
-          key={j}
-          className={[styles.day, isCurrent(day.dayStart) ? styles.current : ""].join(" ")}
-        >
+        <li key={j} className={styles.day}>
           <DayHeader
             dayStart={day.dayStart}
             totals={day.totals}

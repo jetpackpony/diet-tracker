@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { HTMLInputTypeAttribute, useEffect, useRef, useState } from 'react';
 
 import styles from './Input.module.css';
+
+export type InputFieldValue = string | number;
 
 const useForceUpdate = () => {
   const [value, setValue] = useState(0);
   return () => setValue((value) => value + 1);
 };
-const isLabelRaised = (el, type, externalValue) => {
+const isLabelRaised = (el: HTMLInputElement, type: HTMLInputTypeAttribute, externalValue: InputFieldValue) => {
   return (
     // if the element is focused
     el
@@ -18,13 +20,32 @@ const isLabelRaised = (el, type, externalValue) => {
   );
 };
 
-const Input = React.forwardRef(({
+interface InputProps {
+  className?: string,
+  labelText?: string,
+  suffixText?: string,
+  name?: string,
+  fieldType?: HTMLInputTypeAttribute,
+  step?: number,
+  align?: "left" | "right",
+  value?: InputFieldValue,
+  disabled?: boolean
+  onInput?: ((value: string) => void),
+  onChange?: ((value: string) => void),
+  onClick?: ((e: React.MouseEvent<HTMLDivElement>) => void),
+  onFocus?: ((e: React.FocusEvent<HTMLInputElement>) => void),
+  onBlur?:  ((e: React.FocusEvent<HTMLInputElement>) => void)
+};
+
+export type Ref = HTMLInputElement;
+
+const Input = React.forwardRef<Ref, InputProps>(({
   className = "",
   labelText,
   suffixText,
   name = "",
   fieldType = "text",
-  step = null,
+  step,
   align = "left",
   value = "",
   disabled = false,
@@ -33,37 +54,38 @@ const Input = React.forwardRef(({
   onClick,
   onFocus,
   onBlur
-}, ref) => {
-  const localRef = useRef(null);
-  const inputRef = ref || localRef;
-  const suffixRef = useRef(null);
-  const forceUpdate = useForceUpdate();
-  const onFocusEvent = () => {
-    forceUpdate();
-    onFocus && onFocus();
+}: InputProps, ref) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  // This function is used to initialize both the local ref and a ref passed from parent
+  const initRef = (element: HTMLInputElement) => {
+    (inputRef as React.MutableRefObject<HTMLInputElement>).current = element;
+    if (typeof ref === "function") {
+      ref(element);
+    } else if (ref) {
+      ref.current = element;
+    }
   };
-  const onBlurEvent = (e) => {
+  const suffixRef = useRef<HTMLSpanElement>(null);
+  const forceUpdate = useForceUpdate();
+  const onFocusEvent = (e: React.FocusEvent<HTMLInputElement>) => {
     forceUpdate();
-    onBlur && onBlur();
+    onFocus && onFocus(e);
+  };
+  const onBlurEvent = (e: React.FocusEvent<HTMLInputElement>) => {
+    forceUpdate();
+    onBlur && onBlur(e);
+  };
+  const onClickEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+    onClick && onClick(e);
   };
 
   const fieldClasses = [className, styles.field];
-  if (isLabelRaised(inputRef.current, fieldType, value)) {
+  if (inputRef.current && isLabelRaised(inputRef.current, fieldType, value)) {
     fieldClasses.push(styles['label-raised']);
   }
   if (suffixText) fieldClasses.push(styles['with-suffix']);
   if (align === "right") fieldClasses.push(styles['align-right']);
   if (disabled) fieldClasses.push(styles['disabled']);
-
-  const onInputLocal = (e) => {
-    onInput(e.target.value);
-  };
-  const onChangeEvent = (e) => {
-    onChange(e.target.value);
-  };
-  const onClickEvent = (e) => {
-    if (onClick && typeof onClick === "function") onClick(e);
-  };
 
   const [paddingRight, setPaddingRight] = useState(`calc(var(--font-size)*0.75*${(suffixText) ? 2.5 : 1})`);
   useEffect(() => {
@@ -83,13 +105,13 @@ const Input = React.forwardRef(({
               type={fieldType}
               onFocus={onFocusEvent}
               onBlur={onBlurEvent}
-              ref={inputRef}
+              ref={initRef}
               disabled={disabled}
               name={name}
               step={step}
               value={value}
-              onInput={onInput ? onInputLocal : null}
-              onChange={onChange ? onChangeEvent : null}
+              onInput={onInput && ((e: React.ChangeEvent<HTMLInputElement>) => onInput(e.target.value))}
+              onChange={onChange && ((e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value))}
             />
           )
           : (
@@ -98,7 +120,7 @@ const Input = React.forwardRef(({
               type={fieldType}
               onFocus={onFocusEvent}
               onBlur={onBlurEvent}
-              ref={inputRef}
+              ref={initRef}
               disabled={disabled}
               name={name}
               step={step}

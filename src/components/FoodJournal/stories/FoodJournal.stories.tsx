@@ -9,9 +9,10 @@ import FoodJournal from '../FoodJournal';
 import DayHeader from '../DayHeader';
 import RecordLine from '../RecordLine';
 import WeekHeader from '../WeekHeader';
-import testData from './testData';
+import testData from './testData.json';
 import DaysList from '../DaysList';
 import EditField from '../RecordLine/EditField';
+import { DayRecordsWithCalDeficit } from '../../../types';
 
 storiesOf('FoodJournal', module)
   .add('with all items', () => (
@@ -19,8 +20,6 @@ storiesOf('FoodJournal', module)
       weeks={testData}
       fetchMoreRecords={action("fetchMoreRecords")}
       updateRecord={action("updateRecord")}
-      deleteRecord={action("deleteRecord")}
-      cloneRecord={action("cloneRecord")}
     />
   ))
   .add('with 0 items for today', () => (
@@ -34,14 +33,12 @@ storiesOf('FoodJournal/Days list', module)
   .add('default', () => (
     <DaysList
       days={[
-        changeAllDatesToDate(moment().add(2, 'day'), testData[1].days[2]),
-        changeAllDatesToDate(moment().add(1, 'day'), testData[1].days[1]),
-        changeAllDatesToDate(moment(), testData[1].days[0]),
+        (changeAllDatesToDate(moment().add(2, 'day'), testData[1].days[2]) as DayRecordsWithCalDeficit),
+        (changeAllDatesToDate(moment().add(1, 'day'), testData[1].days[1]) as DayRecordsWithCalDeficit),
+        (changeAllDatesToDate(moment(), testData[1].days[0]) as DayRecordsWithCalDeficit),
         ...testData[0].days
       ]}
       updateRecord={action("updateRecord")}
-      deleteRecord={action("deleteRecord")}
-      cloneRecord={action("cloneRecord")}
     />
   ))
 
@@ -75,6 +72,10 @@ storiesOf('FoodJournal/Record Line', module)
       foodItem={{
         "id": "5d66808e0a59eb06549e0fe2",
         "title": "New Testeme",
+        "calories": 250,
+        "protein": 26.76,
+        "fat": 24.53,
+        "carbs": 122.65
       }}
       weight={123}
       calories={14}
@@ -82,8 +83,6 @@ storiesOf('FoodJournal/Record Line', module)
       fat={1.23}
       carbs={1.23}
       updateRecord={action("updateRecord")}
-      deleteRecord={action("deleteRecord")}
-      cloneRecord={action("cloneRecord")}
     />
   ))
   .add('long names', () => (
@@ -92,6 +91,10 @@ storiesOf('FoodJournal/Record Line', module)
       foodItem={{
         "id": "5d66808e0a59eb06549e0fe2",
         "title": "This is a long food item name probably shouldn't be this long in real life",
+        "calories": 250,
+        "protein": 26.76,
+        "fat": 24.53,
+        "carbs": 122.65
       }}
       weight={9999}
       calories={9999}
@@ -99,8 +102,6 @@ storiesOf('FoodJournal/Record Line', module)
       fat={999.99}
       carbs={999.99}
       updateRecord={action("updateRecord")}
-      deleteRecord={action("deleteRecord")}
-      cloneRecord={action("cloneRecord")}
     />
   ))
   .add('multiple', () => (
@@ -110,6 +111,10 @@ storiesOf('FoodJournal/Record Line', module)
         foodItem={{
           "id": "5d66808e0a59eb06549e0fe2",
           "title": "New Testeme",
+          "calories": 250,
+          "protein": 26.76,
+          "fat": 24.53,
+          "carbs": 122.65
         }}
         weight={123}
         calories={14}
@@ -117,14 +122,16 @@ storiesOf('FoodJournal/Record Line', module)
         fat={1.23}
         carbs={1.23}
         updateRecord={action("updateRecord")}
-        deleteRecord={action("deleteRecord")}
-        cloneRecord={action("cloneRecord")}
       />
       <RecordLine
         id="5d66808e0a59eb06549e0fe3"
         foodItem={{
           "id": "5d66808e0a59eb06549e0fe2",
           "title": "New Testeme",
+          "calories": 250,
+          "protein": 26.76,
+          "fat": 24.53,
+          "carbs": 122.65
         }}
         weight={123}
         calories={14}
@@ -132,14 +139,16 @@ storiesOf('FoodJournal/Record Line', module)
         fat={1.23}
         carbs={1.23}
         updateRecord={action("updateRecord")}
-        deleteRecord={action("deleteRecord")}
-        cloneRecord={action("cloneRecord")}
       />
       <RecordLine
         id="5d66808e0a59eb06549e0fe3"
         foodItem={{
           "id": "5d66808e0a59eb06549e0fe2",
           "title": "New Testeme",
+          "calories": 250,
+          "protein": 26.76,
+          "fat": 24.53,
+          "carbs": 122.65
         }}
         weight={123}
         calories={14}
@@ -147,8 +156,6 @@ storiesOf('FoodJournal/Record Line', module)
         fat={1.23}
         carbs={1.23}
         updateRecord={action("updateRecord")}
-        deleteRecord={action("deleteRecord")}
-        cloneRecord={action("cloneRecord")}
       />
     </ol>
   ))
