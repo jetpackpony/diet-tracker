@@ -1,19 +1,24 @@
+import type { Icon } from "grommet-icons";
 import React from "react";
 import Ripple from "../Ripple";
 import styles from './AppBar.module.css';
 
+interface AppBarButtonProps {
+  Icon?: Icon,
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
+};
+
 const AppBarButton = ({
-  icon = null,
+  Icon,
   onClick,
-}) => {
-  const Icon = icon;
+}: AppBarButtonProps) => {
   const textColorPrimary = getComputedStyle(document.documentElement).getPropertyValue('--text-color-primary');
   return (
     <button
       className={styles.button}
       onClick={onClick}
     >
-      {icon && <Icon size="18px" color={textColorPrimary} />}
+      {Icon && <Icon size="18px" color={textColorPrimary} />}
       <Ripple />
     </button>
   );

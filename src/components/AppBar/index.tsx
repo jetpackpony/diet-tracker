@@ -1,18 +1,18 @@
 import { Close, Copy, Menu, Trash } from "grommet-icons";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import SelectionContext, { SelectionItem } from "../../SelectionContext";
 import styles from './AppBar.module.css';
 import AppBarButton from "./AppBarButton";
 
-interface Props {
+interface AppBarProps {
   deleteRecords: (items: SelectionItem[]) => void,
   cloneRecords: (items: SelectionItem[]) => void
-}
+};
 
 const AppBar = ({
   deleteRecords,
   cloneRecords
-}: Props) => {
+}: AppBarProps) => {
   const { selectedRecords, clearSelection } = useContext(SelectionContext);
   const onDeleteRecords = () => {
     if (window.confirm("Delete?")) {
@@ -30,14 +30,14 @@ const AppBar = ({
 
   return (
     <header className={styles.header}>
-      <AppBarButton icon={Menu} />
+      <AppBarButton Icon={Menu} />
       <div className={styles.title}>Food</div>
       {
         (selectedRecords.length > 0) && (
           <>
-            <AppBarButton icon={Copy} onClick={onCloneRecords} />
-            <AppBarButton icon={Trash} onClick={onDeleteRecords} />
-            <AppBarButton icon={Close} onClick={onCloseSelection} />
+            <AppBarButton Icon={Copy} onClick={onCloneRecords} />
+            <AppBarButton Icon={Trash} onClick={onDeleteRecords} />
+            <AppBarButton Icon={Close} onClick={onCloseSelection} />
           </>
         )
       }
