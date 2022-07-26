@@ -1,18 +1,25 @@
 import React from 'react';
 import styles from './Button.module.css';
 import Ripple from '../Ripple';
+import type { Icon } from 'grommet-icons';
+
+interface ButtonProps {
+  className?: string,
+  Icon?: Icon,
+  text?: string,
+  type?: "outlined" | "plainText" | "primary",
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void,
+  buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>
+};
 
 const Button = ({
   className,
-  icon = null,
+  Icon,
   text = "",
   type = "primary",
   onClick,
   buttonProps = { type: "submit", name: "submit" }
-}) => {
-  // We need this to be able to use prop as component
-  const Icon = icon;
-
+}: ButtonProps) => {
   const primaryColorText = getComputedStyle(document.documentElement).getPropertyValue('--primary-color-text');
   const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
   let iconColor = "";
@@ -38,8 +45,8 @@ const Button = ({
       onClick={onClick}
       {...buttonProps}
     >
-      <span style={{ marginRight: (icon && text) ? "0.5rem" : "0" }}>
-        {icon && <Icon size="small" color={iconColor} />}
+      <span style={{ marginRight: (Icon && text) ? "0.5rem" : "0" }}>
+        {Icon && <Icon size="small" color={iconColor} />}
       </span>
       <span>{text}</span>
       <Ripple />

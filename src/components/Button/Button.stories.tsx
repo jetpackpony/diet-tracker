@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import Button from './index';
 import { Trash } from 'grommet-icons';
 
-const Container = ({ children }) => {
+const Container = ({ children }: { children: React.ReactNode}) => {
   return (
     <div style={{ padding: "20px", background: "var(--content-color)", height: "100vh", width: "100vw" }}>
       {children}
@@ -19,10 +19,9 @@ storiesOf('Button/Primary', module)
     <Container>
       <Button
         onClick={action("clicked")}
-        icon={Trash}
+        Icon={Trash}
         text="Delete"
-      >
-      </Button>
+      />
     </Container>
   ))
   .add('text only', () => (
@@ -30,17 +29,15 @@ storiesOf('Button/Primary', module)
       <Button
         onClick={action("clicked")}
         text="Delete"
-      >
-      </Button>
+      />
     </Container>
   ))
   .add('icon only', () => (
     <Container>
       <Button
         onClick={action("clicked")}
-        icon={Trash}
-      >
-      </Button>
+        Icon={Trash}
+      />
     </Container>
   ));
 
@@ -50,10 +47,9 @@ storiesOf('Button/Outlined', module)
       <Button
         type="outlined"
         onClick={action("clicked")}
-        icon={Trash}
+        Icon={Trash}
         text="Delete"
-      >
-      </Button>
+      />
     </Container>
   ))
   .add('text only', () => (
@@ -62,8 +58,7 @@ storiesOf('Button/Outlined', module)
         type="outlined"
         onClick={action("clicked")}
         text="Delete"
-      >
-      </Button>
+      />
     </Container>
   ))
   .add('icon only', () => (
@@ -71,9 +66,8 @@ storiesOf('Button/Outlined', module)
       <Button
         type="outlined"
         onClick={action("clicked")}
-        icon={Trash}
-      >
-      </Button>
+        Icon={Trash}
+      />
     </Container>
   ));
 
@@ -83,10 +77,9 @@ storiesOf('Button/PlainText', module)
       <Button
         type="plainText"
         onClick={action("clicked")}
-        icon={Trash}
+        Icon={Trash}
         text="Delete"
-      >
-      </Button>
+      />
     </Container>
   ))
   .add('text only', () => (
@@ -95,8 +88,7 @@ storiesOf('Button/PlainText', module)
         type="plainText"
         onClick={action("clicked")}
         text="Delete"
-      >
-      </Button>
+      />
     </Container>
   ))
   .add('icon only', () => (
@@ -104,8 +96,7 @@ storiesOf('Button/PlainText', module)
       <Button
         type="plainText"
         onClick={action("clicked")}
-        icon={Trash}
-      >
-      </Button>
+        Icon={Trash}
+      />
     </Container>
   ));
