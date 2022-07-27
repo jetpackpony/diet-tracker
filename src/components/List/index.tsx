@@ -7,7 +7,7 @@ interface ListProps {
 
 interface ListItemProps {
   children: React.ReactNode,
-  onClick: (e: React.MouseEvent<HTMLLIElement>) => void
+  onClick?: (e: React.MouseEvent<HTMLLIElement>) => void
 };
 
 export const List = ({ children }: ListProps) => {

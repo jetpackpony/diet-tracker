@@ -1,14 +1,19 @@
-import React from 'react';
 import styles from './SuggestionsList.module.css';
 import { List, ListItem } from '../List';
+import { FoodItem } from '../../generated/graphql';
 
-const SearchResults = ({
+interface SuggestionsListProps {
+  isSearching: boolean,
+  foundFoodItems: FoodItem[] | undefined,
+  onFoodItemSelected: (foodItem: FoodItem) => void
+};
+
+const SuggestionsList = ({
   isSearching,
   foundFoodItems,
   onFoodItemSelected
-}) => {
-
-  const foundResults = !isSearching && foundFoodItems && foundFoodItems.length > 0;
+}: SuggestionsListProps) => {
+  const foundResults = !isSearching && !!foundFoodItems && foundFoodItems.length > 0;
   const nothingFound = !isSearching && (!foundFoodItems || foundFoodItems.length <= 0);
 
   return (
@@ -20,7 +25,7 @@ const SearchResults = ({
         {
           foundResults && foundFoodItems.map((item) => (
             <ListItem
-              key={item.foodItemID}
+              key={item.id}
               onClick={() => onFoodItemSelected(item)}
             >
               <div>{item.title}</div>
@@ -36,4 +41,4 @@ const SearchResults = ({
   );
 };
 
-export default SearchResults;
+export default SuggestionsList;

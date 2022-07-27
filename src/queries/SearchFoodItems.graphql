@@ -1,6 +1,6 @@
 query SearchFoodItems($filter: String!) {
   filterFoodItems(filter: $filter, limit: 5) {
-    foodItemID: id
+    id
     title
     calories
     protein

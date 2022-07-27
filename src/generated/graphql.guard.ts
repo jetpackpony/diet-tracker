@@ -538,12 +538,12 @@ export function isSearchFoodItemsQuery(obj: any, _argumentName?: string): obj is
                 typeof e === "function") &&
             (typeof e.__typename === "undefined" ||
                 e.__typename === "FoodItem") &&
+            typeof e.id === "string" &&
             typeof e.title === "string" &&
             typeof e.calories === "number" &&
             typeof e.protein === "number" &&
             typeof e.fat === "number" &&
-            typeof e.carbs === "number" &&
-            typeof e.foodItemID === "string"
+            typeof e.carbs === "number"
         )
     )
 }

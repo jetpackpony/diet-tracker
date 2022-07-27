@@ -7,10 +7,10 @@ import AddForm from './AddForm';
 import SuggestionsList from './SuggestionsList';
 
 const foundFoodItems = [
-  { foodItemID: '1', title: "Bread", calories: 120, protein: 15, fat: 23, carbs: 11 },
-  { foodItemID: '2', title: "More", calories: 120, protein: 15, fat: 23, carbs: 11 },
-  { foodItemID: '3', title: "Мороженое Здоровый Рожок с орешками и шоколадом", calories: 6969, protein: 869, fat: 689, carbs: 696 },
-  { foodItemID: '4', title: "Хлеб", calories: 120, protein: 15, fat: 23, carbs: 11 },
+  { id: '1', title: "Bread", calories: 120, protein: 15, fat: 23, carbs: 11 },
+  { id: '2', title: "More", calories: 120, protein: 15, fat: 23, carbs: 11 },
+  { id: '3', title: "Мороженое Здоровый Рожок с орешками и шоколадом", calories: 6969, protein: 869, fat: 689, carbs: 696 },
+  { id: '4', title: "Хлеб", calories: 120, protein: 15, fat: 23, carbs: 11 },
 ];
 
 storiesOf('AddForm', module)
@@ -26,7 +26,7 @@ storiesOf('AddForm', module)
     </div>
   ));
 
-const Container = ({ children }) => (
+const Container = ({ children }: { children: React.ReactNode }) => (
   <div style={{ padding: "2rem", background: "var(--content-color)", height: "200vh" }}>
     <div style={{ position: "relative" }}>
       {children}
@@ -48,7 +48,7 @@ storiesOf('AddForm/Suggestions List', module)
     <Container>
       <SuggestionsList
         isSearching={true}
-        foundFoodItems={false}
+        foundFoodItems={undefined}
         onFoodItemSelected={action("loadFoodItem")}
       />
     </Container>

@@ -1,16 +1,31 @@
-import React, { useRef, useEffect, useReducer } from 'react';
+import { useRef, useEffect, useReducer } from 'react';
 import styles from './AddForm.module.css';
 import SuggestionsList from './SuggestionsList';
 import Input from '../Input';
 import Button from '../Button';
 import { Close } from 'grommet-icons';
-import {
-  reducer, loadFoodItemAction, removeFoodItemAction, initState,
-  setTitleFocusAction, setFieldValueAction, getField, getFormValues,
-  showSuggestions
-} from './reducer';
-
 import { MIN_LENGTH_TO_SEARCH } from './index';
+import type {
+  AddRecordMutationVariables,
+  AddRecordWithFoodItemMutationVariables,
+  FoodItem
+} from '../../generated/graphql';
+import { reducer } from './reducer';
+import { initState } from './reducer/initState';
+import {
+  loadFoodItemAction, removeFoodItemAction,
+  setFieldValueAction, setTitleFocusAction
+} from './reducer/actions';
+import { getField, getRecordFromState, showSuggestions } from './reducer/utils';
+import { FormFieldName } from './reducer/types';
+
+interface AddFormProps {
+  addRecordWithFoodItem: (rec: AddRecordWithFoodItemMutationVariables) => void,
+  addRecord: (rec: AddRecordMutationVariables) => void,
+  isSearching: boolean,
+  foundFoodItems?: FoodItem[],
+  searchFoodItem: (filter: string) => void
+};
 
 const AddForm = ({
   addRecordWithFoodItem,
@@ -18,28 +33,30 @@ const AddForm = ({
   isSearching,
   foundFoodItems,
   searchFoodItem
-}) => {
+}: AddFormProps) => {
   const [state, dispatch] = useReducer(reducer, {}, initState);
 
-  const titleEl = useRef(null);
-  const weightEl = useRef(null);
-  const searchTimeout = useRef(null);
+  const titleEl = useRef<HTMLInputElement>(null);
+  const weightEl = useRef<HTMLInputElement>(null);
+  const searchTimeout = useRef<NodeJS.Timeout>();
 
-  const handleFieldChange = (name) => (val) => {
+  const handleFieldChange = (name: string) => (val: string) => {
     dispatch(setFieldValueAction(name, val));
   };
-  const handleTitleChange = (val) => {
+  const handleTitleChange = (val: string) => {
     if (!state.loadedFoodItem && val && val.length >= MIN_LENGTH_TO_SEARCH) {
-      if (searchTimeout.current) clearTimeout(searchTimeout.current);
+      if (searchTimeout.current) {
+        clearTimeout(searchTimeout.current);
+      }
       searchTimeout.current = setTimeout(() => searchFoodItem(val), 300);
     }
     dispatch(setFieldValueAction("title", val));
   };
-  const handleEatenAtChange = (val) => {
+  const handleEatenAtChange = (val: string) => {
     dispatch(setFieldValueAction("eatenAt", val));
   };
 
-  const loadFoodItem = (foodItem) => {
+  const loadFoodItem = (foodItem: FoodItem) => {
     dispatch(loadFoodItemAction(foodItem));
   };
   const removeLoadedFoodItem = () => {
@@ -48,21 +65,20 @@ const AddForm = ({
 
   useEffect(() => {
     setTimeout(() => {
-      if (getField(state, "title").disabled) {
+      if (weightEl.current && getField(state, FormFieldName.title).disabled) {
         weightEl.current.focus();
         weightEl.current.select();
-      } else {
+      } else if (titleEl.current) {
         titleEl.current.focus();
         titleEl.current.select();
       }
     }, 100);
-  }, [getField(state, "title").disabled, state.loadedFoodItem]);
+  }, [getField(state, FormFieldName.title).disabled, state.loadedFoodItem]);
 
-  const submitForm = (e) => {
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const record = getFormValues(state);
-    if (state.loadedFoodItem !== null) {
-      record.foodItemID = state.loadedFoodItem.foodItemID;
+    const record = getRecordFromState(state);
+    if ("foodItemID" in record) {
       console.log("Record NO food item: ", record);
       addRecord(record);
     } else {
@@ -84,8 +100,8 @@ const AddForm = ({
             labelText="Food"
             fieldType="text"
             ref={titleEl}
-            disabled={getField(state, "title").disabled}
-            value={getField(state, "title").value}
+            disabled={getField(state, FormFieldName.title).disabled}
+            value={getField(state, FormFieldName.title).value}
             onChange={handleTitleChange}
             onFocus={() => dispatch(setTitleFocusAction(true))}
             onBlur={() => dispatch(setTitleFocusAction(false))}
@@ -101,7 +117,7 @@ const AddForm = ({
           }
           {
             state.loadedFoodItem && (
-              <Button onClick={removeLoadedFoodItem} icon={Close} type="outlined" />
+              <Button onClick={removeLoadedFoodItem} Icon={Close} type="outlined" />
             )
           }
         </div>
@@ -113,8 +129,8 @@ const AddForm = ({
             fieldType="number"
             align="right"
             ref={weightEl}
-            disabled={getField(state, "weight").disabled}
-            value={getField(state, "weight").value}
+            disabled={getField(state, FormFieldName.weight).disabled}
+            value={getField(state, FormFieldName.weight).value}
             onChange={handleFieldChange("weight")}
           />
         </div>
@@ -125,8 +141,8 @@ const AddForm = ({
             suffixText="cal"
             fieldType="number"
             align="right"
-            disabled={getField(state, "calories").disabled}
-            value={getField(state, "calories").value}
+            disabled={getField(state, FormFieldName.calories).disabled}
+            value={getField(state, FormFieldName.calories).value}
             onChange={handleFieldChange("calories")}
           />
         </div>
@@ -138,8 +154,8 @@ const AddForm = ({
             fieldType="number"
             step={0.1}
             align="right"
-            disabled={getField(state, "protein").disabled}
-            value={getField(state, "protein").value}
+            disabled={getField(state, FormFieldName.protein).disabled}
+            value={getField(state, FormFieldName.protein).value}
             onChange={handleFieldChange("protein")}
           />
         </div>
@@ -151,8 +167,8 @@ const AddForm = ({
             fieldType="number"
             step={0.1}
             align="right"
-            disabled={getField(state, "fat").disabled}
-            value={getField(state, "fat").value}
+            disabled={getField(state, FormFieldName.fat).disabled}
+            value={getField(state, FormFieldName.fat).value}
             onChange={handleFieldChange("fat")}
           />
         </div>
@@ -164,8 +180,8 @@ const AddForm = ({
             fieldType="number"
             step={0.1}
             align="right"
-            disabled={getField(state, "carbs").disabled}
-            value={getField(state, "carbs").value}
+            disabled={getField(state, FormFieldName.carbs).disabled}
+            value={getField(state, FormFieldName.carbs).value}
             onChange={handleFieldChange("carbs")}
           />
         </div>
@@ -174,8 +190,8 @@ const AddForm = ({
             name="eatenAt"
             labelText="Date"
             fieldType="datetime-local"
-            disabled={getField(state, "eatenAt").disabled}
-            value={getField(state, "eatenAt").value}
+            disabled={getField(state, FormFieldName.eatenAt).disabled}
+            value={getField(state, FormFieldName.eatenAt).value}
             onChange={handleEatenAtChange}
           />
         </div>

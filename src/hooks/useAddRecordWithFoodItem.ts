@@ -1,10 +1,10 @@
 import { useMutation } from "@apollo/client";
-import { AddRecordWithFoodItemDocument } from "../generated/graphql";
+import { AddRecordWithFoodItemDocument, AddRecordWithFoodItemMutationVariables } from "../generated/graphql";
 import { insertRecordIntoCache } from "../utils/cacheOperations";
 
 export const useAddRecordWithFoodItem = () => {
   const [addRecordWithFoodItemMutation] = useMutation(AddRecordWithFoodItemDocument);
-  return (rec) => {
+  return (rec: AddRecordWithFoodItemMutationVariables) => {
     addRecordWithFoodItemMutation({
       variables: { ...rec },
       update: (cache, result) => {
