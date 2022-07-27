@@ -1,8 +1,7 @@
 import styles from '../AddForm/AddForm.module.css';
 import { FormSubmitCallback, useControlledFormHook } from "../../hooks/useForm";
-import { useLogin } from "../../hooks/useLogin";
+import { isQueryLoginArgs, useLogin } from "../../hooks/useLogin";
 import { LoginQueryVariables } from "../../generated/graphql";
-import { isQueryLoginArgs } from '../../generated/graphql.guard';
 
 const LoginContainer = () => {
   const { performLogin, loading, error } = useLogin();
