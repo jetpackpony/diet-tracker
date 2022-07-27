@@ -1,0 +1,39 @@
+query WeeklyRecordsFeed($cursor: String!) {
+  weeklyRecordsFeed(cursor: $cursor, limit: 1) {
+    cursor
+    weeks {
+      weekStart
+      weekEnd
+      totals {
+        calories
+        protein
+        fat
+        carbs
+      }
+      days {
+        dayStart
+        dayEnd
+        totals {
+          calories
+          protein
+          fat
+          carbs
+        }
+        records {
+          id,
+          foodItem {
+            id
+            title
+            calories
+            protein
+            fat
+            carbs
+          }
+          weight
+          eatenAt
+          createdAt
+        }
+      }
+    }
+  }
+}

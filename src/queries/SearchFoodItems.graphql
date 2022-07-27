@@ -1,0 +1,10 @@
+query SearchFoodItems($filter: String!) {
+  filterFoodItems(filter: $filter, limit: 5) {
+    id
+    title
+    calories
+    protein
+    fat
+    carbs
+  }
+}
