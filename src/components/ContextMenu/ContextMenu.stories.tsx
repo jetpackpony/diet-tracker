@@ -21,7 +21,7 @@ storiesOf('ContextMenu', module)
         { title: "Delete", action: action("deleteRecord") },
         { title: "Clone", action: action("cloneRecord") },
       ]}
-      debugPos={{ x: "100px", y: "100px" }}
+      debugPos={{ x: 100, y: 100 }}
     >
       <div>Press here</div>
     </ContextMenu>
