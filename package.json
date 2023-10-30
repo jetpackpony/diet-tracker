@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "REACT_APP_API_ADDRESS=https://api.diet-tracker.jetpackpony.tech react-scripts build",
+    "build": "react-scripts build",
     "build:local": "REACT_APP_API_ADDRESS=http://localhost:4000 react-scripts build",
     "deploy": "firebase deploy",
     "test": "react-scripts test",
