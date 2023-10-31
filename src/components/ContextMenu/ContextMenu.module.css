@@ -9,7 +9,10 @@
   opacity: 0;
   visibility: hidden;
   transform: scale(0.8);
-  transition: opacity 50ms, visibility 150ms, transform 150ms;
+  transition:
+    opacity 50ms,
+    visibility 150ms,
+    transform 150ms;
   transform-origin: 0% 0%;
 }
 

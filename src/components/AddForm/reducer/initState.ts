@@ -34,7 +34,7 @@ export const initState = (): AddFormReducerState => {
       eatenAt: {
         value: getDateStringForDate(),
         disabled: false,
-      }
-    }
+      },
+    },
   };
 };

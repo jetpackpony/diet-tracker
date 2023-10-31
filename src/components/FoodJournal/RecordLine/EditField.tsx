@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
-import styles from './EditField.module.css';
+import React, { useRef, useState } from "react";
+import styles from "./EditField.module.css";
 import Input, { InputFieldValue } from "../../Input";
 
 interface EditFieldProps {
-  weight: number,
-  onUpdate: (weight: number) => void
-};
+  weight: number;
+  onUpdate: (weight: number) => void;
+}
 
 const EditField = ({ weight, onUpdate }: EditFieldProps) => {
   const [value, setValue] = useState<InputFieldValue>(weight);
@@ -18,7 +18,7 @@ const EditField = ({ weight, onUpdate }: EditFieldProps) => {
       inputEl.current.blur();
     }
     onUpdate(Number(value) || 0);
-  }
+  };
 
   const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (inputEl.current) {

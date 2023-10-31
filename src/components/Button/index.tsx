@@ -1,16 +1,16 @@
-import React from 'react';
-import styles from './Button.module.css';
-import Ripple from '../Ripple';
-import type { Icon } from 'grommet-icons';
+import React from "react";
+import styles from "./Button.module.css";
+import Ripple from "../Ripple";
+import type { Icon } from "grommet-icons";
 
 interface ButtonProps {
-  className?: string,
-  Icon?: Icon,
-  text?: string,
-  type?: "outlined" | "plainText" | "primary",
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void,
-  buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>
-};
+  className?: string;
+  Icon?: Icon;
+  text?: string;
+  type?: "outlined" | "plainText" | "primary";
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+}
 
 const Button = ({
   className,
@@ -18,10 +18,14 @@ const Button = ({
   text = "",
   type = "primary",
   onClick,
-  buttonProps = { type: "submit", name: "submit" }
+  buttonProps = { type: "submit", name: "submit" },
 }: ButtonProps) => {
-  const primaryColorText = getComputedStyle(document.documentElement).getPropertyValue('--primary-color-text');
-  const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+  const primaryColorText = getComputedStyle(
+    document.documentElement,
+  ).getPropertyValue("--primary-color-text");
+  const primaryColor = getComputedStyle(
+    document.documentElement,
+  ).getPropertyValue("--primary-color");
   let iconColor = "";
   const buttonStyles = [className, styles.button];
   switch (type) {
@@ -45,13 +49,13 @@ const Button = ({
       onClick={onClick}
       {...buttonProps}
     >
-      <span style={{ marginRight: (Icon && text) ? "0.5rem" : "0" }}>
+      <span style={{ marginRight: Icon && text ? "0.5rem" : "0" }}>
         {Icon && <Icon size="small" color={iconColor} />}
       </span>
       <span>{text}</span>
       <Ripple />
     </button>
-  )
+  );
 };
 
 export default Button;

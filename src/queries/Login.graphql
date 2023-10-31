@@ -1,8 +1,5 @@
 query Login($userName: String!, $password: String!) {
-  login(
-    userName: $userName
-    password: $password
-  ) {
+  login(userName: $userName, password: $password) {
     user {
       id
     }

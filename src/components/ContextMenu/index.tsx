@@ -1,23 +1,19 @@
-import React, { useRef, useState } from 'react';
-import styles from './ContextMenu.module.css';
-import { List, ListItem } from '../List';
+import React, { useRef, useState } from "react";
+import styles from "./ContextMenu.module.css";
+import { List, ListItem } from "../List";
 
 interface ContextMenuItem {
-  title: string,
-  action: (e: React.MouseEvent<HTMLLIElement>) => void
-};
+  title: string;
+  action: (e: React.MouseEvent<HTMLLIElement>) => void;
+}
 
 interface ContextMenuProps {
-  items: ContextMenuItem[],
-  children: React.ReactNode,
-  debugPos?: { x: number, y: number }
-};
+  items: ContextMenuItem[];
+  children: React.ReactNode;
+  debugPos?: { x: number; y: number };
+}
 
-const ContextMenu = ({
-  items,
-  children,
-  debugPos
-}: ContextMenuProps) => {
+const ContextMenu = ({ items, children, debugPos }: ContextMenuProps) => {
   const menuEl = useRef<HTMLDivElement>(null);
   const [menuState, setMenuState] = useState({ show: false, coords: debugPos });
   let timer: NodeJS.Timeout;
@@ -26,10 +22,10 @@ const ContextMenu = ({
   const closeMenu = () => {
     setMenuState({
       ...menuState,
-      show: false
+      show: false,
     });
-    window.removeEventListener('scroll', closeMenuListener);
-    window.removeEventListener('blur', closeMenuListener);
+    window.removeEventListener("scroll", closeMenuListener);
+    window.removeEventListener("blur", closeMenuListener);
   };
   const closeMenuListener = () => {
     closeMenu();
@@ -48,8 +44,8 @@ const ContextMenu = ({
     }
 
     setMenuState({ show: true, coords: touchCoords });
-    window.addEventListener('scroll', closeMenuListener);
-    window.addEventListener('blur', closeMenuListener);
+    window.addEventListener("scroll", closeMenuListener);
+    window.addEventListener("blur", closeMenuListener);
   };
 
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -76,13 +72,14 @@ const ContextMenu = ({
   const closeMenuCallback = (e: React.SyntheticEvent) => {
     e.stopPropagation();
     closeMenu();
-  }
+  };
 
   const menuClasses = [styles.menu];
-  (menuState.show || debugPos) && menuClasses.push(styles['menu-visible']);
+  (menuState.show || debugPos) && menuClasses.push(styles["menu-visible"]);
 
   const backdropClasses = [styles.backdrop];
-  (menuState.show || debugPos) && backdropClasses.push(styles['backdrop-visible']);
+  (menuState.show || debugPos) &&
+    backdropClasses.push(styles["backdrop-visible"]);
 
   return (
     <div
@@ -92,32 +89,32 @@ const ContextMenu = ({
     >
       {children}
       <div
-        className={backdropClasses.join(' ')}
+        className={backdropClasses.join(" ")}
         onClick={closeMenuCallback}
         onTouchStart={closeMenuCallback}
-      >
-      </div>
+      ></div>
       <div
         className={menuClasses.join(" ")}
-        style={menuState.coords && { top: `${menuState.coords.y}px`, left: `${menuState.coords.x}px` }}
+        style={
+          menuState.coords && {
+            top: `${menuState.coords.y}px`,
+            left: `${menuState.coords.x}px`,
+          }
+        }
         ref={menuEl}
       >
         <List>
-          {
-            items.map((i) => (
-              <ListItem
-                key={i.title}
-                onClick={
-                  (e: React.MouseEvent<HTMLLIElement>) => {
-                    i.action(e);
-                    closeMenuCallback(e);
-                  }
-                }
-              >
-                {i.title}
-              </ListItem>
-            ))
-          }
+          {items.map((i) => (
+            <ListItem
+              key={i.title}
+              onClick={(e: React.MouseEvent<HTMLLIElement>) => {
+                i.action(e);
+                closeMenuCallback(e);
+              }}
+            >
+              {i.title}
+            </ListItem>
+          ))}
         </List>
       </div>
     </div>

@@ -20,7 +20,7 @@ query WeeklyRecordsFeed($cursor: String!) {
           carbs
         }
         records {
-          id,
+          id
           foodItem {
             id
             title

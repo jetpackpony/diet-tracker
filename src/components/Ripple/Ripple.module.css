@@ -19,7 +19,7 @@
 }
 
 .inkActive {
-  animation: ripple .4s linear;
+  animation: ripple 0.4s linear;
 }
 
 @keyframes ripple {

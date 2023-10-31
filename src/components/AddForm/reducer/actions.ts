@@ -1,42 +1,43 @@
 import { FoodItem } from "../../../generated/graphql";
 import { ActionType, ErrorAction, isFormFieldName } from "./types";
 import {
-  FormFieldName, LoadFoodItemAction,
-  RemoveFoodItemAction, SetFieldValueAction, SetTitleFocusAction
+  FormFieldName,
+  LoadFoodItemAction,
+  RemoveFoodItemAction,
+  SetFieldValueAction,
+  SetTitleFocusAction,
 } from "./types";
 
 export const loadFoodItemAction = (foodItem: FoodItem): LoadFoodItemAction => ({
   type: ActionType.loadFoodItem,
-  foodItem
+  foodItem,
 });
 
 export const removeFoodItemAction = (): RemoveFoodItemAction => ({
-  type: ActionType.removeFoodItem
+  type: ActionType.removeFoodItem,
 });
 
 export const setTitleFocusAction = (value: boolean): SetTitleFocusAction => ({
   type: ActionType.setTitleFocus,
-  value
+  value,
 });
 
 export const setFieldValueAction = (
   name: string,
-  value: string
+  value: string,
 ): SetFieldValueAction | ErrorAction => {
   if (!isFormFieldName(name)) {
     return {
       type: ActionType.errorAction,
-      message: `Wrong field name: ${name}`
-    }
+      message: `Wrong field name: ${name}`,
+    };
   } else {
     return {
       type: ActionType.setFieldValue,
       name,
-      value
+      value,
     };
   }
 };
 
-export const errorAction = () => ({
-
-});
+export const errorAction = () => ({});

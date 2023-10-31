@@ -1,20 +1,20 @@
 /**
  * Recursively traverses an array or object and calls a provided function for
  * every leaf element. Function's signature is (key, value) => value
- * @param {Function} cb 
- * @param {Object|Array} obj 
- * @param {*} keyName 
+ * @param {Function} cb
+ * @param {Object|Array} obj
+ * @param {*} keyName
  */
 
 type Val = string | number | boolean | null | undefined;
 type NestedArray = Array<NestedValue | Val>;
-type NestedObject = { [key: string]: (NestedValue | Val) };
+type NestedObject = { [key: string]: NestedValue | Val };
 type NestedValue = NestedArray | NestedObject | Val;
 
 export function mapObjArray(
   cb: (key: string, value: Val) => Val,
   obj: NestedValue,
-  keyName = ""
+  keyName = "",
 ): NestedValue {
   if (Array.isArray(obj)) {
     return obj.map((item, key) => mapObjArray(cb, item, key.toString()));
@@ -28,4 +28,4 @@ export function mapObjArray(
   } else {
     return cb(keyName, obj);
   }
-};
+}

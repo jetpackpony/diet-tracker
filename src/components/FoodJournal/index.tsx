@@ -1,9 +1,19 @@
-import FoodJournal from './FoodJournal';
-import { useQuery } from '@apollo/client';
-import { mapObjArray } from '../../utils';
-import { DayRecords, Record, WeeklyRecordsFeedDocument, WeekRecords } from '../../generated/graphql';
-import { useUpdateRecord } from '../../hooks/useUpdateRecord';
-import { DayRecordsWithCalDeficit, RecordWithMacros, WeekRecordsWithCalDeficit } from '../../types';
+import FoodJournal from "./FoodJournal";
+import { useQuery } from "@apollo/client";
+import { mapObjArray } from "../../utils";
+import {
+  DayRecords,
+  Record,
+  WeeklyRecordsFeedDocument,
+  WeekRecords,
+} from "../../generated/graphql";
+import { useUpdateRecord } from "../../hooks/useUpdateRecord";
+import {
+  DayRecordsWithCalDeficit,
+  RecordWithMacros,
+  WeekRecordsWithCalDeficit,
+} from "../../types";
+import LoadingSpinner from "../LoadingSpinner";
 
 const getDailyCaloriesLimit = () => {
   return 2500;
@@ -23,8 +33,10 @@ const roundField = (key: string, value: any) => {
       return value;
   }
 };
-const roundEverything = (weeks: WeekRecordsWithCalDeficit[]): WeekRecordsWithCalDeficit[] => {
-  return (mapObjArray(roundField, weeks) as WeekRecordsWithCalDeficit[]);
+const roundEverything = (
+  weeks: WeekRecordsWithCalDeficit[],
+): WeekRecordsWithCalDeficit[] => {
+  return mapObjArray(roundField, weeks) as WeekRecordsWithCalDeficit[];
 };
 
 const caclRecordMacros = (rec: Record): RecordWithMacros => {
@@ -42,18 +54,18 @@ const calcDayCalDeficit = (day: DayRecords): DayRecordsWithCalDeficit => {
   return {
     ...day,
     records,
-    calDeficit: getDailyCaloriesLimit() - day.totals.calories
+    calDeficit: getDailyCaloriesLimit() - day.totals.calories,
   };
 };
 
 const calcWeekCalDeficit = (week: WeekRecords): WeekRecordsWithCalDeficit => {
   const days = week.days.map(calcDayCalDeficit);
-  const weekCalDeficit = days.reduce((res, day) => (res + day.calDeficit), 0);
+  const weekCalDeficit = days.reduce((res, day) => res + day.calDeficit, 0);
   return {
     ...week,
     days,
-    calDeficit: weekCalDeficit
-  }
+    calDeficit: weekCalDeficit,
+  };
 };
 
 const prepareRecords = (weeks: WeekRecords[]) => {
@@ -63,18 +75,23 @@ const prepareRecords = (weeks: WeekRecords[]) => {
 const FoodJournalContainer = ({ ...props }) => {
   const updateRecord = useUpdateRecord();
 
-  const { loading, error, data, fetchMore } = useQuery(WeeklyRecordsFeedDocument, {
-    variables: { cursor: "" }
-  });
+  const { loading, error, data, fetchMore } = useQuery(
+    WeeklyRecordsFeedDocument,
+    {
+      variables: { cursor: "" },
+    },
+  );
 
   if (error) {
     console.error("Error: ", error);
-    return <div>Error (look in the console, dum-dum)</div>;
+    return <div>Error (look in the console)</div>;
   }
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return <LoadingSpinner />;
+  }
   if (!data) {
     console.error("Couldn't load any data: ", data);
-    return <div>Error (look in the console, dum-dum)</div>;
+    return <div>Error (look in the console)</div>;
   }
 
   const { cursor, weeks } = data.weeklyRecordsFeed;
@@ -90,11 +107,11 @@ const FoodJournalContainer = ({ ...props }) => {
             cursor: fetchMoreResult.weeklyRecordsFeed.cursor,
             weeks: [
               ...prev.weeklyRecordsFeed.weeks,
-              ...fetchMoreResult.weeklyRecordsFeed.weeks
-            ]
-          }
+              ...fetchMoreResult.weeklyRecordsFeed.weeks,
+            ],
+          },
         };
-      }
+      },
     });
   };
   return (

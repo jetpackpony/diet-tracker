@@ -1,0 +1,6 @@
+build
+.firebase
+node_modules
+generated
+schema.server.json
+.vscode

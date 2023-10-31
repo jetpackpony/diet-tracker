@@ -1,0 +1,22 @@
+.loginForm {
+  max-width: 25rem;
+  margin: auto;
+}
+
+.loginContainer > * {
+  margin: 1.5rem 0;
+}
+
+.errorContainer {
+  border: 1px solid var(--error-message-color);
+  border-radius: var(--border-radius);
+  padding: 0.75rem;
+  color: var(--error-message-color);
+}
+
+.messageContainer {
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  padding: 0.75rem;
+  color: var(--primary-color);
+}

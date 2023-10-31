@@ -9,7 +9,8 @@
   --primary-hover-color: #a28af5;
   --appbar-color: #4b2ac1;
 
-  --font-family: -apple-system, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-family: -apple-system, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
   --font-size: 14px;
   --font-weight: 500;
   --line-height: 1.5;
@@ -20,11 +21,12 @@
   --text-color-primary: #e6e6e6;
   --text-color-secondary: #b3b3b3;
   --error-color: #832225;
+  --error-message-color: #c84448;
   --disabled-opacity: 0.4;
   --ground-color: #1d1e27;
   --content-color: #282936;
-  --content-hover: rgba(177, 157, 247, .04);
-  --content-active: rgba(177, 157, 247, .16);
+  --content-hover: rgba(177, 157, 247, 0.04);
+  --content-active: rgba(177, 157, 247, 0.16);
   --raised-color: #333544;
   --border-color: #3e4053;
   --border-radius: 6px;

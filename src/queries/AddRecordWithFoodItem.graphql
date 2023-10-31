@@ -18,7 +18,7 @@ mutation AddRecordWithFoodItem(
     eatenAt: $eatenAt
     createdAt: $createdAt
   ) {
-    id,
+    id
     foodItem {
       id
       title

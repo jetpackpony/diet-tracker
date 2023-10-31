@@ -1,8 +1,8 @@
-import { useMutation } from '@apollo/client';
-import type { SelectionItem } from '../SelectionContext';
-import moment from 'moment';
-import { AddRecordDocument } from '../generated/graphql';
-import { insertRecordIntoCache } from '../utils/cacheOperations';
+import { useMutation } from "@apollo/client";
+import type { SelectionItem } from "../SelectionContext";
+import moment from "moment";
+import { AddRecordDocument } from "../generated/graphql";
+import { insertRecordIntoCache } from "../utils/cacheOperations";
 
 export const useCloneRecords = () => {
   const [addRecordMut] = useMutation(AddRecordDocument);
@@ -13,14 +13,14 @@ export const useCloneRecords = () => {
           foodItemID,
           weight: 0,
           eatenAt: moment().toISOString(),
-          createdAt: moment().toISOString()
+          createdAt: moment().toISOString(),
         },
         update: (cache, result) => {
           if (result.data?.addRecord) {
             insertRecordIntoCache(cache, result.data.addRecord);
           }
-        }
+        },
       });
-    })
+    });
   };
 };

@@ -1,38 +1,40 @@
-import { useRef, useEffect, useReducer } from 'react';
-import styles from './AddForm.module.css';
-import SuggestionsList from './SuggestionsList';
-import Input from '../Input';
-import Button from '../Button';
-import { Close } from 'grommet-icons';
-import { MIN_LENGTH_TO_SEARCH } from './index';
+import { useRef, useEffect, useReducer } from "react";
+import styles from "./AddForm.module.css";
+import SuggestionsList from "./SuggestionsList";
+import Input from "../Input";
+import Button from "../Button";
+import { Close } from "grommet-icons";
+import { MIN_LENGTH_TO_SEARCH } from "./index";
 import type {
   AddRecordMutationVariables,
   AddRecordWithFoodItemMutationVariables,
-  FoodItem
-} from '../../generated/graphql';
-import { reducer } from './reducer';
-import { initState } from './reducer/initState';
+  FoodItem,
+} from "../../generated/graphql";
+import { reducer } from "./reducer";
+import { initState } from "./reducer/initState";
 import {
-  loadFoodItemAction, removeFoodItemAction,
-  setFieldValueAction, setTitleFocusAction
-} from './reducer/actions';
-import { getField, getRecordFromState, showSuggestions } from './reducer/utils';
-import { FormFieldName } from './reducer/types';
+  loadFoodItemAction,
+  removeFoodItemAction,
+  setFieldValueAction,
+  setTitleFocusAction,
+} from "./reducer/actions";
+import { getField, getRecordFromState, showSuggestions } from "./reducer/utils";
+import { FormFieldName } from "./reducer/types";
 
 interface AddFormProps {
-  addRecordWithFoodItem: (rec: AddRecordWithFoodItemMutationVariables) => void,
-  addRecord: (rec: AddRecordMutationVariables) => void,
-  isSearching: boolean,
-  foundFoodItems?: FoodItem[],
-  searchFoodItem: (filter: string) => void
-};
+  addRecordWithFoodItem: (rec: AddRecordWithFoodItemMutationVariables) => void;
+  addRecord: (rec: AddRecordMutationVariables) => void;
+  isSearching: boolean;
+  foundFoodItems?: FoodItem[];
+  searchFoodItem: (filter: string) => void;
+}
 
 const AddForm = ({
   addRecordWithFoodItem,
   addRecord,
   isSearching,
   foundFoodItems,
-  searchFoodItem
+  searchFoodItem,
 }: AddFormProps) => {
   const [state, dispatch] = useReducer(reducer, {}, initState);
 
@@ -106,20 +108,20 @@ const AddForm = ({
             onFocus={() => dispatch(setTitleFocusAction(true))}
             onBlur={() => dispatch(setTitleFocusAction(false))}
           />
-          {
-            showSuggestions(state, isSearching, foundFoodItems) && (
-              <SuggestionsList
-                isSearching={isSearching}
-                foundFoodItems={foundFoodItems}
-                onFoodItemSelected={loadFoodItem}
-              />
-            )
-          }
-          {
-            state.loadedFoodItem && (
-              <Button onClick={removeLoadedFoodItem} Icon={Close} type="outlined" />
-            )
-          }
+          {showSuggestions(state, isSearching, foundFoodItems) && (
+            <SuggestionsList
+              isSearching={isSearching}
+              foundFoodItems={foundFoodItems}
+              onFoodItemSelected={loadFoodItem}
+            />
+          )}
+          {state.loadedFoodItem && (
+            <Button
+              onClick={removeLoadedFoodItem}
+              Icon={Close}
+              type="outlined"
+            />
+          )}
         </div>
         <div className={styles.weight}>
           <Input
@@ -196,7 +198,10 @@ const AddForm = ({
           />
         </div>
         <div className={styles.submit}>
-          <Button buttonProps={{ name: "submit", type: "submit" }} text="Submit" />
+          <Button
+            buttonProps={{ name: "submit", type: "submit" }}
+            text="Submit"
+          />
         </div>
       </div>
     </form>

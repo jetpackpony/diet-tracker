@@ -1,14 +1,20 @@
 import { useLazyQuery } from "@apollo/client";
-import { IsLoggedInDocument, LoginDocument, LoginQueryVariables, QueryLoginArgs } from "../generated/graphql";
+import {
+  IsLoggedInDocument,
+  LoginDocument,
+  LoginQueryVariables,
+  QueryLoginArgs,
+} from "../generated/graphql";
 import { setStorageItem } from "../storage";
 
 export function isQueryLoginArgs(obj: any): obj is QueryLoginArgs {
   return (
-    (obj !== null && typeof obj === "object")
-    && typeof obj.password === "string"
-    && typeof obj.userName === "string"
-  )
-};
+    obj !== null &&
+    typeof obj === "object" &&
+    typeof obj.password === "string" &&
+    typeof obj.userName === "string"
+  );
+}
 
 export const useLogin = () => {
   const [login, { loading, error, data, client }] = useLazyQuery(LoginDocument);
@@ -21,14 +27,14 @@ export const useLogin = () => {
     client.writeQuery({
       query: IsLoggedInDocument,
       data: {
-        isLoggedIn: true
-      }
+        isLoggedIn: true,
+      },
     });
   }
 
   return {
     performLogin,
     loading,
-    error
+    error,
   };
 };

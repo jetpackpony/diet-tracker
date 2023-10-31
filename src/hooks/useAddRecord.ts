@@ -1,5 +1,8 @@
 import { useMutation } from "@apollo/client";
-import { AddRecordDocument, AddRecordMutationVariables } from "../generated/graphql";
+import {
+  AddRecordDocument,
+  AddRecordMutationVariables,
+} from "../generated/graphql";
 import { insertRecordIntoCache } from "../utils/cacheOperations";
 
 export const useAddRecord = () => {
@@ -11,7 +14,7 @@ export const useAddRecord = () => {
         if (result.data?.addRecord) {
           insertRecordIntoCache(cache, result.data.addRecord);
         }
-      }
+      },
     });
   };
 };
