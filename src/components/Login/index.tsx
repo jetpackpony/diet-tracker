@@ -45,6 +45,10 @@ const Login = ({ performLogin, loading, error }: LoginProps) => {
         </div>
       ) : (
         <div className={styles.loginContainer}>
+          <div className={styles.messageContainer}>
+            ⚠️ If you want to test a demo version of this project, login using
+            userName: demo, password: demo.
+          </div>
           {error && <div className={styles.errorContainer}>{error}</div>}
           <Input
             fieldType="text"
