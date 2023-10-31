@@ -1,7 +1,10 @@
-import styles from '../AddForm/AddForm.module.css';
+import styles from './Login.module.css';
 import { FormSubmitCallback, useControlledFormHook } from "../../hooks/useForm";
 import { isQueryLoginArgs, useLogin } from "../../hooks/useLogin";
 import { LoginQueryVariables } from "../../generated/graphql";
+import Input from '../Input';
+import Button from '../Button';
+import LoadingSpinner from '../LoadingSpinner';
 
 const LoginContainer = () => {
   const { performLogin, loading, error } = useLogin();
@@ -32,51 +35,31 @@ const Login = ({ performLogin, loading, error }: LoginProps) => {
   const { initForm, onSubmit } = useControlledFormHook(submitForm);
 
   return (
-    <form onSubmit={onSubmit} ref={initForm}>
+    <form onSubmit={onSubmit} ref={initForm} className={styles.loginForm}>
       <h1>Login</h1>
       {
-        error
+        (loading)
           ? (
-            <div>{error}</div>
+            <div className={styles.spinnerContainer}>
+              <LoadingSpinner />
+            </div>
           )
-          : null
+          : (
+            <div className={styles.loginContainer}>
+              {
+                error
+                  ? (
+                    <div className={styles.errorContainer}>{error}</div>
+                  )
+                  : null
+              }
+              <Input fieldType="text" labelText="Username" name="userName" />
+              <Input fieldType="password" labelText="Password" name="password" />
+              <Button buttonProps={{ name: "submit", type: "submit" }} text="Submit" />
+            </div>
+          )
       }
-      <div className={styles.formContainer}>
-        <div>
-          <label htmlFor="userName">
-            <span>User Name: </span>
-          </label>
-          <div>
-            <input type="text" id="userName" name="userName"
-              defaultValue=""
-            />
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="password">
-            <span>Password: </span>
-          </label>
-          <div>
-            <input type="password" id="password" name="password"
-              defaultValue=""
-            />
-          </div>
-        </div>
-
-        {
-          loading
-            ? (
-              <div>Loading...</div>
-            )
-            : (
-              <div>
-                <button type="submit" id="submit" name="submit">Submit</button>
-              </div>
-            )
-        }
-      </div>
-    </form>
+    </form >
 
   );
 };
