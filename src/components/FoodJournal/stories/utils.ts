@@ -1,6 +1,6 @@
-import moment, { Moment } from 'moment';
-import { DayRecords } from '../../../generated/graphql';
-import { mapObjArray } from '../../../utils';
+import moment, { Moment } from "moment";
+import { DayRecords } from "../../../generated/graphql";
+import { mapObjArray } from "../../../utils";
 
 export const changeAllDatesToDate = (targetDate: Moment, day: DayRecords) => {
   return mapObjArray((key, value) => {
@@ -8,9 +8,9 @@ export const changeAllDatesToDate = (targetDate: Moment, day: DayRecords) => {
       const date = moment(value, "YYYY-MM-DDTHH:mm:ss.SSSZ", true);
       if (date.isValid()) {
         date.set({
-          'year': targetDate.year(),
-          'month': targetDate.month(),
-          'date': targetDate.date()
+          year: targetDate.year(),
+          month: targetDate.month(),
+          date: targetDate.date(),
         });
         return date.toISOString();
       }

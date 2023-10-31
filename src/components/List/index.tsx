@@ -1,21 +1,17 @@
-import styles from './List.module.css';
-import Ripple from '../Ripple';
+import styles from "./List.module.css";
+import Ripple from "../Ripple";
 
 interface ListProps {
-  children: React.ReactNode
-};
+  children: React.ReactNode;
+}
 
 interface ListItemProps {
-  children: React.ReactNode,
-  onClick?: (e: React.MouseEvent<HTMLLIElement>) => void
-};
+  children: React.ReactNode;
+  onClick?: (e: React.MouseEvent<HTMLLIElement>) => void;
+}
 
 export const List = ({ children }: ListProps) => {
-  return (
-    <ul className={styles.list}>
-      {children}
-    </ul>
-  );
+  return <ul className={styles.list}>{children}</ul>;
 };
 export const ListItem = ({ children, onClick }: ListItemProps) => {
   return (

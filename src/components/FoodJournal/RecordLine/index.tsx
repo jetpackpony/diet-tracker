@@ -1,45 +1,42 @@
-import { useEffect, useRef, useContext } from 'react';
-import styles from './RecordLine.module.css';
-import EditField from './EditField';
-import SelectionContext from '../../../SelectionContext';
-import { UpdateRecord } from '../../../hooks/useUpdateRecord';
-import { FoodItem } from '../../../generated/graphql';
+import { useEffect, useRef, useContext } from "react";
+import styles from "./RecordLine.module.css";
+import EditField from "./EditField";
+import SelectionContext from "../../../SelectionContext";
+import { UpdateRecord } from "../../../hooks/useUpdateRecord";
+import { FoodItem } from "../../../generated/graphql";
 
 interface RecordLineProps {
-  id: string,
-  foodItem: FoodItem,
-  weight: number,
-  calories: number,
-  protein: number,
-  fat: number,
-  carbs: number,
-  updateRecord: UpdateRecord
+  id: string;
+  foodItem: FoodItem;
+  weight: number;
+  calories: number;
+  protein: number;
+  fat: number;
+  carbs: number;
+  updateRecord: UpdateRecord;
 }
 
 const RecordLine = ({
   id,
-  foodItem: {
-    id: foodItemID,
-    title
-  },
+  foodItem: { id: foodItemID, title },
   weight,
   calories,
   protein,
   fat,
   carbs,
-  updateRecord
+  updateRecord,
 }: RecordLineProps) => {
   const { selectedRecords, toggleSelection } = useContext(SelectionContext);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const clickStart = useRef(false);
   useEffect(() => {
     const clear = () => timer.current && clearTimeout(timer.current);
-    window.addEventListener('scroll', clear);
-    window.addEventListener('blur', clear);
-    return (() => {
-      window.removeEventListener('scroll', clear)
-      window.removeEventListener('blur', clear)
-    });
+    window.addEventListener("scroll", clear);
+    window.addEventListener("blur", clear);
+    return () => {
+      window.removeEventListener("scroll", clear);
+      window.removeEventListener("blur", clear);
+    };
   });
 
   const clickCancel = () => {
@@ -106,7 +103,7 @@ const RecordLine = ({
         />
       </div>
     </li>
-  )
+  );
 };
 
 export default RecordLine;

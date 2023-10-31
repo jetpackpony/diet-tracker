@@ -30,7 +30,11 @@
   overflow: hidden;
   position: relative;
   cursor: pointer;
-  transition: background-color .2s, color .2s, border-color .2s, box-shadow .2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
   border-radius: 100%;
   padding: 1rem;
   font-size: 1rem;

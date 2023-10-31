@@ -1,9 +1,15 @@
-import { Action, ActionType, AddFormReducerState, FormFieldData, FormFieldName } from './types';
-import { getDateStringForDate } from './utils';
+import {
+  Action,
+  ActionType,
+  AddFormReducerState,
+  FormFieldData,
+  FormFieldName,
+} from "./types";
+import { getDateStringForDate } from "./utils";
 
 export const reducer = (
   state: AddFormReducerState,
-  action: Action
+  action: Action,
 ): AddFormReducerState => {
   switch (action.type) {
     case ActionType.loadFoodItem:
@@ -31,7 +37,7 @@ export const reducer = (
             disabled: true,
           },
         }),
-        loadedFoodItem: action.foodItem
+        loadedFoodItem: action.foodItem,
       };
     case ActionType.removeFoodItem:
       return {
@@ -62,7 +68,7 @@ export const reducer = (
             disabled: false,
           },
         }),
-        loadedFoodItem: null
+        loadedFoodItem: null,
       };
     case ActionType.setTitleFocus:
       return {
@@ -70,9 +76,9 @@ export const reducer = (
         fields: setFields(state.fields, {
           title: {
             ...state.fields.title,
-            focused: action.value
-          }
-        })
+            focused: action.value,
+          },
+        }),
       };
     case ActionType.setFieldValue:
       if (action.name === "eatenAt") {
@@ -81,10 +87,10 @@ export const reducer = (
           fields: setFields(state.fields, {
             [action.name]: {
               ...state.fields[action.name],
-              value: action.value
-            }
+              value: action.value,
+            },
           }),
-          dateExplicitlyChanged: true
+          dateExplicitlyChanged: true,
         };
       } else {
         if (state.dateExplicitlyChanged) {
@@ -93,9 +99,9 @@ export const reducer = (
             fields: setFields(state.fields, {
               [action.name]: {
                 ...state.fields[action.name],
-                value: action.value
-              }
-            })
+                value: action.value,
+              },
+            }),
           };
         } else {
           // If date has not been explicitly changed, update date
@@ -105,13 +111,13 @@ export const reducer = (
             fields: setFields(state.fields, {
               [action.name]: {
                 ...state.fields[action.name],
-                value: action.value
+                value: action.value,
               },
               eatenAt: {
                 ...state.fields.eatenAt,
-                value: getDateStringForDate()
-              }
-            })
+                value: getDateStringForDate(),
+              },
+            }),
           };
         }
       }
@@ -125,14 +131,17 @@ export const reducer = (
 
 const setFields = (
   fields: AddFormReducerState["fields"],
-  data: FormFieldData
+  data: FormFieldData,
 ): AddFormReducerState["fields"] => {
   const keys = Object.keys(data) as (keyof FormFieldData)[];
-  return keys.reduce((res, key) => {
-    res[key] = {
-      ...res[key],
-      ...data[key]
-    }
-    return res;
-  }, { ...fields });
+  return keys.reduce(
+    (res, key) => {
+      res[key] = {
+        ...res[key],
+        ...data[key],
+      };
+      return res;
+    },
+    { ...fields },
+  );
 };

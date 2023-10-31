@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import ContextMenu from './index';
+import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+import ContextMenu from "./index";
 
-storiesOf('ContextMenu', module)
-  .add('default', () => (
+storiesOf("ContextMenu", module)
+  .add("default", () => (
     <ContextMenu
       items={[
         { title: "Delete", action: action("deleteRecord") },
@@ -15,7 +15,7 @@ storiesOf('ContextMenu', module)
       <div>Press here</div>
     </ContextMenu>
   ))
-  .add('open', () => (
+  .add("open", () => (
     <ContextMenu
       items={[
         { title: "Delete", action: action("deleteRecord") },
@@ -26,7 +26,7 @@ storiesOf('ContextMenu', module)
       <div>Press here</div>
     </ContextMenu>
   ))
-  .add('corners', () => (
+  .add("corners", () => (
     <>
       <ContextMenu
         items={[
@@ -61,4 +61,4 @@ storiesOf('ContextMenu', module)
         <div style={{ position: "fixed", top: 0, right: 0 }}>Press here</div>
       </ContextMenu>
     </>
-  ))
+  ));

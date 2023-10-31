@@ -11,6 +11,6 @@ export const useSearchFoodItem = () => {
   return {
     searchFoodItem,
     isSearching: status.loading,
-    searchData: status.data
-  }
+    searchData: status.data,
+  };
 };

@@ -1,15 +1,15 @@
-import { useRef, useState } from 'react';
+import { useRef, useState } from "react";
 
 export type InputEventListener = (e: InputEvent) => any;
 
 export interface FormValues {
-  [key: string]: string | number
-};
+  [key: string]: string | number;
+}
 
 export type FormSubmitCallback = (
   values: FormValues | undefined,
   resetForm?: () => void,
-  e?: React.FormEvent<HTMLFormElement>
+  e?: React.FormEvent<HTMLFormElement>,
 ) => any;
 
 export const getFormControls = (form: HTMLFormElement | undefined) => {
@@ -21,12 +21,16 @@ export const getFormControls = (form: HTMLFormElement | undefined) => {
   return res;
 };
 
-const isValueInput = (el: any): el is HTMLInputElement => el.name && el.tagName === "INPUT";
+const isValueInput = (el: any): el is HTMLInputElement =>
+  el.name && el.tagName === "INPUT";
 const isInputEvent = (e: Event): e is InputEvent => {
   return (e as InputEvent).data !== undefined;
 };
 
-export const useControlledFormHook = (onSubmitCallback: FormSubmitCallback, omit: string[] = []) => {
+export const useControlledFormHook = (
+  onSubmitCallback: FormSubmitCallback,
+  omit: string[] = [],
+) => {
   const [values, setValues] = useState<FormValues>();
   const prevEventListener = useRef<(e: Event) => any>();
   const formRef = useRef<HTMLFormElement>();
@@ -44,7 +48,7 @@ export const useControlledFormHook = (onSubmitCallback: FormSubmitCallback, omit
       }
       return {
         ...formValues,
-        [name]: value
+        [name]: value,
       };
     });
     changeListenersRef.current.forEach((listener) => listener(e));
@@ -61,7 +65,10 @@ export const useControlledFormHook = (onSubmitCallback: FormSubmitCallback, omit
         .filter(({ name }) => !omitRef.current.includes(name))
         .forEach((input) => {
           // This check allows us to enter negative numbers in the number inputs
-          if (values[input.name] !== undefined && (input.type !== "number" || values[input.name] !== "-")) {
+          if (
+            values[input.name] !== undefined &&
+            (input.type !== "number" || values[input.name] !== "-")
+          ) {
             input.value = values[input.name].toString();
           }
           if (prevEventListener.current !== undefined) {
@@ -94,25 +101,21 @@ export const useControlledFormHook = (onSubmitCallback: FormSubmitCallback, omit
       .forEach((input) => {
         input.disabled = true;
       });
-  }
+  };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmitCallback(values, resetForm, e);
   };
 
-  const updateValues = (newValues: FormValues) => (
+  const updateValues = (newValues: FormValues) =>
     setValues((oldValues) => ({
       ...oldValues,
-      ...newValues
-    }))
-  );
+      ...newValues,
+    }));
 
   const addOnChangeListener = (listener: EventListener) => {
-    changeListenersRef.current = [
-      ...changeListenersRef.current,
-      listener
-    ];
+    changeListenersRef.current = [...changeListenersRef.current, listener];
   };
 
   return {
@@ -121,6 +124,6 @@ export const useControlledFormHook = (onSubmitCallback: FormSubmitCallback, omit
     resetForm,
     updateValues,
     setDisabled,
-    addOnChangeListener
+    addOnChangeListener,
   };
 };

@@ -1,14 +1,18 @@
-import { createRoot } from 'react-dom/client';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import { getStorageItem } from './storage';
+import { createRoot } from "react-dom/client";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { getStorageItem } from "./storage";
 
-const apiAddress =
-  (process.env.REACT_APP_API_ADDRESS)
-    ? process.env.REACT_APP_API_ADDRESS
-    : `http://${window.location.hostname}:4000/`;
+const apiAddress = process.env.REACT_APP_API_ADDRESS
+  ? process.env.REACT_APP_API_ADDRESS
+  : `http://${window.location.hostname}:4000/`;
 
 const httpLink = createHttpLink({
   uri: apiAddress,
@@ -19,9 +23,9 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : ""
-    }
-  }
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
 });
 
 const client = new ApolloClient({
@@ -33,15 +37,15 @@ const client = new ApolloClient({
           isLoggedIn: {
             read() {
               return !!getStorageItem("auth-token");
-            }
-          }
-        }
-      }
-    }
+            },
+          },
+        },
+      },
+    },
   }),
 });
 
-let container = document.getElementById('root');
+let container = document.getElementById("root");
 if (!container) {
   container = document.createElement("div");
   container.id = "root";
@@ -51,7 +55,7 @@ const root = createRoot(container);
 root.render(
   <ApolloProvider client={client}>
     <App />
-  </ApolloProvider>
+  </ApolloProvider>,
 );
 
 // If you want your app to work offline and load faster, you can change

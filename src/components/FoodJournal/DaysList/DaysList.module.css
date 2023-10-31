@@ -1,4 +1,5 @@
-ol.list, .list ol {
+ol.list,
+.list ol {
   list-style: none;
   padding: 0;
   margin: 0;
