@@ -13,6 +13,7 @@ import {
   RecordWithMacros,
   WeekRecordsWithCalDeficit,
 } from "../../types";
+import LoadingSpinner from "../LoadingSpinner";
 
 const getDailyCaloriesLimit = () => {
   return 2500;
@@ -85,7 +86,9 @@ const FoodJournalContainer = ({ ...props }) => {
     console.error("Error: ", error);
     return <div>Error (look in the console, dum-dum)</div>;
   }
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return <LoadingSpinner />;
+  }
   if (!data) {
     console.error("Couldn't load any data: ", data);
     return <div>Error (look in the console, dum-dum)</div>;
