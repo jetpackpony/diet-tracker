@@ -84,14 +84,14 @@ const FoodJournalContainer = ({ ...props }) => {
 
   if (error) {
     console.error("Error: ", error);
-    return <div>Error (look in the console, dum-dum)</div>;
+    return <div>Error (look in the console)</div>;
   }
   if (loading) {
     return <LoadingSpinner />;
   }
   if (!data) {
     console.error("Couldn't load any data: ", data);
-    return <div>Error (look in the console, dum-dum)</div>;
+    return <div>Error (look in the console)</div>;
   }
 
   const { cursor, weeks } = data.weeklyRecordsFeed;
