@@ -14,7 +14,7 @@ const useForceUpdate = () => {
   return () => setValue((value) => value + 1);
 };
 const isLabelRaised = (
-  el: HTMLInputElement,
+  el: HTMLInputElement | null,
   type: HTMLInputTypeAttribute,
   externalValue: InputFieldValue,
 ) => {
@@ -92,7 +92,7 @@ const Input = React.forwardRef<Ref, InputProps>(
     };
 
     const fieldClasses = [className, styles.field];
-    if (inputRef.current && isLabelRaised(inputRef.current, fieldType, value)) {
+    if (isLabelRaised(inputRef.current, fieldType, value)) {
       fieldClasses.push(styles["label-raised"]);
     }
     if (suffixText) fieldClasses.push(styles["with-suffix"]);
