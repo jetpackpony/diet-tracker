@@ -40,9 +40,7 @@ const Login = ({ performLogin, loading, error }: LoginProps) => {
     <form onSubmit={onSubmit} className={styles.loginForm}>
       <h1>Login</h1>
       {loading ? (
-        <div className={styles.spinnerContainer}>
-          <LoadingSpinner />
-        </div>
+        <LoadingSpinner />
       ) : (
         <div className={styles.loginContainer}>
           <div className={styles.messageContainer}>
